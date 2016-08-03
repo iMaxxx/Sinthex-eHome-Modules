@@ -92,7 +92,7 @@
 							  'ServerWebApiVersion'=>2,
 							  'CultureInfoCode'=>$this->language);
 			$auth_data = $this->GetJsonData($this->wolf_url.'connect/token', "POST", $header,$postdata);
-			$this->$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
+			$this->auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
 			              'Accept-Language: '. $this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
 			// Grant expert access to enable r/w
 			$system_data = $this-GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $this->auth_header);

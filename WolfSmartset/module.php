@@ -81,7 +81,7 @@
 			              'DaysUntilPasswordChange'=>null,
 							  'ServerWebApiVersion'=>2,
 							  'CultureInfoCode'=>$this->language);
-			$auth_data = GetJsonData($this->wolfUrl.'connect/token', "POST", $header,$postdata);
+			$auth_data = $this->GetJsonData($this->wolfUrl.'connect/token', "POST", $header,$postdata);
 			$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
 			              'Accept-Language: '.$language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
 			if(isset($auth_data->token_type)) $this->SetStatus(102);

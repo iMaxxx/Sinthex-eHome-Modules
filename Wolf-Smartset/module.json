@@ -1,0 +1,14 @@
+{
+    "id": "{56bf3243-6c7e-4b04-a0f7-92b00838b342}",
+    "name": "Wolf-Smartset",
+    "type": 3,
+    "vendor": "Wolf Heiztechnik",
+    "aliases":
+    [
+        "Wolf SmartSet-Device"
+    ],  
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "WSS"
+}

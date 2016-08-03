@@ -1,0 +1,18 @@
+{
+    "elements":
+    [
+        { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
+        { "type": "PasswordTextBox", "name": "Password", "caption": "Password" },
+        { "type": "PasswordTextBox", "name": "ExpertPassword", "caption": "Expert password" }
+    ],
+    "actions":
+    [
+        { "type": "Button", "label": "Update enviroment", "onClick": "GetSystemData();" }
+    ],
+    "status":
+    [
+        { "code": 102, "icon": "active", "caption": "Login successfully" },
+        { "code": 201, "icon": "error", "caption": "Authentication failed" },
+        { "code": 202, "icon": "error", "caption": "No credentials left" }
+    ]
+}

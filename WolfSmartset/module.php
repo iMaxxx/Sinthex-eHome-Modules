@@ -11,7 +11,9 @@
  
             // Selbsterstellter Code
             $this->language = "de-DE";
-			$this->wolfUrl = "https://www.wolf-smartset.com/portal/";
+			$this->wolf_url = "https://www.wolf-smartset.com/portal/";
+			
+			$this->$auth_header = "";
         }
  
         // Überschreibt die interne IPS_Create($id) Funktion
@@ -21,7 +23,15 @@
 			$this->RegisterPropertyString("Username", ""); 
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
-			//$this->RegisterPropertyString("ExpertPassword", "1111");
+			
+			$this->systemsNode = $this->RegisterVariableString("Systems", "Systems");
+			$this->RegisterVariableInteger("SystemId", 0);
+			$this->RegisterVariableInteger("GatewayId", 0);
+			$this->RegisterVariableString("SystemName", "");
+			$this->RegisterVariableInteger("SystemShareId", 0);
+			
+			
+			
  
         }
  
@@ -81,11 +91,31 @@
 			              'DaysUntilPasswordChange'=>null,
 							  'ServerWebApiVersion'=>2,
 							  'CultureInfoCode'=>$this->language);
-			$auth_data = $this->GetJsonData($this->wolfUrl.'connect/token', "POST", $header,$postdata);
-			$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
-			              'Accept-Language: '.$language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
-			if(isset($auth_data->token_type)) $this->SetStatus(102);
+			$auth_data = $this->GetJsonData($this->wolf_url.'connect/token', "POST", $header,$postdata);
+			$this->$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
+			              'Accept-Language: '. $this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
+			// Grant expert access to enable r/w
+			$system_data = $this-GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $this->auth_header);
+			if(isset($auth_data->access_token)) $this->SetStatus(102);
 			else $this->SetStatus(201);;
 		}
+
+		public function GetSystemInfo() {
+			// Get all systems
+			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
+			//print_r($system_data);
+			
+			$system_descriptions = array();
+			// Get system states
+			$systems = array();
+			foreach($system_data as &$current_system) {
+				$system = new stdClass();
+				$this->RegisterVariableInteger("SystemId", $current_system->Id,"",$this->systemsNode);
+				$this->RegisterVariableInteger("GatewayId", $current_system->GatewayId,"",$this->systemsNode);
+				$this->RegisterVariableString("SystemName", $current_system->Name,"",$this->systemsNode);
+				$this->RegisterVariableInteger("SystemShareId", $current_system->SystemShareId,"",$this->systemsNode);
+			}
+		}
+
     }
 ?>

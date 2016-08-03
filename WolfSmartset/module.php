@@ -2,7 +2,11 @@
     // Klassendefinition
     class WolfSmartset extends IPSModule {
     	
- 
+ 		private $auth_header;
+		private $systemsNode;
+		private static $wolf_url;
+		private static $language;
+		
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
         public function __construct($InstanceID) {
@@ -46,10 +50,7 @@
         * ABC_MeineErsteEigeneFunktion($id);
         *
         */
-        public function GetSystemData() {
-            // Selbsterstellter Code
-        }
-		
+
 		
 		private function GetJsonData($url, $requesttype, $header,$postdata=null,$posttype="query") {
 			$curl = curl_init($url);
@@ -95,13 +96,11 @@
 			$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $this->auth_header);
 			if(isset($auth_data->access_token)) $this->SetStatus(102);
 			else $this->SetStatus(201);;
-			return $this->auth_header;
 		}
 
 		public function GetSystemInfo() {
 			// Get all systems
-			$auth_header = $this->Authorize();
-			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
+			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
 			//print_r($system_data);
 			
 			$system_descriptions = array();
@@ -114,7 +113,7 @@
 				$system->SystemShareId = $current_system->SystemShareId;
 				array_push($systems,$system);
 				// Get descriptions for gateway
-				$system_descriptions[$current_system->Id] = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
+				$system_descriptions[$current_system->Id] = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 	
 				$this->RegisterVariableInteger("SystemId","System ID", 0);

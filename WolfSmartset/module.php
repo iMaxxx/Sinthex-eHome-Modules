@@ -92,6 +92,7 @@
 			              'Accept-Language: '. $this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
 			// Grant expert access to enable r/w
 			$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $this->auth_header);
+			$this->RegisterVariableString("AuthHeader", "Authorization", json_encode($this->auth_header));
 			if(isset($auth_data->access_token)) $this->SetStatus(102);
 			else $this->SetStatus(201);;
 		}
@@ -111,7 +112,7 @@
 				$system->SystemShareId = $current_system->SystemShareId;
 				array_push($systems,$system);
 				// Get descriptions for gateway
-				$system_descriptions[$current_system->Id] = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
+				$system_descriptions[$current_system->Id] = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 	
 				$this->RegisterVariableInteger("SystemId","System ID", 0);

@@ -3,11 +3,12 @@
     [
         { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
         { "type": "PasswordTextBox", "name": "Password", "caption": "Password" },
+        { "type": "Label", "label": "By default ExpertPassword is 1111." }
         { "type": "PasswordTextBox", "name": "ExpertPassword", "caption": "Expert password" }
     ],
     "actions":
     [
-        { "type": "Button", "label": "Update enviroment", "onClick": "GetSystemData();" }
+        { "type": "Button", "label": "Update environment", "onClick": "GetSystemData();" }
     ],
     "status":
     [

@@ -1,0 +1,9 @@
+{
+	"translations": {
+		"de": { 
+			"Update environment": "Umgebung aktualisieren",
+			"Expert password": "Experten-Passwort",
+			"By default ExpertPassword is 1111.": "Standardmäßig ist das Experten-Passwort 1111."
+		}
+	}
+}

@@ -13,7 +13,7 @@
             $this->language = "de-DE";
 			$this->wolf_url = "https://www.wolf-smartset.com/portal/";
 			
-			$this->$auth_header = "";
+			$this->auth_header = "";
         }
  
         // Überschreibt die interne IPS_Create($id) Funktion

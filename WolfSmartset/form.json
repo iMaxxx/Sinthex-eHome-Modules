@@ -3,7 +3,7 @@
     [
         { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
         { "type": "PasswordTextBox", "name": "Password", "caption": "Password" },
-        { "type": "Label", "label": "By default ExpertPassword is 1111." }
+        { "type": "Label", "label": "By default ExpertPassword is 1111." },
         { "type": "PasswordTextBox", "name": "ExpertPassword", "caption": "Expert password" }
     ],
     "actions":

@@ -73,7 +73,7 @@
 			return ($data);
 		}
 		
-		public function Login() {
+		public function Authorize() {
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
@@ -95,11 +95,13 @@
 			$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $this->auth_header);
 			if(isset($auth_data->access_token)) $this->SetStatus(102);
 			else $this->SetStatus(201);;
+			return $this->auth_header;
 		}
 
 		public function GetSystemInfo() {
 			// Get all systems
-			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
+			$auth_header = $this->Authorize();
+			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
 			//print_r($system_data);
 			
 			$system_descriptions = array();
@@ -112,7 +114,7 @@
 				$system->SystemShareId = $current_system->SystemShareId;
 				array_push($systems,$system);
 				// Get descriptions for gateway
-				$system_descriptions[$current_system->Id] = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
+				$system_descriptions[$current_system->Id] = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 	
 				$this->RegisterVariableInteger("SystemId","System ID", 0);

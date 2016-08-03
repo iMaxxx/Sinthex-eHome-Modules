@@ -8,7 +8,7 @@
     ],
     "actions":
     [
-        { "type": "Button", "label": "Update environment", "onClick": "GetSystemData();" }
+        { "type": "Button", "label": "Login", "onClick": "WSS_Login();" }
     ],
     "status":
     [

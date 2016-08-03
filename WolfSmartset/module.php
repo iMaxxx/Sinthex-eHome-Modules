@@ -4,8 +4,8 @@
     	
  		private $auth_header;
 		private $systemsNode;
-		private static $wolf_url;
-		private static $language;
+		private static $wolf_url = "https://www.wolf-smartset.com/portal/";
+		private static $language = "de-DE";
 		
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
@@ -14,8 +14,6 @@
             parent::__construct($InstanceID);
  
             // Selbsterstellter Code
-            $this->language = "de-DE";
-			$this->wolf_url = "https://www.wolf-smartset.com/portal/";
 			
 			$this->auth_header = "";
         }

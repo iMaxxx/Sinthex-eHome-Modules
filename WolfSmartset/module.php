@@ -18,6 +18,9 @@
         public function Create() {
             // Diese Zeile nicht löschen.
             parent::Create();
+			$this->RegisterPropertyString("Username", ""); 
+		    $this->RegisterPropertyString("Password", "");
+		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			//$this->RegisterPropertyString("ExpertPassword", "1111");
  
         }

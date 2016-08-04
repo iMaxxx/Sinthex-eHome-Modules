@@ -135,9 +135,9 @@
 							$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 							//print_r($parameter_value);
 							if(count($parameterDescriptor->ListItems)) {
-								SetValueString("USER".$parameterDescriptor->ValueId, (string) $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+								SetValueString((string) "USER".$parameterDescriptor->ValueId, (string) ($parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText.""));
 							} else {
-								SetValueString("USER".$parameterDescriptor->ValueId, (string) $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+								SetValueString((string) "USER".$parameterDescriptor->ValueId, (string) ($parameter_value->Values[0]->Value.$parameterDescriptor->Unit.""));
 							}
 							//echo ($parameterDescriptor->IsReadOnly == 1 ? " (readonly)\n" : "\n");
 						}
@@ -152,9 +152,9 @@
 								$parameter_value = $this->getJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 								//print_r($parameter_value);
 								if(count($parameterDescriptor->ListItems)) {
-									SetValueString("EXPERT".$parameterDescriptor->ValueId, (string) $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+									SetValueString((string) "EXPERT".$parameterDescriptor->ValueId, (string) ($parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText.""));
 								} else {
-									SetValueString("EXPERT".$parameterDescriptor->ValueId, (string) $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+									SetValueString((string) "EXPERT".$parameterDescriptor->ValueId, (string) ($parameter_value->Values[0]->Value.$parameterDescriptor->Unit.""));
 								}
 			
 							}

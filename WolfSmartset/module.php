@@ -115,8 +115,8 @@
 				//print_r($system_descriptions[$current_system->Id]);
 				//$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				
-				$system_node = $this->RegisterVariableString("System".$i, "System ID".$current_system->Id);
-				SetValueString($this->GetIDForIdent("SystemId".$i++), $current_system->Id);
+				$system_node = $this->RegisterVariableString("SystemA", "System ID".$current_system->Id);
+				SetValueString($this->GetIDForIdent("SystemIdA"), $current_system->Id);
 				$this->RegisterVariableInteger("SystemId","System ID","",$system_node);
 				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
 				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$system_node);

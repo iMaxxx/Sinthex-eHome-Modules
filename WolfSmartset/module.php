@@ -102,7 +102,7 @@
 			
 			// Get system states
 			$this->systems_node = $this->RegisterVariableString("Systems", "Systems");
-			SetValueString($this->GetIDForIdent("Systems"), "No systems found!");
+			SetValueString($this->GetIDForIdent("Systems"), json_encode($system_data));
 			$i = 1;
 			foreach($system_data as &$current_system) {
 				SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), $i.($i = 1 ? " system" : " systems"));

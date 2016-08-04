@@ -119,7 +119,7 @@
 				SetValueString($this->GetIDForIdent('SystemShareId'), $current_system->SystemShareId);
 				
 				
-				$system_descriptions = getJsonData($wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
+				$system_descriptions = $this->getJsonData($wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 				
 				foreach($system_descriptions->MenuItems as &$menuItem) {
@@ -132,7 +132,7 @@
 							$this->RegisterVariableString("USER".$parameterDescriptor->ValueId,"(".$menuItem->Name."/".$tabView->TabName.") ".$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 							//print_r($post_parameters);
-							$parameter_value = getJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+							$parameter_value = $this->GetJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 							//print_r($parameter_value);
 							if(count($parameterDescriptor->ListItems)) {
 								SetValueString("USER".$parameterDescriptor->ValueId, $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
@@ -149,7 +149,7 @@
 								$this->RegisterVariableString("EXPERT".$parameterDescriptor->ValueId,"(".$menuItem->Name."/".$tabView->TabName.") ".$subMenu->Name.": ".$parameterDescriptor->Name);
 								$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 								//print_r($post_parameters);
-								$parameter_value = getJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+								$parameter_value = $this->getJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 								//print_r($parameter_value);
 								if(count($parameterDescriptor->ListItems)) {
 									SetValueString("USER".$parameterDescriptor->ValueId, $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);

@@ -100,8 +100,7 @@
 		public function GetSystemInfo() {
 			// Get all systems
 			//$this->SetSummary("Searching for Wolf systems...");
-			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
-			//print_r($system_data);
+			RegisterVariableInteger("SystemShareId", "System Share Id","",$this->systemsNode);
 			
 		}
 

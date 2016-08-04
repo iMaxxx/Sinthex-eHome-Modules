@@ -25,6 +25,10 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
+			$this->RegisterVariableString("SystemId","System ID","",$system_node);
+			$this->RegisterVariableString("GatewayId", "Gateway ID","",$system_node);
+			$this->RegisterVariableString("SystemName", "System Name","",$system_node);
+			$this->RegisterVariableString("SystemShareId", "System Share Id","",$system_node);
 			
 		
 			
@@ -101,29 +105,17 @@
 			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
 			
 			// Get system states
-			$this->systems_node = $this->RegisterVariableString("Systems", "Systems");
-			SetValueString($this->GetIDForIdent("Systems"), "No systems found!");
-			$i = 1;
 			foreach($system_data as &$current_system) {
-				SetValueString($this->GetIDForIdent("Systems"), $i.($i = 1 ? " system" : " systems"));
 				$system = new stdClass();
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;
 				$system->SystemShareId = $current_system->SystemShareId;
 				// Get descriptions for gateway
 				//$system_description = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-				//print_r($system_descriptions[$current_system->Id]);
-				//$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				
-				$system_node = $this->RegisterVariableString("System", "System ".$current_system->Id);
-				SetValueString($this->GetIDForIdent("System"), $current_system->Id);
-				$this->RegisterVariableString("SystemId","System ID","",$system_node);
 				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
-				$this->RegisterVariableString("GatewayId", "Gateway ID","",$system_node);
 				SetValueString($this->GetIDForIdent('GatewayId'), $current_system->GatewayId);
-				$this->RegisterVariableString("SystemName", "System Name","",system_node);
 				SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
-				$this->RegisterVariableString("SystemShareId", "System Share Id","",$system_node);
 				SetValueString($this->GetIDForIdent('SystemShareId'), $current_system->SystemShareId);
 			}
 		}

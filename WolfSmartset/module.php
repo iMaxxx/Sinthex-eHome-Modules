@@ -25,10 +25,10 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
-			$this->RegisterVariableString("SystemId","System ID");
-			$this->RegisterVariableString("GatewayId", "Gateway ID");
-			$this->RegisterVariableString("SystemName", "System Name");
-			$this->RegisterVariableString("SystemShareId", "System Share Id");
+			$this->RegisterVariableString("SystemId","(Connection) System ID");
+			$this->RegisterVariableString("GatewayId", "(Connection) Gateway ID");
+			$this->RegisterVariableString("SystemName", "(Connection) System Name");
+			$this->RegisterVariableString("SystemShareId", "(Connection) System Share Id");
 			
 		
 			
@@ -129,7 +129,7 @@
 						//echo "--->TABNAME: ".$tabView->TabName."\n";
 						
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterVariableString("USER".$parameterDescriptor->ValueId,"(".$menuItem->Name."/".$tabView->TabName.") ".$parameterDescriptor->Name);
+							$this->RegisterVariableString("USER".$parameterDescriptor->ValueId,"(".$menuItem->Name.") ".$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 							//print_r($post_parameters);
 							$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

@@ -26,7 +26,7 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
-			$systems_node = $this->RegisterVariableString("Systems", "Systems");
+			$this->systems_node = $this->RegisterVariableString("Systems", "Systems");
 		
 			
 			
@@ -100,7 +100,7 @@
 		public function GetSystemInfo() {
 			// Get all systems
 			//$this->SetSummary("Searching for Wolf systems...");
-			$this->RegisterVariableInteger("SystemShareId", "System Share Id","",$systems_node);
+			$this->RegisterVariableInteger("SystemShareId", "System Share Id","",$this->systems_node);
 			
 		}
 

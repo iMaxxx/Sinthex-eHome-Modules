@@ -117,8 +117,52 @@
 				SetValueString($this->GetIDForIdent('GatewayId'), $current_system->GatewayId);
 				SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
 				SetValueString($this->GetIDForIdent('SystemShareId'), $current_system->SystemShareId);
+				
+				
+				$system_descriptions = getJsonData($wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
+				//print_r($system_descriptions[$current_system->Id]);
+				
+				foreach($system_descriptions->MenuItems as &$menuItem) {
+				   //echo "Menuitem: ".$menuItem->Name."\n";
+				   // Get Tabs
+				   foreach($menuItem->TabViews as &$tabView) {
+						//echo "--->TABNAME: ".$tabView->TabName."\n";
+						
+						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+							$this->RegisterVariableString("USER".$parameterDescriptor->ValueId,"(".$menuItem->Name."/".$tabView->TabName.") ".$parameterDescriptor->Name);
+							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
+							//print_r($post_parameters);
+							$parameter_value = getJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+							//print_r($parameter_value);
+							if(count($parameterDescriptor->ListItems)) {
+								SetValueString("USER".$parameterDescriptor->ValueId, $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+							} else {
+								SetValueString("USER".$parameterDescriptor->ValueId, $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+							}
+							//echo ($parameterDescriptor->IsReadOnly == 1 ? " (readonly)\n" : "\n");
+						}
+					}
+					// Get Submenu
+					foreach($menuItem->SubMenuEntries as &$subMenu) {
+						foreach($subMenu->TabViews as &$tabView) {
+							foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+								$this->RegisterVariableString("EXPERT".$parameterDescriptor->ValueId,"(".$menuItem->Name."/".$tabView->TabName.") ".$subMenu->Name.": ".$parameterDescriptor->Name);
+								$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
+								//print_r($post_parameters);
+								$parameter_value = getJsonData($wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+								//print_r($parameter_value);
+								if(count($parameterDescriptor->ListItems)) {
+									SetValueString("USER".$parameterDescriptor->ValueId, $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+								} else {
+									SetValueString("USER".$parameterDescriptor->ValueId, $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+								}
+			
+							}
+						}
+					}
+				}
 			}
-		}
+		}	
 
     }
 ?>

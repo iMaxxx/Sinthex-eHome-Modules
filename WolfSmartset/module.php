@@ -25,10 +25,10 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
-			$this->RegisterVariableString("SystemId","System ID","",$system_node);
-			$this->RegisterVariableString("GatewayId", "Gateway ID","",$system_node);
-			$this->RegisterVariableString("SystemName", "System Name","",$system_node);
-			$this->RegisterVariableString("SystemShareId", "System Share Id","",$system_node);
+			$this->RegisterVariableString("SystemId","System ID");
+			$this->RegisterVariableString("GatewayId", "Gateway ID");
+			$this->RegisterVariableString("SystemName", "System Name");
+			$this->RegisterVariableString("SystemShareId", "System Share Id");
 			
 		
 			

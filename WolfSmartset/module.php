@@ -98,6 +98,7 @@
 		}
 
 		public function GetSystemInfo() {
+			$this->Authorize();
 			// Get all systems
 			//$this->SetSummary("Searching for Wolf systems...");
 			SetValueString($this->GetIDForIdent('AuthHeader'), json_encode($this->auth_header));

@@ -110,21 +110,20 @@
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;
 				$system->SystemShareId = $current_system->SystemShareId;
-				array_push($systems,$system);
 				// Get descriptions for gateway
 				//$system_description = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 				//$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				
-				$this->system_node = $this->RegisterVariableString("System_".$i, "System ID".$current_system->Id);
+				$system_node = $this->RegisterVariableString("System_".$i, "System ID".$current_system->Id);
 				SetValueString($this->GetIDForIdent("SystemId_".$i++), $current_system->Id);
-				$this->RegisterVariableInteger("SystemId","System ID","",$this->system_node);
+				$this->RegisterVariableInteger("SystemId","System ID","",$system_node);
 				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
-				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$this->system_node);
+				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$system_node);
 				SetValueString($this->GetIDForIdent('GatewayId'), $current_system->GatewayId);
-				$this->RegisterVariableString("SystemName", "System Name","",$this->system_node);
+				$this->RegisterVariableString("SystemName", "System Name","",system_node);
 				SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
-				$this->RegisterVariableInteger("SystemShareId", "System Share Id","",$this->system_node);
+				$this->RegisterVariableString("SystemShareId", "System Share Id","",$system_node);
 				SetValueString($this->GetIDForIdent('SystemShareId'), $current_system->SystemShareId);
 			}
 		}

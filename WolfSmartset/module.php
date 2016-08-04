@@ -105,7 +105,7 @@
 			SetValueString($this->GetIDForIdent("Systems"), "No systems found!");
 			$i = 1;
 			foreach($system_data as &$current_system) {
-				SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), $i.($i = 1 ? " system" : " systems"));
+				SetValueString($this->GetIDForIdent("Systems"), $i.($i = 1 ? " system" : " systems"));
 				$system = new stdClass();
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;

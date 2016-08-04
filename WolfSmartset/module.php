@@ -100,7 +100,7 @@
 		public function GetSystemInfo() {
 			// Get all systems
 			//$this->SetSummary("Searching for Wolf systems...");
-			RegisterVariableInteger("SystemShareId", "System Share Id","",$this->systemsNode);
+			$this->RegisterVariableInteger("SystemShareId", "System Share Id","",$this->systemsNode);
 			
 		}
 

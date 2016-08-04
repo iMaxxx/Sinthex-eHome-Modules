@@ -99,30 +99,10 @@
 
 		public function GetSystemInfo() {
 			// Get all systems
-			$this->SetSummary("Searching for Wolf systems...");
+			//$this->SetSummary("Searching for Wolf systems...");
 			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
 			//print_r($system_data);
 			
-			$system_descriptions = array();
-			// Get system states
-			$systems = array();
-			foreach($system_data as &$current_system) {
-				
-				$system = new stdClass();
-				$system->SystemId = $current_system->Id;
-				$system->GatewayId = $current_system->GatewayId;
-				$system->SystemShareId = $current_system->SystemShareId;
-				array_push($systems,$system);
-				// Get descriptions for gateway
-				$system_descriptions[$current_system->Id] = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
-				//print_r($system_descriptions[$current_system->Id]);
-				$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
-				
-				$this->RegisterVariableInteger("SystemId","System ID","",$this->systemsNode);
-				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$this->systemsNode);
-				$this->RegisterVariableString("SystemName", "System Name","",$this->systemsNode);
-				$this->RegisterVariableInteger("SystemShareId", "System Share Id","",$this->systemsNode);
-			}
 		}
 
     }

@@ -98,11 +98,11 @@
 		public function GetSystemInfo() {
 			$auth_header = $this->Authorize();
 			// Get all systems
-			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $this->auth_header);
+			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
 			
 			// Get system states
 			$this->systems_node = $this->RegisterVariableString("Systems", "Systems");
-			SetValueString($this->GetIDForIdent("Systems"), json_encode($system_data));
+			SetValueString($this->GetIDForIdent("Systems"), "No systems found!");
 			$i = 1;
 			foreach($system_data as &$current_system) {
 				SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), $i.($i = 1 ? " system" : " systems"));
@@ -112,7 +112,7 @@
 				$system->SystemShareId = $current_system->SystemShareId;
 				array_push($systems,$system);
 				// Get descriptions for gateway
-				//$system_description = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
+				//$system_description = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
 				//$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				

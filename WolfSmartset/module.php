@@ -102,7 +102,7 @@
 			
 			// Get system states
 			$this->systems_node = $this->RegisterVariableString("Systems", "Systems");
-			SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), "No systems found!");
+			SetValueString($this->GetIDForIdent("Systems"), "No systems found!");
 			$i = 1;
 			foreach($system_data as &$current_system) {
 				SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), $i.($i = 1 ? " system" : " systems"));
@@ -116,8 +116,8 @@
 				//print_r($system_descriptions[$current_system->Id]);
 				//$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				
-				$this->system_node = $this->RegisterVariableString("System_".$i++, "System ID".$current_system->Id);
-				SetValueString($this->GetIDForIdent("SystemId_".$current_system->Id), $current_system->Id);
+				$this->system_node = $this->RegisterVariableString("System_".$i, "System ID".$current_system->Id);
+				SetValueString($this->GetIDForIdent("SystemId_".$i++), $current_system->Id);
 				$this->RegisterVariableInteger("SystemId","System ID","",$this->system_node);
 				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
 				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$this->system_node);

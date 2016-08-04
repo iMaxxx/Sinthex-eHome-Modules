@@ -3,7 +3,7 @@
     class WolfSmartset extends IPSModule {
     	
  		private $auth_header;
-		private $systemsNode;
+		private $systems_node;
 		private $wolf_url = "https://www.wolf-smartset.com/portal/";
 		private $language = "de-DE";
 		
@@ -27,8 +27,7 @@
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
 			$this->systemsNode = $this->RegisterVariableString("Systems", "Systems");
-
-			
+		
 			
 			
  
@@ -107,6 +106,7 @@
 			// Get system states
 			$systems = array();
 			foreach($system_data as &$current_system) {
+				$this->SetSummary("Get system info!");
 				$system = new stdClass();
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;
@@ -115,7 +115,7 @@
 				// Get descriptions for gateway
 				$system_descriptions[$current_system->Id] = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $this->auth_header);
 				//print_r($system_descriptions[$current_system->Id]);
-	
+				$this->SetSummary(json_encode($system_descriptions[$current_system->Id]));
 				
 				$this->RegisterVariableInteger("SystemId","System ID","",$this->systemsNode);
 				$this->RegisterVariableInteger("GatewayId", "Gateway ID","",$this->systemsNode);

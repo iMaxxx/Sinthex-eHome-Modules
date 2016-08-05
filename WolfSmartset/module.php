@@ -138,15 +138,15 @@
 						//echo "--->TABNAME: ".$tabView->TabName."\n";
 						
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterVariableString("USER".$parameterDescriptor->ValueId,"(".$menuItem->Name.") ".$parameterDescriptor->Name);
+							$this->RegisterVariableString($parameterDescriptor->ValueId,"(".$menuItem->Name.") ".$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 							//print_r($post_parameters);
 							$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 							//print_r($parameter_value);
 							if(count($parameterDescriptor->ListItems)>=1) {
-								SetValueString($this->GetIDForIdent("USER".$parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+								SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
 							} else {
-								SetValueString($this->GetIDForIdent("USER".$parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+								SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
 							}
 							//echo ($parameterDescriptor->IsReadOnly == 1 ? " (readonly)\n" : "\n");
 						}
@@ -161,9 +161,9 @@
 								$parameter_value = $this->getJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 								//print_r($parameter_value);
 								if(count($parameterDescriptor->ListItems)>=1) {
-									SetValueString($this->GetIDForIdent("EXPERT".$parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
+									SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
 								} else {
-									SetValueString($this->GetIDForIdent("EXPERT".$parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
+									SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
 								}
 			
 							}

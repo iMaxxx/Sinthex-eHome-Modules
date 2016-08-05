@@ -37,12 +37,10 @@
         }
         
 		private function RegisterConnectionVariables() {
-			if(!$this->GetIDForIdent("SystemId")) {
 				$this->RegisterVariableString("SystemId","Connection/System ID");
 				$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
 				$this->RegisterVariableString("SystemName", "Connection/System Name");
 				$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
-			}
 		}
  
 
@@ -84,7 +82,7 @@
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
 			
-			if($username <> "" AND $password <> "") {
+			if($username <> "" && $password <> "") {
 				//Login to Wolf Smartset system
 				$header = array('Accept-Language: '.$this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4');
 				$postdata = array('IsPasswordReset'=>false,
@@ -137,15 +135,14 @@
 				   // Get Tabs
 				   foreach($menuItem->TabViews as &$tabView) {
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterVariableString($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name);
-							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
+							$this->RegisterDescriptor($parameterDescriptor);
 						}
 					}
 					// Get Submenu
 					foreach($menuItem->SubMenuEntries as &$subMenu) {
 						foreach($subMenu->TabViews as &$tabView) {
 							foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-								$this->RegisterVariableString($parameterDescriptor->ValueId,$subMenu->Name."/".$parameterDescriptor->Name);
+								$this->RegisterDescriptor($parameterDescriptor);
 							}
 						}
 					}
@@ -153,7 +150,19 @@
 			}
 		}	
 		
+		private function RegisterDescriptor($parameterDescriptor) {
+			if($parameterDescriptor->ControlType == "6" || $parameterDescriptor->ControlType == "1" || $parameterDescriptor->ControlType == "0") {
+				$this->RegisterVariableInteger($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+			} elseif($tabView->ControlType == "5") {
+				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));
+			} else {
+				$this->RegisterVariableString($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);
+			}
+		}
+		
 		public function GetValues() {
+			$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
+						
 			//print_r($post_parameters);
 			$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 			//print_r($parameter_value);

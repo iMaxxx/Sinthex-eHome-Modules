@@ -155,7 +155,7 @@
 					foreach($menuItem->SubMenuEntries as &$subMenu) {
 						foreach($subMenu->TabViews as &$tabView) {
 							foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-								$this->RegisterVariableString($parameterDescriptor->ValueId,"(".$menuItem->Name."/".(($tabView->TabName) <> "" ? "/".$tabView->TabName : "") .") ".$subMenu->Name.": ".$parameterDescriptor->Name);
+								$this->RegisterVariableString($parameterDescriptor->ValueId,"(".$menuItem->Name.(($tabView->TabName) <> "" ? "/".$tabView->TabName : "") .") ".$subMenu->Name.": ".$parameterDescriptor->Name);
 								$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 								//print_r($post_parameters);
 								$parameter_value = $this->getJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

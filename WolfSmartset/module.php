@@ -135,14 +135,14 @@
 				   // Get Tabs
 				   foreach($menuItem->TabViews as &$tabView) {
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterDescriptor($parameterDescriptor);
+							$this->RegisterDescriptor($parameterDescriptor,$menuItem->Name);
 						}
 					}
 					// Get Submenu
 					foreach($menuItem->SubMenuEntries as &$subMenu) {
 						foreach($subMenu->TabViews as &$tabView) {
 							foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-								$this->RegisterDescriptor($parameterDescriptor);
+								$this->RegisterDescriptor($parameterDescriptor,$subMenu->Name);
 							}
 						}
 					}
@@ -150,14 +150,14 @@
 			}
 		}	
 		
-		private function RegisterDescriptor($parameterDescriptor) {
+		private function RegisterDescriptor($parameterDescriptor,$groupName) {
 			$controlType = intval($parameterDescriptor->ControlType);
 			if($controlType == 0 || $controlType == 1 || $controlType == 6) {
-				$this->RegisterVariableInteger($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 			} elseif($controlType == "5") {
-				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));
+				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));
 			} else {
-				$this->RegisterVariableString($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);
+				$this->RegisterVariableString($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);
 			}
 		}
 		

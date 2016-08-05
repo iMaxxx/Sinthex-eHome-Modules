@@ -24,31 +24,29 @@
 			$this->RegisterPropertyString("Username", ""); 
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
-			
 
-			
-		
-			
-			
- 
         }
 		
-		private function RegisterConnectionVariables() {
-			$this->GetIDForIdent("ball");
-			$this->RegisterVariableString("SystemId","Connection/System ID");
-			$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
-			$this->RegisterVariableString("SystemName", "Connection/System Name");
-			$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
-		}
- 
-        // Überschreibt die intere IPS_ApplyChanges($id) Funktion
+		// Überschreibt die intere IPS_ApplyChanges($id) Funktion
         public function ApplyChanges() {
+        	parent::ApplyChanges();
         	$this->RegisterConnectionVariables();
             // Diese Zeile nicht löschen
-            parent::ApplyChanges();
+            
 			$this->SetStatus(104);
 			$this->GetSystemInfo();
         }
+        
+		private function RegisterConnectionVariables() {
+			if(!$this->GetIDForIdent("SystemId")) {
+				$this->RegisterVariableString("SystemId","Connection/System ID");
+				$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
+				$this->RegisterVariableString("SystemName", "Connection/System Name");
+				$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
+			}
+		}
+ 
+
  
         /**
         * Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
@@ -145,7 +143,7 @@
 						//echo "--->TABNAME: ".$tabView->TabName."\n";
 						
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterVariableString($parameterDescriptor->ValueId,$parameterDescriptor->Name);
+							$this->RegisterVariableString("General/".$parameterDescriptor->ValueId,$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 						}
 					}

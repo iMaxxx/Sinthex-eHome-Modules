@@ -152,21 +152,24 @@
 		
 		private function RegisterDescriptor($parameterDescriptor,$groupName) {
 			$controlType = intval($parameterDescriptor->ControlType);
+			$profileName = str_replace($parameterDescriptor->Name," ","_");
 			if($parameterDescriptor->Decimals == 1) {
+				IPS_CreateVariableProfile($profileName, 1);
 				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
-				IPS_SetVariableProfileValues($parameterDescriptor->Name, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
-				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $parameterDescriptor->Name);
+				IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
+				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 			} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
+				IPS_CreateVariableProfile($profileName, 1);
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
-				IPS_SetVariableProfileValues($parameterDescriptor->Name, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
-				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $parameterDescriptor->Name);
+				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
+				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 			} elseif($controlType == "5") {
 				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));
 			} else {
 				$this->RegisterVariableString($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);
 			}
 			boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
-			IPS_CreateVariableProfile("ByPassstatus", 1);
+			
 		}
 		
 		public function GetValues() {

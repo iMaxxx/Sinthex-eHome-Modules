@@ -154,7 +154,7 @@
 			$controlType = intval($parameterDescriptor->ControlType);
 			$profileName = str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 			if($parameterDescriptor->Decimals == 1) {
-				IPS_CreateVariableProfile($profileName, 1);
+				IPS_CreateVariableProfile($profileName, 2);
 				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);

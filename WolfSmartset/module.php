@@ -25,19 +25,25 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			
-			$this->RegisterVariableString("SystemId","Connection/System ID");
-			$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
-			$this->RegisterVariableString("SystemName", "Connection/System Name");
-			$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
+
 			
 		
 			
 			
  
         }
+		
+		private function RegisterConnectionVariables() {
+			$this->GetIDForIdent("ball");
+			$this->RegisterVariableString("SystemId","Connection/System ID");
+			$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
+			$this->RegisterVariableString("SystemName", "Connection/System Name");
+			$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
+		}
  
         // Überschreibt die intere IPS_ApplyChanges($id) Funktion
         public function ApplyChanges() {
+        	$this->RegisterConnectionVariables();
             // Diese Zeile nicht löschen
             parent::ApplyChanges();
 			$this->SetStatus(104);

@@ -151,7 +151,8 @@
 		}	
 		
 		private function RegisterDescriptor($parameterDescriptor) {
-			if(($parameterDescriptor->ControlType) == "6" || ($parameterDescriptor->ControlType) == "1" || ($parameterDescriptor->ControlType) == "0") {
+			$controlType = intval($parameterDescriptor->ControlType);
+			if($controlType == 0 || $controlType == 1 || $controlType == 6) {
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 			} elseif($tabView->ControlType == "5") {
 				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));

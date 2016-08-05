@@ -152,7 +152,7 @@
 		
 		private function RegisterDescriptor($parameterDescriptor,$groupName) {
 			$controlType = intval($parameterDescriptor->ControlType);
-			$profileName = str_replace($parameterDescriptor->Name," ","_");
+			$profileName = str_replace(" ", "_",$parameterDescriptor->Name);
 			if($parameterDescriptor->Decimals == 1) {
 				IPS_CreateVariableProfile($profileName, 1);
 				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));

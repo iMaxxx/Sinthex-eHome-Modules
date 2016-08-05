@@ -137,7 +137,7 @@
 				   // Get Tabs
 				   foreach($menuItem->TabViews as &$tabView) {
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterVariableString("General/".$parameterDescriptor->ValueId,$parameterDescriptor->Name);
+							$this->RegisterVariableString($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
 						}
 					}

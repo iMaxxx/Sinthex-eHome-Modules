@@ -79,7 +79,7 @@
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
 			
-			if(isset($username) AND isset($password)) {
+			if($username <> "" AND $password <> "") {
 				//Login to Wolf Smartset system
 				$header = array('Accept-Language: '.$this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4');
 				$postdata = array('IsPasswordReset'=>false,

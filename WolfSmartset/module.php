@@ -154,7 +154,7 @@
 			$controlType = intval($parameterDescriptor->ControlType);
 			if($controlType == 0 || $controlType == 1 || $controlType == 6) {
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
-			} elseif($tabView->ControlType == "5") {
+			} elseif($controlType == "5") {
 				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",boolval($parameterDescriptor->SortId));
 			} else {
 				$this->RegisterVariableString($parameterDescriptor->ValueId,"General/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);

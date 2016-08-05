@@ -30,11 +30,10 @@
 		// Überschreibt die intere IPS_ApplyChanges($id) Funktion
         public function ApplyChanges() {
         	parent::ApplyChanges();
-        	$this->RegisterConnectionVariables();
             // Diese Zeile nicht löschen
             
 			$this->SetStatus(104);
-			$this->GetSystemInfo();
+			$this->Authorize();
         }
         
 		private function RegisterConnectionVariables() {
@@ -80,6 +79,7 @@
 		}
 		
 		public function Authorize() {
+			$this->RegisterConnectionVariables();
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");

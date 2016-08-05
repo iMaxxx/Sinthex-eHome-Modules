@@ -159,7 +159,7 @@
 			} else {
 				$this->RegisterVariableString($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",$parameterDescriptor->SortId);
 			}
-			boolval($parameterDescriptor->IsReadOnly) ? DisableAction( $parameterDescriptor->ValueId ) : EnableAction($parameterDescriptor->ValueId);
+			boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
 		}
 		
 		public function GetValues() {

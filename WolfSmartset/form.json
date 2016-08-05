@@ -8,12 +8,11 @@
     ],
     "actions":
     [
-        { "type": "Button", "label": "Login", "onClick": "WSS_Authorize($id);" },
-        { "type": "Button", "label": "Get system info", "onClick": "WSS_GetSystemInfo($id);"}
+        { "type": "Button", "label": "Update Environment", "onClick": "WSS_GetSystemInfo($id);"}
     ],
     "status":
     [
-        { "code": 102, "icon": "active", "caption": "Login successfully" },
+        { "code": 102, "icon": "active", "caption": "Login successful" },
         { "code": 104, "icon": "inactive", "caption": "Not connected" },
         { "code": 201, "icon": "error", "caption": "Authentication failed" },
         { "code": 202, "icon": "error", "caption": "No credentials left" }

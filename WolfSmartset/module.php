@@ -124,9 +124,6 @@
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;
 				$system->SystemShareId = $current_system->SystemShareId;
-				// Get descriptions for gateway
-				//$system_description = $this->GetJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-				
 				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
 				SetValueString($this->GetIDForIdent('GatewayId'), $current_system->GatewayId);
 				SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
@@ -134,14 +131,11 @@
 				
 				
 				$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-				//print_r($system_descriptions[$current_system->Id]);
+
 				
 				foreach($system_descriptions->MenuItems as &$menuItem) {
-				   //echo "Menuitem: ".$menuItem->Name."\n";
 				   // Get Tabs
 				   foreach($menuItem->TabViews as &$tabView) {
-						//echo "--->TABNAME: ".$tabView->TabName."\n";
-						
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
 							$this->RegisterVariableString("General/".$parameterDescriptor->ValueId,$parameterDescriptor->Name);
 							$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));

@@ -78,25 +78,34 @@
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
-			//Login to Wolf Smartset system
-			$header = array('Accept-Language: '.$this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4');
-			$postdata = array('IsPasswordReset'=>false,
-			              'IsProfessional'=>true,
-							  'grant_type'=>'password',
-							  'username'=>$username,
-							  'password'=>$password,
-			              'InfoMessage'=>null,
-			              'DaysUntilPasswordChange'=>null,
-							  'ServerWebApiVersion'=>2,
-							  'CultureInfoCode'=>$this->language);
-			$auth_data = $this->GetJsonData($this->wolf_url.'connect/token', "POST", $header,$postdata);
-			$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
-			              'Accept-Language: '. $this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
-			// Grant expert access to enable r/w
-			$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $auth_header);
-			if(isset($auth_data->access_token)) $this->SetStatus(102);
-			else $this->SetStatus(201);;
-			return $auth_header;
+			
+			if(isset($username) AND isset($password)) {
+				//Login to Wolf Smartset system
+				$header = array('Accept-Language: '.$this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4');
+				$postdata = array('IsPasswordReset'=>false,
+				              'IsProfessional'=>true,
+								  'grant_type'=>'password',
+								  'username'=>$username,
+								  'password'=>$password,
+				              'InfoMessage'=>null,
+				              'DaysUntilPasswordChange'=>null,
+								  'ServerWebApiVersion'=>2,
+								  'CultureInfoCode'=>$this->language);
+				$auth_data = $this->GetJsonData($this->wolf_url.'connect/token', "POST", $header,$postdata);
+				if(isset($auth_data->access_token)) {
+					$auth_header = array('Authorization: '.$auth_data->token_type." ".$auth_data->access_token,
+					              'Accept-Language: '. $this->language.',de;q=0.8,en;q=0.6,en-US;q=0.4','Content-Type: application/json;charset=UTF-8');
+					// Grant expert access to enable r/w
+					$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $auth_header);
+					$this->SetStatus(102);
+					return $auth_header;
+				} else {
+					$this->SetStatus(201);
+					return false;
+				}
+				$this->SetStatus(202);
+				return false;
+			}
 		}
 
 		public function GetSystemInfo() {
@@ -134,7 +143,7 @@
 							//print_r($post_parameters);
 							$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 							//print_r($parameter_value);
-							if(count($parameterDescriptor->ListItems)) {
+							if(count($parameterDescriptor->ListItems)>=1) {
 								SetValueString($this->GetIDForIdent("USER".$parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
 							} else {
 								SetValueString($this->GetIDForIdent("USER".$parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
@@ -151,7 +160,7 @@
 								//print_r($post_parameters);
 								$parameter_value = $this->getJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 								//print_r($parameter_value);
-								if(count($parameterDescriptor->ListItems)) {
+								if(count($parameterDescriptor->ListItems)>=1) {
 									SetValueString($this->GetIDForIdent("EXPERT".$parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
 								} else {
 									SetValueString($this->GetIDForIdent("EXPERT".$parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);

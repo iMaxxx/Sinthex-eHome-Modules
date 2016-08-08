@@ -155,10 +155,10 @@
 			$system->SystemId = $current_system->Id;
 			$system->GatewayId = $current_system->GatewayId;
 			$system->SystemShareId = $current_system->SystemShareId;
-			SetValueString(IPS_GetVariableIDByName('CON_SystemId', $this->GetIDForIdent('DIR_Connection')), $current_system->Id);
-			SetValueString(IPS_GetVariableIDByName('CON_GatewayId', $this->GetIDForIdent('DIR_Connection')), $current_system->GatewayId);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemName', $this->GetIDForIdent('DIR_Connection')), $current_system->Name);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemShareId', $this->GetIDForIdent('DIR_Connection')), $current_system->SystemShareId);
+			SetValueString(IPS_GetVariableIDByName('CON_SystemId', IPS_GetVariableID('DIR_Connection')), $current_system->Id);
+			SetValueString(IPS_GetVariableIDByName('CON_GatewayId', IPS_GetVariableID('DIR_Connection')), $current_system->GatewayId);
+			SetValueString(IPS_GetVariableIDByName('CON_SystemName', IPS_GetVariableIDt('DIR_Connection')), $current_system->Name);
+			SetValueString(IPS_GetVariableIDByName('CON_SystemShareId', IPS_GetVariableID('DIR_Connection')), $current_system->SystemShareId);
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);

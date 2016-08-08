@@ -106,7 +106,7 @@
 		}
 		
 		public function Authorize() {
-		//	$this->RegisterConnectionVariables();
+			$this->RegisterConnectionVariables();
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");

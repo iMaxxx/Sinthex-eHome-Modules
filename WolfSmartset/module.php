@@ -40,16 +40,16 @@
 		private function RegisterConnectionVariables() {
 				if (!@IPS_VariableExists (@$this->GetIDForIdent('DIR_Connection'))) {
 					$parent = $this->RegisterVariableString("DIR_Connection","Connection");
-					$id = $this->RegisterVariableString("CON_SystemId","System ID");
+					$id = $this->RegisterVariableString("SystemId","System ID");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
-					$id = $this->RegisterVariableString("CON_GatewayId", "Gateway ID");
+					$id = $this->RegisterVariableString("GatewayId", "Gateway ID");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
-					$id = $this->RegisterVariableString("CON_SystemName", "System Name");
+					$id = $this->RegisterVariableString("SystemName", "System Name");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,false);
-					$id = $this->RegisterVariableString("CON_SystemShareId", "System Share Id");
+					$id = $this->RegisterVariableString("SystemShareId", "System Share Id");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
 				}
@@ -157,10 +157,10 @@
 			$system->SystemShareId = $current_system->SystemShareId;
 			
 			$connectionNode = $this->GetIDForIdent('DIR_Connection');
-			SetValueString(IPS_GetVariableIDByName('CON_SystemId', $connectionNode), $current_system->Id);
-			SetValueString(IPS_GetVariableIDByName('CON_GatewayId', $connectionNode), $current_system->GatewayId);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemName', $connectionNode), $current_system->Name);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemShareId', $connectionNode), $current_system->SystemShareId);
+			SetValueString(@IPS_GetVariableIDByName('SystemId', $connectionNode), $current_system->Id);
+			SetValueString(@IPS_GetVariableIDByName('GatewayId', $connectionNode), $current_system->GatewayId);
+			SetValueString(@IPS_GetVariableIDByName('SystemName', $connectionNode), $current_system->Name);
+			SetValueString(@IPS_GetVariableIDByName('SystemShareId', $connectionNode), $current_system->SystemShareId);
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);

@@ -38,9 +38,13 @@
         
 		private function RegisterConnectionVariables() {
 				$this->RegisterVariableString("CON_SystemId","Connection/System ID");
+				IPS_SetHidden($this->GetIDForIdent('CON_SystemId'),true);
 				$this->RegisterVariableString("CON_GatewayId", "Connection/Gateway ID");
+				IPS_SetHidden($this->GetIDForIdent('CON_GatewayId'),true);
 				$this->RegisterVariableString("CON_SystemName", "Connection/System Name");
+				IPS_SetHidden($this->GetIDForIdent('CON_SystemName'),false);
 				$this->RegisterVariableString("CON_SystemShareId", "Connection/System Share Id");
+				IPS_SetHidden($this->GetIDForIdent('CON_SystemShareId'),true);
 		}
  
  		private function TranslateIcon($imageName) {

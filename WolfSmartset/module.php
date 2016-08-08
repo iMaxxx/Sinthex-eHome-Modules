@@ -37,10 +37,10 @@
         }
         
 		private function RegisterConnectionVariables() {
-				$this->RegisterVariableString("SystemId","Connection/System ID");
-				$this->RegisterVariableString("GatewayId", "Connection/Gateway ID");
-				$this->RegisterVariableString("SystemName", "Connection/System Name");
-				$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
+				$this->RegisterVariableString("CON_SystemId","Connection/System ID");
+				$this->RegisterVariableString("CON_GatewayId", "Connection/Gateway ID");
+				$this->RegisterVariableString("CON_SystemName", "Connection/System Name");
+				$this->RegisterVariableString("CON_SystemShareId", "Connection/System Share Id");
 		}
  
  		private function TranslateIcon($imageName) {
@@ -139,10 +139,10 @@
 				$system->SystemId = $current_system->Id;
 				$system->GatewayId = $current_system->GatewayId;
 				$system->SystemShareId = $current_system->SystemShareId;
-				SetValueString($this->GetIDForIdent('SystemId'), $current_system->Id);
-				SetValueString($this->GetIDForIdent('GatewayId'), $current_system->GatewayId);
-				SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
-				SetValueString($this->GetIDForIdent('SystemShareId'), $current_system->SystemShareId);
+				SetValueString($this->GetIDForIdent('CON_SystemId'), $current_system->Id);
+				SetValueString($this->GetIDForIdent('CON_GatewayId'), $current_system->GatewayId);
+				SetValueString($this->GetIDForIdent('CON_SystemName'), $current_system->Name);
+				SetValueString($this->GetIDForIdent('CON_SystemShareId'), $current_system->SystemShareId);
 				
 				
 				$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
@@ -171,12 +171,12 @@
 			$controlType = intval($parameterDescriptor->ControlType);
 			$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 			if($parameterDescriptor->Decimals == 1) {
-				IPS_CreateVariableProfile($profileName, 2);
+				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
 				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 			} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
-				IPS_CreateVariableProfile($profileName, 1);
+				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);

@@ -38,21 +38,21 @@
         }
         
 		private function RegisterConnectionVariables() {
-				$parent = $this->RegisterVariableString("DIR_Connection","Connection");
-				
-	
-				$id = $this->RegisterVariableString("CON_SystemId","System ID");
-				IPS_SetParent($id,$parent);
-				IPS_SetHidden($id,true);
-				$id = $this->RegisterVariableString("CON_GatewayId", "Gateway ID");
-				IPS_SetParent($id,$parent);
-				IPS_SetHidden($id,true);
-				$id = $this->RegisterVariableString("CON_SystemName", "System Name");
-				IPS_SetParent($id,$parent);
-				IPS_SetHidden($id,false);
-				$id = $this->RegisterVariableString("CON_SystemShareId", "System Share Id");
-				IPS_SetParent($id,$parent);
-				IPS_SetHidden($id,true);
+				if (!@IPS_VariableExists (@$this->GetIDForIdent('DIR_Connection'))) {
+					$parent = $this->RegisterVariableString("DIR_Connection","Connection");
+					$id = $this->RegisterVariableString("CON_SystemId","System ID");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("CON_GatewayId", "Gateway ID");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("CON_SystemName", "System Name");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,false);
+					$id = $this->RegisterVariableString("CON_SystemShareId", "System Share Id");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
+				}
 		}
  
  		private function TranslateIcon($imageName) {

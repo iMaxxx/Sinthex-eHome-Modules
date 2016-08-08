@@ -24,6 +24,7 @@
 			$this->RegisterPropertyString("Username", ""); 
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
+			$this->RegisterPropertyInteger("SystemNumber", 0);
 
         }
 		
@@ -37,7 +38,7 @@
         }
         
 		private function RegisterConnectionVariables() {
-				$parent = $this->RegisterVariableString("CONNECTION","Verbindung");
+				$parent = $this->RegisterVariableString("DIR_Connection","Connection");
 				$id = $this->RegisterVariableString("CON_SystemId","Connection/System ID");
 				IPS_SetParent($id,$parent);
 				IPS_SetHidden($id,true);
@@ -138,55 +139,68 @@
 		}
 
 		public function GetSystemInfo() {
+			//Struktur erstellen
+			
 			$auth_header = $this->Authorize();
 			// Get all systems
 			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
 			
 			// Get system states
-			foreach($system_data as &$current_system) {
-				$system = new stdClass();
-				$system->SystemId = $current_system->Id;
-				$system->GatewayId = $current_system->GatewayId;
-				$system->SystemShareId = $current_system->SystemShareId;
-				SetValueString($this->GetIDForIdent('CON_SystemId'), $current_system->Id);
-				SetValueString($this->GetIDForIdent('CON_GatewayId'), $current_system->GatewayId);
-				SetValueString($this->GetIDForIdent('CON_SystemName'), $current_system->Name);
-				SetValueString($this->GetIDForIdent('CON_SystemShareId'), $current_system->SystemShareId);
-				
-				
-				$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
+			$current_system = $system_data[$systemNumber];
+			
+			$system = new stdClass();
+			$system->SystemId = $current_system->Id;
+			$system->GatewayId = $current_system->GatewayId;
+			$system->SystemShareId = $current_system->SystemShareId;
+			SetValueString($this->GetIDForIdent('CON_SystemId'), $current_system->Id);
+			SetValueString($this->GetIDForIdent('CON_GatewayId'), $current_system->GatewayId);
+			SetValueString($this->GetIDForIdent('CON_SystemName'), $current_system->Name);
+			SetValueString($this->GetIDForIdent('CON_SystemShareId'), $current_system->SystemShareId);
+			
+			
+			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 
-				
-				foreach($system_descriptions->MenuItems as &$menuItem) {
-				   // Get Tabs
-				   foreach($menuItem->TabViews as &$tabView) {
-						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterDescriptor($parameterDescriptor,$menuItem->Name);
-						}
+			
+			$rootnode = $this->RegisterVariableString("DIR_Data", "Data");
+			
+			foreach($system_descriptions->MenuItems as &$menuItem) {
+			  	// Get Tabs
+			  	$node = $this->RegisterVariableString("DIR_".$menuItem->SortId, $menuItem->Name);
+				IPS_SetParent($node,$rootnode);
+			   foreach($menuItem->TabViews as &$tabView) {
+			   		$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
+				   	IPS_SetParent($subnode,$node);
+					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+						$this->RegisterDescriptor($parameterDescriptor,$subnode);
 					}
-					// Get Submenu
-					foreach($menuItem->SubMenuEntries as &$subMenu) {
-						foreach($subMenu->TabViews as &$tabView) {
-							foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-								$this->RegisterDescriptor($parameterDescriptor,$subMenu->Name);
-							}
+				}
+				// Get Submenu
+				foreach($menuItem->SubMenuEntries as &$subMenu) {
+					$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
+				   	IPS_SetParent($node,$root);
+					foreach($subMenu->TabViews as &$tabView) {
+						$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
+				   		IPS_SetParent($subnode,$node);
+						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+							$this->RegisterDescriptor($parameterDescriptor,$subnode);
 						}
 					}
 				}
 			}
+			
 		}	
 		
-		private function RegisterDescriptor($parameterDescriptor,$groupName) {
+		private function RegisterDescriptor($parameterDescriptor,$parent) {
 			$controlType = intval($parameterDescriptor->ControlType);
 			$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 			if($parameterDescriptor->Decimals == 1) {
 				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
-				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
+				$this->RegisterVariableFloat($parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 			} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
 				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
-				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+				$this->RegisterVariableInteger($parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 				if($controlType == 0 || $controlType == 1) {
@@ -196,12 +210,12 @@
 					}
 				}
 			} elseif($controlType == "5") {
-				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
+				$this->RegisterVariableBoolean($parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 			} else {
-				$this->RegisterVariableString($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
+				$this->RegisterVariableString($parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 			}
 			boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
-			
+			IPS_SetParent($this->GetIDForIdent($parameterDescriptor->Name),$parent);
 		}
 		
 		public function GetValues() {

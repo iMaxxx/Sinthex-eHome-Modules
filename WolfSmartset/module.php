@@ -182,7 +182,8 @@
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 				if($controlType == 0 || $controlType == 1 || $controlType == 6) {
 					foreach($parameterDescriptor->ListItems as &$listItem) {
-						IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, TranslateIcon($listItem->ImageName), -1);
+						//Translate ImageName.png to Symcon Icons
+						IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
 					}
 				}
 			} elseif($controlType == "5") {

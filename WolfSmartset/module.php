@@ -43,6 +43,23 @@
 				$this->RegisterVariableString("SystemShareId", "Connection/System Share Id");
 		}
  
+ 		private function TranslateIcon($imageName) {
+ 			switch ($imageName) {
+		    case "Icon_Lueftung1.png":
+		        return "Itensity";
+		        break;
+			case "Icon_Lueftung2.png":
+		        return "Itensity";
+		        break;
+			case "Icon_Lueftung3.png":
+		        return "Itensity";
+		        break;
+			case "Icon_Lueftung4.png":
+		        return "Itensity";
+		        break;
+			}
+			return "";
+ 		}
 
  
         /**
@@ -152,7 +169,7 @@
 		
 		private function RegisterDescriptor($parameterDescriptor,$groupName) {
 			$controlType = intval($parameterDescriptor->ControlType);
-			$profileName = str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
+			$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 			if($parameterDescriptor->Decimals == 1) {
 				IPS_CreateVariableProfile($profileName, 2);
 				$this->RegisterVariableFloat($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
@@ -163,6 +180,11 @@
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
+				if($controlType == 0 || $controlType == 1 || $controlType == 6) {
+					foreach($parameterDescriptor->ListItems as &$listItem) {
+						IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, TranslateIcon($listItem->ImageName), -1);
+					}
+				}
 			} elseif($controlType == "5") {
 				$this->RegisterVariableBoolean($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 			} else {

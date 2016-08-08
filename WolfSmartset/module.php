@@ -106,7 +106,7 @@
 		}
 		
 		public function Authorize() {
-			$this->RegisterConnectionVariables();
+		//	$this->RegisterConnectionVariables();
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
@@ -155,10 +155,12 @@
 			$system->SystemId = $current_system->Id;
 			$system->GatewayId = $current_system->GatewayId;
 			$system->SystemShareId = $current_system->SystemShareId;
-			SetValueString(IPS_GetVariableIDByName('CON_SystemId', IPS_GetVariableID('DIR_Connection')), $current_system->Id);
-			SetValueString(IPS_GetVariableIDByName('CON_GatewayId', IPS_GetVariableID('DIR_Connection')), $current_system->GatewayId);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemName', IPS_GetVariableIDt('DIR_Connection')), $current_system->Name);
-			SetValueString(IPS_GetVariableIDByName('CON_SystemShareId', IPS_GetVariableID('DIR_Connection')), $current_system->SystemShareId);
+			
+			$connectionNode = IPS_GetVariableID('DIR_Connection');
+			SetValueString(IPS_GetVariableIDByName('CON_SystemId', $connectionNode), $current_system->Id);
+			SetValueString(IPS_GetVariableIDByName('CON_GatewayId', $connectionNode), $current_system->GatewayId);
+			SetValueString(IPS_GetVariableIDByName('CON_SystemName', $connectionNode), $current_system->Name);
+			SetValueString(IPS_GetVariableIDByName('CON_SystemShareId', $connectionNode), $current_system->SystemShareId);
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);

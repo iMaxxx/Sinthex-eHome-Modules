@@ -158,7 +158,9 @@
 			
 			$connectionNode = $this->GetIDForIdent('DIR_Connection');
 			IPS_LogMessage($_IPS['SELF'], "DIR_Connection ID:".$connectionNode);
+			IPS_LogMessage($_IPS['SELF'], "SystemId ID:".IPS_GetVariableIDByName('SystemId', $connectionNode));
 			SetValueString(@IPS_GetVariableIDByName('SystemId', $connectionNode), $current_system->Id);
+			
 			SetValueString(@IPS_GetVariableIDByName('GatewayId', $connectionNode), $current_system->GatewayId);
 			SetValueString(@IPS_GetVariableIDByName('SystemName', $connectionNode), $current_system->Name);
 			SetValueString(@IPS_GetVariableIDByName('SystemShareId', $connectionNode), $current_system->SystemShareId);

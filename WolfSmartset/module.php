@@ -180,7 +180,7 @@
 				$this->RegisterVariableInteger($parameterDescriptor->ValueId,$groupName."/".$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
-				if($controlType == 0 || $controlType == 1 || $controlType == 6) {
+				if($controlType == 0 || $controlType == 1) {
 					foreach($parameterDescriptor->ListItems as &$listItem) {
 						//Translate ImageName.png to Symcon Icons
 						IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);

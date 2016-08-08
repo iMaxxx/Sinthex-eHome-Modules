@@ -40,16 +40,17 @@
 		private function RegisterConnectionVariables() {
 				$parent = $this->RegisterVariableString("DIR_Connection","Connection");
 				
-				$id = $this->RegisterVariableString("CON_SystemId","Connection/System ID");
+	
+				$id = $this->RegisterVariableString("CON_SystemId","System ID");
 				IPS_SetParent($id,$parent);
 				IPS_SetHidden($id,true);
-				$id = $this->RegisterVariableString("CON_GatewayId", "Connection/Gateway ID");
+				$id = $this->RegisterVariableString("CON_GatewayId", "Gateway ID");
 				IPS_SetParent($id,$parent);
 				IPS_SetHidden($id,true);
-				$id = $this->RegisterVariableString("CON_SystemName", "Connection/System Name");
+				$id = $this->RegisterVariableString("CON_SystemName", "System Name");
 				IPS_SetParent($id,$parent);
 				IPS_SetHidden($id,false);
-				$id = $this->RegisterVariableString("CON_SystemShareId", "Connection/System Share Id");
+				$id = $this->RegisterVariableString("CON_SystemShareId", "System Share Id");
 				IPS_SetParent($id,$parent);
 				IPS_SetHidden($id,true);
 		}

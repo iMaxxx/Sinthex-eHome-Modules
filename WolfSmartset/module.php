@@ -146,6 +146,7 @@
 			$system_data = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemList?_='.time(), "GET", $auth_header);
 			
 			// Get system states
+			$systemNumber = $this->ReadPropertyString("SystemNumber");
 			$current_system = $system_data[$systemNumber];
 			
 			$system = new stdClass();

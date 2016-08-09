@@ -174,7 +174,7 @@
 					IPS_SetParent($node,$rootnode);
 				}
 			   foreach($menuItem->TabViews as &$tabView) {
-			   		if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && isset($tabView->tabName)) {
+			   		if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && $tabView->tabName <> 'NULL') {
 			   			$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
 				   		IPS_SetParent($subnode,$node);
 					} else $subnode = $node;

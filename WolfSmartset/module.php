@@ -222,7 +222,7 @@
 					$this->BuildNode($menuItem->TabViews,$node);
 				}
 			}
-			if(count($list->TabViews)){
+			if(@count($list->TabViews)){
 				foreach($list->TabViews as &$tabView) {
 					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
 						$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
@@ -231,7 +231,7 @@
 					$this->BuildNode($tabView->parameterDescriptors,$node);
 				}
 			}
-			if(count($list->SubMenuEntries)){
+			if(@count($list->SubMenuEntries)){
 				foreach($list->SubMenuEntries as &$subMenu) {
 						if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$parentNode)) {
 							$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
@@ -239,10 +239,11 @@
 						}
 						$this->BuildNode($subMenu->TabViews,$node);
 					}
-				foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-					$this->RegisterDescriptor($parameterDescriptor,$parentNode);
-				}
 			}
+			foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+				$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+			}
+			
 		}
 			
 		private function CreateCategory($ident, $name, $parent) {

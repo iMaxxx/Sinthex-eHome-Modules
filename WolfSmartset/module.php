@@ -38,8 +38,9 @@
         }
         
 		private function RegisterConnectionVariables() {
-				if (!@IPS_VariableExists (@$this->GetIDForIdent('DIR_Connection'))) {
-					$parent = $this->RegisterVariableString("DIR_Connection","Connection");
+				if (!@IPS_CategoryExists (@$this->GetIDForIdent('DIR_Connection'))) {
+					$this->CreateCategoryByIdent($this->InstanceID, "DIR_Connection", "Connection");
+					//$parent = $this->RegisterVariableString(,"Connection");
 					$id = $this->RegisterVariableString("SystemId","System ID");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);

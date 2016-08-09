@@ -287,9 +287,8 @@
 				
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
-				$properties = json_encode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
-				array_push($properties,$parameterDescriptor->ValueId);
-				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),json_decode($properties));
+				$properties = GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
+				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.",".$parameterDescriptor->ValueId);
 			}
 		}
 		

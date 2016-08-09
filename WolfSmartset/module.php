@@ -217,6 +217,7 @@
 			$node = 0;
 			if(@count($list->MenuItems)){
 				foreach($list->MenuItems as &$menuItem) {
+					IPS_LogMessage($this->InstanceID, $menuItem->Name);
 					$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
 					$this->BuildNode($menuItem->SubMenuEntries,$node);
 					$this->BuildNode($menuItem->TabViews,$node);

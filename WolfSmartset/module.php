@@ -219,8 +219,7 @@
 				foreach($list->MenuItems as &$menuItem) {
 					IPS_LogMessage($this->InstanceID, $menuItem->Name);
 					$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
-					$this->BuildNode($menuItem->SubMenuEntries,$node);
-					$this->BuildNode($menuItem->TabViews,$node);
+					$this->BuildNode($menuItem,$node);
 				}
 			}
 			if(@count($list->TabViews)){
@@ -230,7 +229,7 @@
 						$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
 					}
 					if($tabView->TabName == 'NULL') $node = $parentNode;
-					$this->BuildNode($tabView->parameterDescriptors,$node);
+					$this->BuildNode($tabView,$node);
 				}
 			}
 			if(@count($list->SubMenuEntries)){
@@ -239,7 +238,7 @@
 							$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
 					   		IPS_SetParent($node,$parentNode);
 						}
-						$this->BuildNode($subMenu->TabViews,$node);
+						$this->BuildNode($subMenu,$node);
 					}
 			}
 			if(@count($list->ParameterDescriptors)){

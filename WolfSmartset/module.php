@@ -222,22 +222,26 @@
 					$this->BuildNode($menuItem->TabViews,$node);
 				}
 			}
-			foreach($list->TabViews as &$tabView) {
-				if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
-					$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
-				}
-				if($tabView->TabName == 'NULL') $node = $parentNode;
-				$this->BuildNode($tabView->parameterDescriptors,$node);
-			}
-			foreach($list->SubMenuEntries as &$subMenu) {
-					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$parentNode)) {
-						$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
-				   		IPS_SetParent($node,$parentNode);
+			if(count($list->TabViews)){
+				foreach($list->TabViews as &$tabView) {
+					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
+						$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
 					}
-					$this->BuildNode($subMenu->TabViews,$node);
+					if($tabView->TabName == 'NULL') $node = $parentNode;
+					$this->BuildNode($tabView->parameterDescriptors,$node);
 				}
-			foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-				$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+			}
+			if(count($list->SubMenuEntries)){
+				foreach($list->SubMenuEntries as &$subMenu) {
+						if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$parentNode)) {
+							$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
+					   		IPS_SetParent($node,$parentNode);
+						}
+						$this->BuildNode($subMenu->TabViews,$node);
+					}
+				foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+					$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+				}
 			}
 		}
 			

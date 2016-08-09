@@ -50,6 +50,9 @@
 					$id = $this->RegisterVariableString("SystemShareId", "System Share Id");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("Properties", "Properties");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
 				}
 		}
  
@@ -254,20 +257,20 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent) {
-			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ValueId,$parent)) {
+			if (!@IPS_GetObjectIDByIdent("WSS_".$parameterDescriptor->ValueId,$parent)) {
 				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
 				$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 				if($parameterDescriptor->Decimals == 1) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
-					$varId = $this->RegisterVariableFloat($parameterDescriptor->ValueId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
+					$varId = $this->RegisterVariableFloat("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
-					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
+					IPS_SetVariableCustomProfile($this->GetIDForIdent("WSS_".$parameterDescriptor->ValueId), $profileName);
 				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
-					$varId = $this->RegisterVariableInteger($parameterDescriptor->ValueId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+					$varId = $this->RegisterVariableInteger("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
-					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
+					IPS_SetVariableCustomProfile($this->GetIDForIdent("WSS_".$parameterDescriptor->ValueId), $profileName);
 					if($controlType == 0 || $controlType == 1) {
 						foreach($parameterDescriptor->ListItems as &$listItem) {
 							//Translate ImageName.png to Symcon Icons
@@ -275,12 +278,18 @@
 						}
 					}
 				} elseif($controlType == "5") {
-					$varId = $this->RegisterVariableBoolean($parameterDescriptor->ValueId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
+					$varId = $this->RegisterVariableBoolean("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 				} else {
-					$varId = $this->RegisterVariableString($parameterDescriptor->ValueId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
+					$varId = $this->RegisterVariableString("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 				}
-				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
+				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( "WSS_".$parameterDescriptor->ValueId ) : $this->EnableAction("WSS_".$parameterDescriptor->ValueId);
 				IPS_SetParent($varId,$parent);
+				
+				//Add to available properties
+				$connectionNode = $this->GetIDForIdent('SystemName');
+				$properties = json_encode($this->GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+				array_push($properties,$parameterDescriptor->ValueId);
+				$this->SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),json_decode($properties));
 			}
 		}
 		

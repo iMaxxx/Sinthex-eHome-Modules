@@ -178,7 +178,7 @@
 			   			$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
 				   		IPS_SetParent($subnode,$node);
 					} 
-					if($tabView->tabName == 'NULL') $subnode = $node;
+					if($tabView->TabName == 'NULL') $subnode = $node;
 					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
 						$this->RegisterDescriptor($parameterDescriptor,$subnode);
 					}

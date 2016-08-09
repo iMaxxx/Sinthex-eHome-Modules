@@ -179,9 +179,12 @@
 				   		IPS_SetParent($subnode,$node);
 					} 
 					if($tabView->TabName == 'NULL') $subnode = $node;
-					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-						$this->RegisterDescriptor($parameterDescriptor,$subnode);
+					else {
+						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+							$this->RegisterDescriptor($parameterDescriptor,$subnode);
+						}
 					}
+					
 				}
 				// Get Submenu
 				foreach($menuItem->SubMenuEntries as &$subMenu) {

@@ -215,10 +215,12 @@
 
 		private function BuildNode($list, $parentNode) {
 			$node = 0;
-			foreach($list->MenuItems as &$menuItem) {
-				$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
-				$this->BuildNode($menuItem->SubMenuEntries,$node);
-				$this->BuildNode($menuItem->TabViews,$node);
+			if(count($list->MenuItems)){
+				foreach($list->MenuItems as &$menuItem) {
+					$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
+					$this->BuildNode($menuItem->SubMenuEntries,$node);
+					$this->BuildNode($menuItem->TabViews,$node);
+				}
 			}
 			foreach($list->TabViews as &$tabView) {
 				if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {

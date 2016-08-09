@@ -155,7 +155,9 @@
 			$system->SystemShareId = $current_system->SystemShareId;
 			
 			$connectionNode = $this->GetIDForIdent('SystemName');
+			
 			IPS_LogMessage($_IPS['SELF'], "SystemName ID:".$connectionNode);
+			IPS_LogMessage($_IPS['SELF'], "Systemid ID:". $this->GetIDForIdent('SystemId'));
 			IPS_LogMessage($_IPS['SELF'], "SystemId ID:".IPS_GetVariableIDByName('SystemId', $connectionNode));
 			SetValueString(@IPS_GetVariableIDByName('SystemId', $connectionNode), $current_system->Id);
 			

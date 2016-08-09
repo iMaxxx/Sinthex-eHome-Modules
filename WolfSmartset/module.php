@@ -240,8 +240,10 @@
 						$this->BuildNode($subMenu->TabViews,$node);
 					}
 			}
-			foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-				$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+			if(@count($list->ParameterDescriptors)){
+				foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+					$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+				}
 			}
 			
 		}

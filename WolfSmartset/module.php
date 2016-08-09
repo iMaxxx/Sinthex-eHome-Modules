@@ -171,49 +171,7 @@
 			
 			
 			$this->BuildNode($system_descriptions,$rootnode);
-			
-			/*
-			foreach($system_descriptions->MenuItems as &$menuItem) {
-			  	// Get Tabs
-			  	if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$menuItem->SortId,$rootnode)) {
-					$node = IPS_CreateCategory();
-					IPS_SetIdent($node,"WSS_DIR_".$menuItem->SortId);
-					IPS_SetName($node, $menuItem->Name);
-					IPS_SetParent($node,$rootnode);
-				}
-			   foreach($menuItem->TabViews as &$tabView) {
-			   		if (!$subnode=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
-						$subnode = IPS_CreateCategory();
-						IPS_SetIdent($subnode,"WSS_DIR_".$tabView->GuiId);
-						IPS_SetName($subnode, $tabView->TabName);
-						IPS_SetParent($subnode,$node);
-					} 
-					if($tabView->TabName == 'NULL') $subnode = $node;
-					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-						$this->RegisterDescriptor($parameterDescriptor,$subnode);
-					}
-				}
-				// Get Submenu
-				foreach($menuItem->SubMenuEntries as &$subMenu) {
-					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$rootnode)) {
-						$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
-				   		IPS_SetParent($node,$rootnode);
-					}
-					foreach($subMenu->TabViews as &$tabView) {
-						if (!$subnode=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
-							$subnode = IPS_CreateCategory();
-							IPS_SetIdent($subnode,"WSS_DIR_".$tabView->GuiId);
-							IPS_SetName($subnode, $tabView->TabName);
-							IPS_SetParent($subnode,$node);
-						}
-						if($tabView->TabName == 'NULL') $subnode = $node;
-						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterDescriptor($parameterDescriptor,$subnode);
-						}
-					}
-				}
-			}
-			*/
+			$this->GetValues();
 		}	
 
 		private function BuildNode($list, $parentNode) {
@@ -293,17 +251,21 @@
 		}
 		
 		public function GetValues() {
-			$post_parameters = (object) array("GuiId"=>$tabView->GuiId,"GatewayId"=>$current_system->GatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$current_system->Id,"ValueIdList"=>array($parameterDescriptor->ValueId));
+			$auth_header = $this->Authorize();
+			$connectionNode = $this->GetIDForIdent('SystemName');
+			$properties = explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
+			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
+			$post_parameters = (object) array("GuiId"=>"1200","GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>systemId,"ValueIdList"=>array($properties));
 						
 			//print_r($post_parameters);
-			$parameter_value = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 			//print_r($parameter_value);
-			if(count($parameterDescriptor->ListItems)>=1) {
-				SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameterDescriptor->ListItems[$parameter_value->Values[0]->Value]->DisplayText);
-			} else {
-				SetValueString($this->GetIDForIdent($parameterDescriptor->ValueId), $parameter_value->Values[0]->Value.$parameterDescriptor->Unit);
-			}
-			//echo ($parameterDescriptor->IsReadOnly == 1 ? " (readonly)\n" : "\n");
+			foreach($response->Values as &$parameter) {
+				SetValue($this->GetIDForIdent(&$parameter->ValueId), $parameter->Value);
+			}	
+				
 		}
     }
 ?>

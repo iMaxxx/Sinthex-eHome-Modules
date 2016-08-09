@@ -157,13 +157,12 @@
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			
 			IPS_LogMessage($_IPS['SELF'], "SystemName ID:".$connectionNode);
-			IPS_LogMessage($_IPS['SELF'], "Systemid ID:". $this->GetIDForIdent('SystemId'));
-			IPS_LogMessage($_IPS['SELF'], "SystemId ID:".IPS_GetVariableIDByName('SystemId', $connectionNode));
-			SetValueString(@IPS_GetVariableIDByName('SystemId', $connectionNode), $current_system->Id);
+			IPS_LogMessage($_IPS['SELF'], "SystemId ID:".IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+			SetValueString(@IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
 			
-			SetValueString(@IPS_GetVariableIDByName('GatewayId', $connectionNode), $current_system->GatewayId);
-			SetValueString(@IPS_GetVariableIDByName('SystemName', $connectionNode), $current_system->Name);
-			SetValueString(@IPS_GetVariableIDByName('SystemShareId', $connectionNode), $current_system->SystemShareId);
+			SetValueString(@IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
+			SetValueString(@IPS_GetObjectIDByIdent('SystemName', $connectionNode), $current_system->Name);
+			SetValueString(@IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);

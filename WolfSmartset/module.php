@@ -254,7 +254,7 @@
 		public function GetValues() {
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			$properties = array_walk( explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode))),'intval');
+			$properties = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode))));
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));

@@ -220,22 +220,22 @@
 		private function BuildNode($list, $parentNode) {
 			foreach($list->MenuItems as &$menuItem) {
 				$this->CreateCategory("DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
-				BuildNode($menuItem->SubMenuEntries,$node);
-				BuildNode($menuItem->TabViews,$node);
+				$this->BuildNode($menuItem->SubMenuEntries,$node);
+				$this->BuildNode($menuItem->TabViews,$node);
 			}
 			foreach($list->TabViews as &$tabView) {
 				if (!$node=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
 					$this->CreateCategory("DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
 				}
 				if($tabView->TabName == 'NULL') $node = $parentNode;
-				BuildNode($tabView->parameterDescriptors,$node);
+				$this->BuildNode($tabView->parameterDescriptors,$node);
 			}
 			foreach($list->SubMenuEntries as &$subMenu) {
 					if (!$node=@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$parentNode)) {
 						$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
 				   		IPS_SetParent($node,$parentNode);
 					}
-					BuildNode($subMenu->TabViews,$node);
+					$this->BuildNode($subMenu->TabViews,$node);
 				}
 			foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 				$this->RegisterDescriptor($parameterDescriptor,$parentNode);

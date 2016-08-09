@@ -250,8 +250,8 @@
 		}
 			
 		private function CreateCategory($ident, $name, $parent) {
-			$id = 0;
-			if(!@IPS_CategoryExists($id=@IPS_GetObjectIDByIdent($ident) )){
+			$id = @IPS_GetObjectIDByIdent($ident,$parent);
+			if(!$id){
 				$id = IPS_CreateCategory();
 				IPS_SetIdent($id,$ident);
 				IPS_SetName($id, $name);

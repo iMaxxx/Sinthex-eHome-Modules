@@ -163,11 +163,12 @@
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-
+			$rootnode = $this->InstanceID;
 			if(!@IPS_CategoryExists ($rootnode=@IPS_GetObjectIDByIdent("DIR_DATA") )){
 				$rootnode = IPS_CreateCategory();
 				IPS_SetIdent($rootnode,"DIR_Data");
-				IPS_SetName($rootnode, "Data"); 
+				IPS_SetName($rootnode, "Data");
+				 IPS_SetParent($rootnode,$this->InstanceID);
 			}
 			
 			foreach($system_descriptions->MenuItems as &$menuItem) {

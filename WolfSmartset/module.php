@@ -169,27 +169,27 @@
 			
 			foreach($system_descriptions->MenuItems as &$menuItem) {
 			  	// Get Tabs
-			  	if (!@IPS_GetObjectIDByIdent("DIR_".$menuItem->SortId,$rootnode)) {
+			  	if (!$node=@IPS_GetObjectIDByIdent("DIR_".$menuItem->SortId,$rootnode)) {
 				  	$node = $this->RegisterVariableString("DIR_".$menuItem->SortId, $menuItem->Name);
 					IPS_SetParent($node,$rootnode);
 				}
 			   foreach($menuItem->TabViews as &$tabView) {
-			   		if (!@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
+			   		if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
 			   			$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
 				   		IPS_SetParent($subnode,$node);
-					}
+					} 
 					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
 						$this->RegisterDescriptor($parameterDescriptor,$subnode);
 					}
 				}
 				// Get Submenu
 				foreach($menuItem->SubMenuEntries as &$subMenu) {
-					if (!@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$rootnode)) {
+					if (!$node=@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$rootnode)) {
 						$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
 				   		IPS_SetParent($node,$rootnode);
 					}
 					foreach($subMenu->TabViews as &$tabView) {
-						if (!@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
+						if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
 							$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
 					   		IPS_SetParent($subnode,$node);
 						}

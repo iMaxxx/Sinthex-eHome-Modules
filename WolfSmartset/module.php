@@ -215,7 +215,7 @@
 
 		private function BuildNode($list, $parentNode) {
 			$node = 0;
-			if(count($list->MenuItems)>0){
+			if(@count($list->MenuItems)){
 				foreach($list->MenuItems as &$menuItem) {
 					$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
 					$this->BuildNode($menuItem->SubMenuEntries,$node);

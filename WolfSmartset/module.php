@@ -246,14 +246,15 @@
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
 				$properties = GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
-				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.",".$parameterDescriptor->ValueId);
+				if($properties<>"") $properties.=",";
+				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId);
 			}
 		}
 		
 		public function GetValues() {
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			$properties = explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+			$properties = array_walk( explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode))),'intval');
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));

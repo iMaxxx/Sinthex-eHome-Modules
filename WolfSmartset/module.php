@@ -225,7 +225,7 @@
 			}
 			if(@count($list->TabViews)){
 				foreach($list->TabViews as &$tabView) {
-					IPS_LogMessage($this->InstanceID," TAB: ". tabView->TabName);
+					IPS_LogMessage($this->InstanceID," TAB: ". $tabView->TabName);
 					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
 						$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
 					}

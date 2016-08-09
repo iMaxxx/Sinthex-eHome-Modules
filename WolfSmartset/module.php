@@ -208,12 +208,12 @@
 				$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 				if($parameterDescriptor->Decimals == 1) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
-					$this->RegisterVariableFloat($parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
+					$this->RegisterVariableFloat($parameterDescriptor->ValueId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
-					$this->RegisterVariableInteger($parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+					$this->RegisterVariableInteger($parameterDescriptor->ValueId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
 					if($controlType == 0 || $controlType == 1) {
@@ -223,9 +223,9 @@
 						}
 					}
 				} elseif($controlType == "5") {
-					$this->RegisterVariableBoolean($parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
+					$this->RegisterVariableBoolean($parameterDescriptor->ValueId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 				} else {
-					$this->RegisterVariableString($parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
+					$this->RegisterVariableString($parameterDescriptor->ValueId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 				}
 				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
 				IPS_SetParent($this->GetIDForIdent($parameterDescriptor->Name),$parent);

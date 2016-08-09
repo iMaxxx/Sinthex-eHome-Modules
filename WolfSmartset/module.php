@@ -263,7 +263,7 @@
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 			//print_r($parameter_value);
 			foreach($response->Values as &$parameter) {
-				SetValue($this->GetIDForIdent(&$parameter->ValueId), $parameter->Value);
+				SetValue($this->GetIDForIdent("WSS_".$parameter->ValueId), $parameter->Value);
 			}	
 				
 		}

@@ -155,13 +155,10 @@
 			$system->SystemShareId = $current_system->SystemShareId;
 			
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			
-			IPS_LogMessage($_IPS['SELF'], "SystemName ID:".$connectionNode);
-			IPS_LogMessage($_IPS['SELF'], "SystemId ID:".IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+
+			SetValueString(@$this->GetIDForIdent('SystemName'), $current_system->Name);
 			SetValueString(@IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
-			
 			SetValueString(@IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
-			SetValueString(@IPS_GetObjectIDByIdent('SystemName', $connectionNode), $current_system->Name);
 			SetValueString(@IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
 			
 			

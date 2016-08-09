@@ -163,29 +163,25 @@
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-			$rootnode = $this->InstanceID;
-			if(!@IPS_CategoryExists ($rootnode=@IPS_GetObjectIDByIdent("DIR_DATA") )){
-				$rootnode = IPS_CreateCategory();
-				IPS_SetIdent($rootnode,"DIR_Data");
-				IPS_SetName($rootnode, "Data");
-				IPS_SetParent($rootnode,$this->InstanceID);
-			}
+			
+			$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
+			
 			
 			$this->BuildNode($system_descriptions,$rootnode);
 			
 			/*
 			foreach($system_descriptions->MenuItems as &$menuItem) {
 			  	// Get Tabs
-			  	if (!$node=@IPS_GetObjectIDByIdent("DIR_".$menuItem->SortId,$rootnode)) {
+			  	if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$menuItem->SortId,$rootnode)) {
 					$node = IPS_CreateCategory();
-					IPS_SetIdent($node,"DIR_".$menuItem->SortId);
+					IPS_SetIdent($node,"WSS_DIR_".$menuItem->SortId);
 					IPS_SetName($node, $menuItem->Name);
 					IPS_SetParent($node,$rootnode);
 				}
 			   foreach($menuItem->TabViews as &$tabView) {
-			   		if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
+			   		if (!$subnode=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
 						$subnode = IPS_CreateCategory();
-						IPS_SetIdent($subnode,"DIR_".$tabView->GuiId);
+						IPS_SetIdent($subnode,"WSS_DIR_".$tabView->GuiId);
 						IPS_SetName($subnode, $tabView->TabName);
 						IPS_SetParent($subnode,$node);
 					} 
@@ -196,14 +192,14 @@
 				}
 				// Get Submenu
 				foreach($menuItem->SubMenuEntries as &$subMenu) {
-					if (!$node=@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$rootnode)) {
-						$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
+					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$rootnode)) {
+						$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
 				   		IPS_SetParent($node,$rootnode);
 					}
 					foreach($subMenu->TabViews as &$tabView) {
-						if (!$subnode=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
+						if (!$subnode=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
 							$subnode = IPS_CreateCategory();
-							IPS_SetIdent($subnode,"DIR_".$tabView->GuiId);
+							IPS_SetIdent($subnode,"WSS_DIR_".$tabView->GuiId);
 							IPS_SetName($subnode, $tabView->TabName);
 							IPS_SetParent($subnode,$node);
 						}
@@ -219,20 +215,20 @@
 
 		private function BuildNode($list, $parentNode) {
 			foreach($list->MenuItems as &$menuItem) {
-				$this->CreateCategory("DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
+				$this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
 				$this->BuildNode($menuItem->SubMenuEntries,$node);
 				$this->BuildNode($menuItem->TabViews,$node);
 			}
 			foreach($list->TabViews as &$tabView) {
-				if (!$node=@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
-					$this->CreateCategory("DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
+				if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$tabView->GuiId,$node) && $tabView->TabName <> 'NULL') {
+					$this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
 				}
 				if($tabView->TabName == 'NULL') $node = $parentNode;
 				$this->BuildNode($tabView->parameterDescriptors,$node);
 			}
 			foreach($list->SubMenuEntries as &$subMenu) {
-					if (!$node=@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$parentNode)) {
-						$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
+					if (!$node=@IPS_GetObjectIDByIdent("WSS_DIR_".$subMenu->SortId,$parentNode)) {
+						$node = $this->RegisterVariableString("WSS_DIR_".$subMenu->SortId, $subMenu->Name);
 				   		IPS_SetParent($node,$parentNode);
 					}
 					$this->BuildNode($subMenu->TabViews,$node);
@@ -243,10 +239,13 @@
 		}
 			
 		private function CreateCategory($ident, $name, $parent) {
-			$id = IPS_CreateCategory();
-			IPS_SetIdent($id,$ident);
-			IPS_SetName($id, $name);
-			IPS_SetParent($id,$parent);
+			$id = 0;
+			if(!@IPS_CategoryExists($id=@IPS_GetObjectIDByIdent($ident) )){
+				$id = IPS_CreateCategory();
+				IPS_SetIdent($id,$ident);
+				IPS_SetName($id, $name);
+				IPS_SetParent($id,$parent);
+			}
 			return $id;
 		}
 		

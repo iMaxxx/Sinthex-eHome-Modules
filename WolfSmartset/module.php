@@ -169,22 +169,30 @@
 			
 			foreach($system_descriptions->MenuItems as &$menuItem) {
 			  	// Get Tabs
-			  	$node = $this->RegisterVariableString("DIR_".$menuItem->SortId, $menuItem->Name);
-				IPS_SetParent($node,$rootnode);
+			  	if (!@IPS_GetObjectIDByIdent("DIR_".$menuItem->SortId,$rootnode)) {
+				  	$node = $this->RegisterVariableString("DIR_".$menuItem->SortId, $menuItem->Name);
+					IPS_SetParent($node,$rootnode);
+				}
 			   foreach($menuItem->TabViews as &$tabView) {
-			   		$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
-				   	IPS_SetParent($subnode,$node);
+			   		if (!@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
+			   			$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
+				   		IPS_SetParent($subnode,$node);
+					}
 					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
 						$this->RegisterDescriptor($parameterDescriptor,$subnode);
 					}
 				}
 				// Get Submenu
 				foreach($menuItem->SubMenuEntries as &$subMenu) {
-					$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
-				   	IPS_SetParent($node,$root);
+					if (!@IPS_GetObjectIDByIdent("DIR_".$subMenu->SortId,$rootnode)) {
+						$node = $this->RegisterVariableString("DIR_".$subMenu->SortId, $subMenu->Name);
+				   		IPS_SetParent($node,$rootnode);
+					}
 					foreach($subMenu->TabViews as &$tabView) {
-						$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
-				   		IPS_SetParent($subnode,$node);
+						if (!@IPS_GetObjectIDByIdent("DIR_".$tabView->GuiId,$node)) {
+							$subnode = $this->RegisterVariableString("DIR_".$tabView->GuiId, $tabView->TabName);
+					   		IPS_SetParent($subnode,$node);
+						}
 						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
 							$this->RegisterDescriptor($parameterDescriptor,$subnode);
 						}
@@ -195,31 +203,33 @@
 		}	
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent) {
-			$controlType = intval($parameterDescriptor->ControlType);
-			$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
-			if($parameterDescriptor->Decimals == 1) {
-				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
-				$this->RegisterVariableFloat($parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
-				IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
-				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
-			} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
-				if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
-				$this->RegisterVariableInteger($parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
-				IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
-				IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
-				if($controlType == 0 || $controlType == 1) {
-					foreach($parameterDescriptor->ListItems as &$listItem) {
-						//Translate ImageName.png to Symcon Icons
-						IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
+			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ValueId,$parent)) {
+				$controlType = intval($parameterDescriptor->ControlType);
+				$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
+				if($parameterDescriptor->Decimals == 1) {
+					if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
+					$this->RegisterVariableFloat($parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
+					IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
+					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
+				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
+					if (!IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
+					$this->RegisterVariableInteger($parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
+					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ValueId), $profileName);
+					if($controlType == 0 || $controlType == 1) {
+						foreach($parameterDescriptor->ListItems as &$listItem) {
+							//Translate ImageName.png to Symcon Icons
+							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
+						}
 					}
+				} elseif($controlType == "5") {
+					$this->RegisterVariableBoolean($parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
+				} else {
+					$this->RegisterVariableString($parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 				}
-			} elseif($controlType == "5") {
-				$this->RegisterVariableBoolean($parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
-			} else {
-				$this->RegisterVariableString($parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
+				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
+				IPS_SetParent($this->GetIDForIdent($parameterDescriptor->Name),$parent);
 			}
-			boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ValueId ) : $this->EnableAction($parameterDescriptor->ValueId);
-			IPS_SetParent($this->GetIDForIdent($parameterDescriptor->Name),$parent);
 		}
 		
 		public function GetValues() {

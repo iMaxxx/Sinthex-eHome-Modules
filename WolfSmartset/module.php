@@ -156,16 +156,18 @@
 			
 			$connectionNode = $this->GetIDForIdent('SystemName');
 
-			SetValueString(@$this->GetIDForIdent('SystemName'), $current_system->Name);
-			SetValueString(@IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
-			SetValueString(@IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
-			SetValueString(@IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
+			SetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
+			SetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
+			SetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 
 			
-			$rootnode = $this->RegisterVariableString("DIR_Data", "Data");
+			$rootnode = IPS_CreateCategory();
+			IPS_SetIdent("DIR_Data");
+			IPS_SetName($CatID, "Data"); 
 			
 			foreach($system_descriptions->MenuItems as &$menuItem) {
 			  	// Get Tabs
@@ -179,12 +181,9 @@
 				   		IPS_SetParent($subnode,$node);
 					} 
 					if($tabView->TabName == 'NULL') $subnode = $node;
-					else {
-						foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
-							$this->RegisterDescriptor($parameterDescriptor,$subnode);
-						}
+					foreach($tabView->ParameterDescriptors as &$parameterDescriptor) {
+						$this->RegisterDescriptor($parameterDescriptor,$subnode);
 					}
-					
 				}
 				// Get Submenu
 				foreach($menuItem->SubMenuEntries as &$subMenu) {

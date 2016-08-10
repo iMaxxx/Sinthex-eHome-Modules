@@ -53,9 +53,6 @@
 					$id = $this->RegisterVariableString("Properties", "Properties");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
-					$id = $this->RegisterVariableString("ValueNodes", "Value Nodes");
-					IPS_SetParent($id,$parent);
-					IPS_SetHidden($id,true);
 				}
 		}
  
@@ -169,7 +166,7 @@
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-			if (!@GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode)) <> '') {
+			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode);
 				$this->GetValues();
@@ -249,33 +246,36 @@
 				$connectionNode = $this->GetIDForIdent('SystemName');
 				$properties = GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
 				if($properties<>"") $properties.=",";
-				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId);
-				$value_nodes = GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode));
-				if($value_nodes<>"") $value_nodes.=",";
-				SetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode),$value_nodes.$varId);
+				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId.":".$varId);
 			}
 		}
 		
 		public function GetValues() {
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			$properties = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode))));
+			$properties = explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+			$valueIds = array();
+			$nodeIds = array();
+			foreach($properties as &$valueId) {
+				$data = explode(":",$valueId);
+				array_push($valueIds,inval('intval', $data[0]));
+				array_push($nodeIds,$data[0]->inval('intval', $data[1]));
+			}
+			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
-			$post_parameters = (object) array("GuiId"=>"1200","GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$systemId,"ValueIdList"=>$properties);
+			$post_parameters = (object) array("GuiId"=>"1200","GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-01T10:41:42.3956365Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 						
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 			IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
 			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 			//print_r($parameter_value);
-			$value_nodes = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode))));
-			
-			for ($i = 0; $i <= count($properties)-1; $i++) {
-				SetValue($value_nodes[$i], $response->Values[$i]->Value);
+
+			foreach($response->Values as &$valueNode) {
+				SetValue($nodeIds[$valueNode->ValueId],$valueNode->Value);
 			}
-				
 				
 		}
     }

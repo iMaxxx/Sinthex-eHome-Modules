@@ -286,7 +286,11 @@
 		$auth_header = $this->Authorize();
 		$connectionNode = $this->GetIDForIdent('SystemName');
 		$system = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
-		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>$system),"json");
+		$system = new stdClass();
+			$system->SystemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+			$system->GatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
+			$system->SystemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
+		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>array($system)),"json");
 		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_state_list));
 		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
 	

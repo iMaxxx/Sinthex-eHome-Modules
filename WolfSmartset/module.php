@@ -271,8 +271,8 @@
 						
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-			IPS_LogMessage("WSS","PARA:      ".json_encode($nodeIds));
-			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($properties));
+			//IPS_LogMessage("WSS","PARA:      ".json_encode($nodeIds));
+			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($properties));
 			//print_r($parameter_value);
 
 			foreach($response->Values as &$valueNode) {
@@ -287,7 +287,7 @@
 		$connectionNode = $this->GetIDForIdent('SystemName');
 		$system = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>array($system)),"json");
-		
+		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_state_list));
 		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
 	
 	}

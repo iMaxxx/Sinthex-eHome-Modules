@@ -259,7 +259,8 @@
 			foreach($properties as &$valueId) {
 				$data = explode(":",$valueId);
 				array_push($valueIds,intval($data[0]));
-				$nodeIds[$data[0]] = intval($data[1]);
+				if(!isset($nodeIds[$data[0]])) $nodeIds[$data[0]] = $data[1];
+				else $nodeIds[$data[0]] .= ",".$data[1];
 			}
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
@@ -274,8 +275,8 @@
 			//print_r($parameter_value);
 
 			foreach($response->Values as &$valueNode) {
-				
-				SetValue($nodeIds[$valueNode->ValueId],$valueNode->Value);
+				$ids = explode(",",$nodeIds[$valueNode->ValueId]);
+				foreach($ids as &$id) SetValue($id,$valueNode->Value);
 			}
 				
 		}

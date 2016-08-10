@@ -272,7 +272,7 @@
 			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 			//print_r($parameter_value);
 			$value_nodes = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode))));
-			foreach($response->Values as &$parameter) {
+			
 			for ($i = 0; $i <= count($properties)-1; $i++) {
 				SetValue($this->GetIDForIdent($value_nodes[$i]), $response->Values[$i]);
 			}

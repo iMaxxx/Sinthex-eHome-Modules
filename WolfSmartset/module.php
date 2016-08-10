@@ -53,6 +53,7 @@
 					$id = $this->RegisterVariableString("Properties", "Properties");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("NetworkStatus","Network status");
 				}
 		}
  
@@ -278,7 +279,17 @@
 				$ids = explode(",",$nodeIds[$valueNode->ValueId]);
 				foreach($ids as &$id) SetValue($id,$valueNode->Value);
 			}
-				
+			$this->GetOnlineStatus();	
 		}
-    }
+
+	public function GetOnlineStatus() {
+		$auth_header = $this->Authorize();
+		$connectionNode = $this->GetIDForIdent('SystemName');
+		$system = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+		$system_state_list = getJsonData($wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>array($system)),"json");
+		
+		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
+	
+	}
+}
 ?>

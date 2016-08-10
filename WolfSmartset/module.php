@@ -169,12 +169,11 @@
 			
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-			
-			$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
-			
-			
-			$this->BuildNode($system_descriptions,$rootnode);
-			$this->GetValues();
+			if (!@GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode)) <> '') {
+				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
+				$this->BuildNode($system_descriptions,$rootnode);
+				$this->GetValues();
+			}
 		}	
 
 		private function BuildNode($list, $parentNode) {
@@ -274,7 +273,7 @@
 			$value_nodes = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode))));
 			
 			for ($i = 0; $i <= count($properties)-1; $i++) {
-				SetValue($value_nodes[$i], $response->Values[$i]);
+				SetValue($value_nodes[$i], $response->Values[$i]->Value);
 			}
 				
 				

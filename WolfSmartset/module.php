@@ -274,7 +274,7 @@
 			$value_nodes = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode))));
 			
 			for ($i = 0; $i <= count($properties)-1; $i++) {
-				SetValue($this->GetIDForIdent($value_nodes[$i]), $response->Values[$i]);
+				SetValue($value_nodes[$i], $response->Values[$i]);
 			}
 				
 				

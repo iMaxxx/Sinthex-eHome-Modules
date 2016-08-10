@@ -2,6 +2,7 @@
 	"translations": {
 		"de": { 
 			"Update environment": "Umgebung aktualisieren",
+			"Receive values": "Werte abrufen",
 			"Expert password": "Experten-Passwort",
 			"Login successful": "Anmeldung erfolgreich",
 			"Not connected": "Nicht verbunden",

@@ -274,6 +274,7 @@
 			//print_r($parameter_value);
 
 			foreach($response->Values as &$valueNode) {
+				
 				SetValue($nodeIds[$valueNode->ValueId],$valueNode->Value);
 			}
 				

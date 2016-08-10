@@ -53,6 +53,9 @@
 					$id = $this->RegisterVariableString("Properties", "Properties");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("ValueNodes", "Value Nodes");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
 				}
 		}
  
@@ -248,6 +251,9 @@
 				$properties = GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
 				if($properties<>"") $properties.=",";
 				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId);
+				$value_nodes = GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode));
+				if($value_nodes<>"") $value_nodes.=",";
+				SetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode),$value_nodes.$varId);
 			}
 		}
 		
@@ -265,8 +271,10 @@
 			IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
 			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 			//print_r($parameter_value);
+			$value_nodes = array_map('intval', explode(",",GetValueString(IPS_GetObjectIDByIdent('ValueNodes', $connectionNode))));
 			foreach($response->Values as &$parameter) {
-				SetValue($this->GetIDForIdent("WSS_".$parameter->ValueId), $parameter->Value);
+			for ($i = 0; $i <= count($properties)-1; $i++) {
+				SetValue($this->GetIDForIdent($value_nodes[$i]), $response->Values[$i]);
 			}
 				
 				

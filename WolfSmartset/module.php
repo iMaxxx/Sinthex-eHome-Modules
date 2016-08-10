@@ -267,7 +267,8 @@
 			//print_r($parameter_value);
 			foreach($response->Values as &$parameter) {
 				SetValue($this->GetIDForIdent("WSS_".$parameter->ValueId), $parameter->Value);
-			}	
+			}
+				
 				
 		}
     }

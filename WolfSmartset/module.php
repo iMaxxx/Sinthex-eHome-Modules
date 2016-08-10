@@ -270,7 +270,7 @@
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 			IPS_LogMessage("WSS","PARA:      ".json_encode($nodeIds));
-			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
+			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($properties));
 			//print_r($parameter_value);
 
 			foreach($response->Values as &$valueNode) {

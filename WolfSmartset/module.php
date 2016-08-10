@@ -258,7 +258,7 @@
 			$nodeIds = array();
 			foreach($properties as &$valueId) {
 				$data = explode(":",$valueId);
-				array_push($valueIds,inval('intval', $data[0]));
+				array_push($valueIds,intval($data[0]));
 				array_push($nodeIds,$data[0]->intval('intval', $data[1]));
 			}
 			

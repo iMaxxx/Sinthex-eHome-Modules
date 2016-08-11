@@ -41,6 +41,7 @@
 		public function GetValues() {
 			$data = $this->GetData("index.cgi?read");
 			$values = explode(",",$data);
+			IPS_LogMessage("RSW","ANTWORT:      ".$data);
 			$varId = $this->RegisterVariableInteger("RSW_ID5033","current operation mode");
 			SetValue($varId,intval($values[0]));
 			
@@ -54,7 +55,7 @@
 			SetValue($varId,intval($values[3]));
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1992","One time water heating");
-			SetValue($varId,intval($values[4]));
+			SetValue($varId,intval($values[4])); 
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1894","Party mode");
 			SetValue($varId,boolval($values[5]));

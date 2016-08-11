@@ -35,7 +35,7 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$this->SetStatus(102);
 			$page = curl_exec($curl);
-			if (curl_getinfo($http, CURLINFO_HTTP_CODE) <= 300 || curl_getinfo($http, CURLINFO_HTTP_CODE) == 304) {
+			if (curl_getinfo($curl, CURLINFO_HTTP_CODE) <= 300 || curl_getinfo($curl, CURLINFO_HTTP_CODE) == 304) {
 				$this->SetStatus(102);	
 				return ($page);
 			} else {

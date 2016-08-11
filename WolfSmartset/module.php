@@ -312,5 +312,9 @@
 		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
 	
 	}
+	
+	public function SetValue($valueId, $value) {
+		
+	}
 }
 ?>

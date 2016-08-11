@@ -28,7 +28,7 @@
         
 		private function GetData($url) {
 			$address = $this->ReadPropertyString("Address");
-			$curl = curl_init('http://'.$address.'/de/'.$url);
+			$curl = curl_init('http://'.$address.'/cgi-bin/'.$url);
 			//curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST,"GET");
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);

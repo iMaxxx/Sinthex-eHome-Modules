@@ -39,7 +39,15 @@
         
 		private function RegisterConnectionVariables() {
 				if (!@IPS_VariableExists (@$this->GetIDForIdent('SystemName'))) {
-					$parent = $this->RegisterVariableString("SystemName", "System Name");
+					$parent = $this->RegisterVariableString("SystemName", "System name");
+					$parent = $this->RegisterVariableString("ContactInfo", "Contact info");
+					$parent = $this->RegisterVariableString("Description", "Description");
+					$parent = $this->RegisterVariableString("GatewaySoftwareVersion", "Gateway software version");
+					$parent = $this->RegisterVariableString("GatewayUsername", "Gateway username");
+					$parent = $this->RegisterVariableString("InstallationDate", "Installation date");
+					$parent = $this->RegisterVariableString("Location", "Location");
+					$parent = $this->RegisterVariableString("OperatorName", "Operator");
+					
 
 					$id = $this->RegisterVariableString("SystemId","System ID");
 					IPS_SetParent($id,$parent);
@@ -164,7 +172,15 @@
 			SetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
 			SetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
 			SetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
-			
+			SetValueString($this->GetIDForIdent('ContactInfo'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('Description'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('GatewaySoftwareVersion'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('GatewayUsername'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('InstallationDate'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('Location'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('OperatorName'), $current_system->SystemShareId);
+
+
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '') {

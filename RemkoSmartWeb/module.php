@@ -92,7 +92,8 @@
 			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
-			$this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
+			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
+			IPS_SetHidden($id,true);
 		}
 		
 		public function GetValues() {
@@ -108,6 +109,7 @@
 				SetValue($this->GetIDForIdent('ID1894'),boolval($values[5]));
 				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
 				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
+				
 				
 			}
 		}

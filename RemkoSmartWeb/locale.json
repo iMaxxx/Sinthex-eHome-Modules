@@ -1,0 +1,15 @@
+{
+	"translations": {
+		"de": { 
+			"Hostname or IP address": "Hostname oder IP-Adresse",
+			"Receive values": "Werte abrufen",
+			"Expert password": "Experten-Passwort",
+			"Login successful": "Anmeldung erfolgreich",
+			"Not connected": "Nicht verbunden",
+			"Authentication failed": "Authentifizierung fehlgeschlagen",
+			"If you have more than one system, you can change the system number to 1 and more.":"Falls Sie mehr als ein System besitzen, können Sie die Systemnummer auf 1 oder höher ändern.",
+			"System number":"Systemnummer",
+			"By default Expert password is 1111.": "Standardmäßig ist das Experten-Passwort 1111."
+		}
+	}
+}

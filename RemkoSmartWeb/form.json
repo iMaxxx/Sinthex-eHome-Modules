@@ -10,7 +10,6 @@
     [
         { "code": 102, "icon": "active", "caption": "Connection successful" },
         { "code": 104, "icon": "inactive", "caption": "Not connected" },
-        { "code": 201, "icon": "error", "caption": "Authentication failed" },
-        { "code": 202, "icon": "error", "caption": "No credentials left" }
+        { "code": 201, "icon": "error", "caption": "Connection failed" }
     ]
 }

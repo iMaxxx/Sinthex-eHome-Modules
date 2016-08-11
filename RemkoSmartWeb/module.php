@@ -35,36 +35,44 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$this->SetStatus(102);
 			$page = curl_exec($curl);
-			return ($page);
+			if (curl_getinfo($http, CURLINFO_HTTP_CODE) <= 300 || curl_getinfo($http, CURLINFO_HTTP_CODE) == 304) {
+				$this->SetStatus(102);	
+				return ($page);
+			} else {
+				$this->SetStatus(201);
+				return NULL;
+			}
 		}
 		
 		public function GetValues() {
 			$data = $this->GetData("index.cgi?read");
-			$values = explode(",",$data);
-			IPS_LogMessage("RSW","ANTWORT:      ".$data);
-			$varId = $this->RegisterVariableInteger("RSW_ID5033","current operation mode");
-			SetValue($varId,intval($values[0]));
-			
-			$varId = $this->RegisterVariableFloat("RSW_ID5032","Outside Temperature");
-			SetValue($varId,floatval($values[1]));
-			
-			$varId = $this->RegisterVariableInteger("RSW_ID1079","Water operation mode");
-			SetValue($varId,intval($values[2]));
-			
-			$varId = $this->RegisterVariableInteger("RSW_ID1088","Heating mode");
-			SetValue($varId,intval($values[3]));
-			
-			$varId = $this->RegisterVariableBoolean("RSW_ID1992","One time water heating");
-			SetValue($varId,intval($values[4])); 
-			
-			$varId = $this->RegisterVariableBoolean("RSW_ID1894","Party mode");
-			SetValue($varId,boolval($values[5]));
-			
-			$varId = $this->RegisterVariableBoolean("RSW_ID1893","Absent mode");
-			SetValue($varId,boolval($values[6]));
-			
-			$varId = $this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality");
-			SetValue($varId,boolval($values[7]));
+			if (isset($data)) {
+				$values = explode(",",$data);
+				IPS_LogMessage("RSW","ANTWORT:      ".$data);
+				$varId = $this->RegisterVariableInteger("RSW_ID5033","current operation mode");
+				SetValue($varId,intval($values[0]));
+				
+				$varId = $this->RegisterVariableFloat("RSW_ID5032","Outside Temperature");
+				SetValue($varId,floatval($values[1]));
+				
+				$varId = $this->RegisterVariableInteger("RSW_ID1079","Water operation mode");
+				SetValue($varId,intval($values[2]));
+				
+				$varId = $this->RegisterVariableInteger("RSW_ID1088","Heating mode");
+				SetValue($varId,intval($values[3]));
+				
+				$varId = $this->RegisterVariableBoolean("RSW_ID1992","One time water heating");
+				SetValue($varId,intval($values[4])); 
+				
+				$varId = $this->RegisterVariableBoolean("RSW_ID1894","Party mode");
+				SetValue($varId,boolval($values[5]));
+				
+				$varId = $this->RegisterVariableBoolean("RSW_ID1893","Absent mode");
+				SetValue($varId,boolval($values[6]));
+				
+				$varId = $this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality");
+				SetValue($varId,boolval($values[7]));
+			}
 			/*
 			$value[]
 			var arr=res.split(",");

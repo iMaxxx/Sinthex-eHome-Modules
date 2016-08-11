@@ -85,14 +85,14 @@
 			IPS_SetVariableProfileAssociation($profileName, 0, "Nicht verfügbar", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Verfügbar", "", -1);
 			
-			$this->RegisterVariableInteger("RSW_ID5033","Current operation mode","RSW_OperationMode");
-			$this->RegisterVariableFloat("RSW_ID5032","Outside Temperature","~Temperature");
-			$this->RegisterVariableInteger("RSW_ID1079","Water operation mode","RSW_WaterOperationMode");
-			$this->RegisterVariableInteger("RSW_ID1088","Heating mode","RSW_HeatingMode");				
-			$this->RegisterVariableBoolean("RSW_ID1992","One time water heating","RSW_ActiveInactive");
-			$this->RegisterVariableBoolean("RSW_ID1894","Party mode","RSW_ActiveInactive");
-			$this->RegisterVariableBoolean("RSW_ID1893","Absent mode","RSW_ActiveInactive");
-			$this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality","RSW_AvailableInavailable");
+			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode");
+			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature");
+			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode");
+			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode");				
+			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
 		}
 		
 		public function GetValues() {
@@ -100,14 +100,14 @@
 			if (isset($data)) {
 				IPS_LogMessage("RSW","DATA:".$data);
 				$values = explode(",",$data);
-				SetValue($this->GetIDForIdent('RSW_ID5033'),intval($data[0]));
-				SetValue($this->GetIDForIdent('RSW_ID5032'),floatval($data[1]));
-				SetValue($this->GetIDForIdent('RSW_ID1079'),intval($data[2]));
-				SetValue($this->GetIDForIdent('RSW_ID1088'),intval($data[3]));
-				SetValue($this->GetIDForIdent('RSW_ID1992'),boolval($data[4]));
-				SetValue($this->GetIDForIdent('RSW_ID1894'),boolval($data[5]));
-				SetValue($this->GetIDForIdent('RSW_ID1893'),boolval($data[6]));
-				SetValue($this->GetIDForIdent('RSW_ID1022'),boolval($data[7]));
+				SetValue($this->GetIDForIdent('ID5033'),intval($data[0]));
+				SetValue($this->GetIDForIdent('ID5032'),floatval($data[1]));
+				SetValue($this->GetIDForIdent('ID1079'),intval($data[2]));
+				SetValue($this->GetIDForIdent('ID1088'),intval($data[3]));
+				SetValue($this->GetIDForIdent('ID1992'),boolval($data[4]));
+				SetValue($this->GetIDForIdent('ID1894'),boolval($data[5]));
+				SetValue($this->GetIDForIdent('ID1893'),boolval($data[6]));
+				SetValue($this->GetIDForIdent('ID1022'),boolval($data[7]));
 				
 			}
 		}

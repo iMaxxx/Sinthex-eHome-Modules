@@ -93,10 +93,15 @@
 			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature");
 			$this->DisableAction("ID5032");
 			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode");
-			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode");				
+			$this->EnableAction("ID1079");
+			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode");		
+			$this->EnableAction("ID1088");		
 			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive");
+			$this->EnableAction("ID1992");
 			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive");
+			$this->EnableAction("ID1894");
 			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
+			$this->EnableAction("ID1893");
 			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
 			$this->DisableAction("ID1022");
 			IPS_SetHidden($id,true);

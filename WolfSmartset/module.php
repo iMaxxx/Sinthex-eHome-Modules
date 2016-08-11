@@ -254,7 +254,7 @@
 							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
 						} 
 					} else {
-							IPS_SetVariableProfileText($profileName,$listItem->Unit);
+							IPS_SetVariableProfileText($profileName,$parameterDescriptor->Unit);
 					
 						
 					}

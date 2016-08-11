@@ -49,7 +49,7 @@
 			
 			// PROFILES
 			$profileName = "RSW_OperationMode";
-			IPS_CreateVariableProfile($profileName, 1);
+			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileAssociation($profileName, 0, "", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Störung", "", 0xFF0000);
 			IPS_SetVariableProfileAssociation($profileName, 2, "HZG Puffer", "", -1);
@@ -60,23 +60,23 @@
 			IPS_SetVariableProfileAssociation($profileName, 7, "Kühlen", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 8, "Pool", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 9, "Umwälzung", "", -1);
-			PS_SetVariableProfileAssociation($profileName, 10, "Standby", "", -1);
+			IPS_SetVariableProfileAssociation($profileName, 10, "Standby", "", -1);
 			
 			$profileName = "RSW_WaterOperationMode";
-			IPS_CreateVariableProfile($profileName, 1);
+			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileAssociation($profileName, 0, "Automatic Komfort", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Automatik Eco", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 2, "nur Solar", "", -1);
 			
 			$profileName = "RSW_HeatingMode";
-			IPS_CreateVariableProfile($profileName, 1);
+			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Automatik", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 2, "Heizen", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 3, "Standby", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 4, "Kühlen", "", -1);
 			
 			$profileName = "RSW_ActiveInactive";
-			IPS_CreateVariableProfile($profileName, 1);
+			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileAssociation($profileName, 0, "Deaktiviert", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Aktiviert", "", -1);
 			

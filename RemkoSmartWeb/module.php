@@ -80,6 +80,11 @@
 			IPS_SetVariableProfileAssociation($profileName, 0, "Deaktiviert", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Aktiviert", "", -1);
 			
+			$profileName = "RSW_AvailableInavailable";
+			@IPS_CreateVariableProfile($profileName, 0);
+			IPS_SetVariableProfileAssociation($profileName, 0, "Nicht verfügbar", "", -1);
+			IPS_SetVariableProfileAssociation($profileName, 1, "Verfügbar", "", -1);
+			
 			$this->RegisterVariableInteger("RSW_ID5033","Current operation mode","RSW_OperationMode");
 			$this->RegisterVariableFloat("RSW_ID5032","Outside Temperature","~Temperature");
 			$this->RegisterVariableInteger("RSW_ID1079","Water operation mode","RSW_WaterOperationMode");
@@ -87,12 +92,13 @@
 			$this->RegisterVariableBoolean("RSW_ID1992","One time water heating","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("RSW_ID1894","Party mode","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("RSW_ID1893","Absent mode","RSW_ActiveInactive");
-			$this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality","RSW_AvailableInavailable");
 		}
 		
 		public function GetValues() {
 			$data = $this->GetData("index.cgi?read");
 			if (isset($data)) {
+				IPS_LogMessage("RSW","DATA:".$data);
 				$values = explode(",",$data);
 				SetValue($this->GetIDForIdent('RSW_ID5033'),intval($data[0]));
 				SetValue($this->GetIDForIdent('RSW_ID5032'),floatval($data[1]));

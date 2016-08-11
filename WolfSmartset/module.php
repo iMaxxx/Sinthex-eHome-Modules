@@ -40,13 +40,6 @@
 		private function RegisterConnectionVariables() {
 				if (!@IPS_VariableExists (@$this->GetIDForIdent('SystemName'))) {
 					$parent = $this->RegisterVariableString("SystemName", "System name");
-					$parent = $this->RegisterVariableString("ContactInfo", "Contact info");
-					$parent = $this->RegisterVariableString("Description", "Description");
-					$parent = $this->RegisterVariableString("GatewaySoftwareVersion", "Gateway software version");
-					$parent = $this->RegisterVariableString("GatewayUsername", "Gateway username");
-					$parent = $this->RegisterVariableString("InstallationDate", "Installation date");
-					$parent = $this->RegisterVariableString("Location", "Location");
-					$parent = $this->RegisterVariableString("OperatorName", "Operator");
 					
 
 					$id = $this->RegisterVariableString("SystemId","System ID");
@@ -62,6 +55,14 @@
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
 					$id = $this->RegisterVariableString("NetworkStatus","Network status");
+					
+					$parent = $this->RegisterVariableString("ContactInfo", "Contact info");
+					$parent = $this->RegisterVariableString("Description", "Description");
+					$parent = $this->RegisterVariableString("GatewaySoftwareVersion", "Gateway software version");
+					$parent = $this->RegisterVariableString("GatewayUsername", "Gateway username");
+					$parent = $this->RegisterVariableString("InstallationDate", "Installation date");
+					$parent = $this->RegisterVariableString("Location", "Location");
+					$parent = $this->RegisterVariableString("OperatorName", "Operator");
 				}
 		}
  

@@ -86,23 +86,24 @@
 			
 			$profileName = "RSW_WaterVolume";
 			@IPS_CreateVariableProfile($profileName, 2);
-			IPS_SetVariableProfileText($profileName,"","l/min");
+			IPS_SetVariableProfileText($profileName,""," l/min");
 			
-			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode");
-			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature");
+			$this->DisableAction($this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode"));
+			$this->DisableAction($this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature"));
 			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode");
 			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode");				
 			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive");
 			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
 			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
+			$this->DisableAction($id);
 			IPS_SetHidden($id,true);
 			
-			$this->RegisterVariableFloat("IDX1","Current Power","~Power");
-			$this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature");
-			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature");
-			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature");
-			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume");
+			$this->DisableAction($this->RegisterVariableFloat("IDX1","Current Power","~Power"));
+			$this->DisableAction($this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature"));
+			$this->DisableAction($this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature"));
+			$this->DisableAction($this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature"));
+			$this->DisableAction($this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume"));
 
 			
 		}

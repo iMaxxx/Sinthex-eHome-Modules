@@ -173,13 +173,13 @@
 			SetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
 			SetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
 			SetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('ContactInfo'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('Description'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('GatewaySoftwareVersion'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('GatewayUsername'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('InstallationDate'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('Location'), $current_system->SystemShareId);
-			SetValueString($this->GetIDForIdent('OperatorName'), $current_system->SystemShareId);
+			SetValueString($this->GetIDForIdent('ContactInfo'), $current_system->ContactInfo);
+			SetValueString($this->GetIDForIdent('Description'), $current_system->Description);
+			SetValueString($this->GetIDForIdent('GatewaySoftwareVersion'), $current_system->GatewaySoftwareVersion);
+			SetValueString($this->GetIDForIdent('GatewayUsername'), $current_system->GatewayUsername);
+			SetValueString($this->GetIDForIdent('InstallationDate'), $current_system->InstallationDate);
+			SetValueString($this->GetIDForIdent('Location'), $current_system->Location);
+			SetValueString($this->GetIDForIdent('OperatorName'), $current_system->OperatorName);
 
 
 			

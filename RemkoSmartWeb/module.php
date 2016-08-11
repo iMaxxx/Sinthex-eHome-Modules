@@ -101,7 +101,7 @@
 			$this->RegisterVariableFloat("IDX1","Current Power","~Power");
 			$this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature");
 			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature");
-			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperatur");
+			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature");
 			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume");
 
 			

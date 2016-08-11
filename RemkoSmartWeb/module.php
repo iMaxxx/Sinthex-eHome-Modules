@@ -98,16 +98,16 @@
 		public function GetValues() {
 			$data = $this->GetData("index.cgi?read");
 			if (isset($data)) {
-				IPS_LogMessage("RSW","DATA:".$data);
 				$values = explode(",",$data);
-				SetValue($this->GetIDForIdent('ID5033'),intval($data[0]));
-				SetValue($this->GetIDForIdent('ID5032'),floatval($data[1]));
-				SetValue($this->GetIDForIdent('ID1079'),intval($data[2]));
-				SetValue($this->GetIDForIdent('ID1088'),intval($data[3]));
-				SetValue($this->GetIDForIdent('ID1992'),boolval($data[4]));
-				SetValue($this->GetIDForIdent('ID1894'),boolval($data[5]));
-				SetValue($this->GetIDForIdent('ID1893'),boolval($data[6]));
-				SetValue($this->GetIDForIdent('ID1022'),boolval($data[7]));
+				
+				SetValue($this->GetIDForIdent('ID5033'),intval($values[0]));
+				SetValue($this->GetIDForIdent('ID5032'),floatval($values[1]));
+				SetValue($this->GetIDForIdent('ID1079'),intval($values[2]));
+				SetValue($this->GetIDForIdent('ID1088'),intval($values[3]));
+				SetValue($this->GetIDForIdent('ID1992'),boolval($values[4]));
+				SetValue($this->GetIDForIdent('ID1894'),boolval($values[5]));
+				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
+				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
 				
 			}
 		}

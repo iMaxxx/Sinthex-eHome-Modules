@@ -167,7 +167,7 @@
 			if (isset($data)) {
 				$values = explode(",",$data);
 				SetValue($this->GetIDForIdent('IDS1'),floatval($values[0]));
-				SetValue($this->GetIDForIdent('IDS2'),int($values[1]));
+				SetValue($this->GetIDForIdent('IDS2'),intval($values[1]));
 				SetValue($this->GetIDForIdent('IDS3'),floatval($values[2]));
 				SetValue($this->GetIDForIdent('IDS4'),floatval($values[3]));
 				SetValue($this->GetIDForIdent('IDS5'),floatval($values[4]));

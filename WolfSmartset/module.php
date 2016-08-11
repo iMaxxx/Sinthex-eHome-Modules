@@ -253,11 +253,7 @@
 							//Translate ImageName.png to Symcon Icons
 							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
 						} 
-					} else {
-							IPS_SetVariableProfileText($profileName,$parameterDescriptor->Unit);
-					
-						
-					}
+					} else IPS_SetVariableProfileText($profileName,$parameterDescriptor->NamePrefix,$parameterDescriptor->Unit);
 				} elseif($controlType == "5") {
 					$varId = $this->RegisterVariableBoolean("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 				} else {

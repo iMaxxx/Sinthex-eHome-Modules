@@ -23,7 +23,7 @@
         	parent::ApplyChanges();
             // Diese Zeile nicht löschen
             $this->SetStatus(104);
-			$this->GetData();
+			$this->GetValues();
         }
         
 		private function GetData($url) {
@@ -39,7 +39,7 @@
 		}
 		
 		public function GetValues() {
-			$data = GetData("index.cgi?read");
+			$data = $this->GetData("index.cgi?read");
 			$values = explode(",",$data);
 			$varId = $this->RegisterVariableInteger("RSW_ID5033","current operation mode");
 			SetValue($varId,$value[0]);

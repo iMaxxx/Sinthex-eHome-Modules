@@ -76,7 +76,7 @@
 			IPS_SetVariableProfileAssociation($profileName, 4, "Kühlen", "", -1);
 			
 			$profileName = "RSW_ActiveInactive";
-			@IPS_CreateVariableProfile($profileName, 1);
+			@IPS_CreateVariableProfile($profileName, 0);
 			IPS_SetVariableProfileAssociation($profileName, 0, "Deaktiviert", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Aktiviert", "", -1);
 			
@@ -94,14 +94,14 @@
 			$data = $this->GetData("index.cgi?read");
 			if (isset($data)) {
 				$values = explode(",",$data);
-				SetValue($this->GetIDForIdent('RSW_ID5033'),$data[0]);
-				SetValue($this->GetIDForIdent('RSW_ID5032'),$data[1]);
-				SetValue($this->GetIDForIdent('RSW_ID1079'),$data[2]);
-				SetValue($this->GetIDForIdent('RSW_ID1088'),$data[3]);
-				SetValue($this->GetIDForIdent('RSW_ID1992'),$data[4]);
-				SetValue($this->GetIDForIdent('RSW_ID1894'),$data[5]);
-				SetValue($this->GetIDForIdent('RSW_ID1893'),$data[6]);
-				SetValue($this->GetIDForIdent('RSW_ID1022'),$data[7]);
+				SetValue($this->GetIDForIdent('RSW_ID5033'),intval($data[0]));
+				SetValue($this->GetIDForIdent('RSW_ID5032'),floatval($data[1]));
+				SetValue($this->GetIDForIdent('RSW_ID1079'),intval($data[2]));
+				SetValue($this->GetIDForIdent('RSW_ID1088'),intval($data[3]));
+				SetValue($this->GetIDForIdent('RSW_ID1992'),boolval($data[4]));
+				SetValue($this->GetIDForIdent('RSW_ID1894'),boolval($data[5]));
+				SetValue($this->GetIDForIdent('RSW_ID1893'),boolval($data[6]));
+				SetValue($this->GetIDForIdent('RSW_ID1022'),boolval($data[7]));
 				
 			}
 		}

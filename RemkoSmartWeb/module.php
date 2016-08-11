@@ -121,7 +121,7 @@
 			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature",3);
 			$this->DisableAction("IDX3");
 			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature",4);
-			$this->DisableAction("IDX4")
+			$this->DisableAction("IDX4");
 			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume",6);
 			$this->DisableAction("IDX5");
 			

@@ -42,28 +42,28 @@
 			$data = $this->GetData("index.cgi?read");
 			$values = explode(",",$data);
 			$varId = $this->RegisterVariableInteger("RSW_ID5033","current operation mode");
-			SetValue($varId,intval($value[0]));
+			SetValue($varId,intval($values[0]));
 			
 			$varId = $this->RegisterVariableFloat("RSW_ID5032","Outside Temperature");
-			SetValue($varId,floatval($value[1]));
+			SetValue($varId,floatval($values[1]));
 			
 			$varId = $this->RegisterVariableInteger("RSW_ID1079","Water operation mode");
-			SetValue($varId,intval($value[2]));
+			SetValue($varId,intval($values[2]));
 			
 			$varId = $this->RegisterVariableInteger("RSW_ID1088","Heating mode");
-			SetValue($varId,intval($value[3]));
+			SetValue($varId,intval($values[3]));
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1992","One time water heating");
-			SetValue($varId,intval($value[4]));
+			SetValue($varId,intval($values[4]));
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1894","Party mode");
-			SetValue($varId,boolval($value[5]));
+			SetValue($varId,boolval($values[5]));
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1893","Absent mode");
-			SetValue($varId,boolval($value[6]));
+			SetValue($varId,boolval($values[6]));
 			
 			$varId = $this->RegisterVariableBoolean("RSW_ID1022","Cooling functionality");
-			SetValue($varId,boolval($value[7]));
+			SetValue($varId,boolval($values[7]));
 			/*
 			$value[]
 			var arr=res.split(",");

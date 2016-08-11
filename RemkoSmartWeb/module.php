@@ -15,7 +15,7 @@
         public function Create() {
             // Diese Zeile nicht löschen.
             parent::Create();
-			$this->RegisterPropertyString("Address", "192.168.1.100");
+			$this->RegisterPropertyString("Address", "");
         }
 		
 		// Überschreibt die intere IPS_ApplyChanges($id) Funktion
@@ -23,7 +23,7 @@
         	parent::ApplyChanges();
             // Diese Zeile nicht löschen
             $this->SetStatus(104);
-			$this->GetValues();
+			if($this->ReadPropertyString("Address")) $this->GetValues();
         }
         
 		private function GetData($url) {

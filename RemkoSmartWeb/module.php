@@ -84,38 +84,59 @@
 			IPS_SetVariableProfileAssociation($profileName, 0, "Nicht verfügbar", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Verfügbar", "", -1);
 			
-			$profileName = "RSW_WaterVolume";
+			$profileName= "RSW_WaterVolume";
 			@IPS_CreateVariableProfile($profileName, 2);
 			IPS_SetVariableProfileText($profileName,""," l/min");
 			
-			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode");
+			$profileName= "RSW_KG";
+			@IPS_CreateVariableProfile($profileName, 1);
+			IPS_SetVariableProfileText($profileName,""," KG");
+			
+			$profileName= "RSW_Percent";
+			@IPS_CreateVariableProfile($profileName, 1);
+			IPS_SetVariableProfileText($profileName,""," %");
+			
+			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode",6);
 			$this->DisableAction("ID5033");
-			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature");
+			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature",1);
 			$this->DisableAction("ID5032");
-			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode");
+			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode",7);
 			$this->EnableAction("ID1079");
-			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode");		
+			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode",8);		
 			$this->EnableAction("ID1088");		
-			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive",9);
 			$this->EnableAction("ID1992");
-			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive",10);
 			$this->EnableAction("ID1894");
-			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
+			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive",11);
 			$this->EnableAction("ID1893");
-			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
+			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable",12);
 			$this->DisableAction("ID1022");
 			IPS_SetHidden($id,true);
 			
-			$this->RegisterVariableFloat("IDX1","Current Power","~Power");
+			$this->RegisterVariableFloat("IDX1","Aktuelle Leistung","~Power",5);
 			$this->DisableAction("IDX1");
-			$this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature");
+			$this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature",2);
 			$this->DisableAction("IDX2");
-			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature");
+			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature",3);
 			$this->DisableAction("IDX3");
-			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature");
-			$this->DisableAction("IDX4");
-			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume");
+			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperature",4);
+			$this->DisableAction("IDX4")
+			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume",6);
 			$this->DisableAction("IDX5");
+			
+			$this->RegisterVariableFloat("IDS1","Leistung Solar","~Power",13);
+			$this->DisableAction("IDS1");
+			$this->RegisterVariableFloat("IDS2","CO2-Einsparung","RSW_KG",14);
+			$this->DisableAction("IDS2");
+			$this->RegisterVariableFloat("IDS3","Kollektor","~Temperature",15);
+			$this->DisableAction("IDS3");
+			$this->RegisterVariableFloat("IDS4","Warmwasser","~Temperature",16);
+			$this->DisableAction("IDS4");
+			$this->RegisterVariableFloat("IDS5","Solar","Temperature",17);
+			$this->DisableAction("IDS5");
+			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percent",18);
+			$this->DisableAction("IDS6");
 			
 		}
 		
@@ -141,6 +162,16 @@
 				SetValue($this->GetIDForIdent('IDX3'),floatval($values[2]));
 				SetValue($this->GetIDForIdent('IDX4'),floatval($values[3]));
 				SetValue($this->GetIDForIdent('IDX5'),floatval($values[4]));	
+			}
+			$data = $this->GetData("solar.cgi?read");
+			if (isset($data)) {
+				$values = explode(",",$data);
+				SetValue($this->GetIDForIdent('IDS1'),floatval($values[0]));
+				SetValue($this->GetIDForIdent('IDS2'),int($values[1]));
+				SetValue($this->GetIDForIdent('IDS3'),floatval($values[2]));
+				SetValue($this->GetIDForIdent('IDS4'),floatval($values[3]));
+				SetValue($this->GetIDForIdent('IDS5'),floatval($values[4]));
+				SetValue($this->GetIDForIdent('IDS5'),intval($values[5]));	
 			}
 		}
 	

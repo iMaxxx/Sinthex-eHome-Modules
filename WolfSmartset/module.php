@@ -251,7 +251,11 @@
 						foreach($parameterDescriptor->ListItems as &$listItem) {
 							//Translate ImageName.png to Symcon Icons
 							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
-						}
+						} 
+					} else {
+							IPS_SetVariableProfileText($profileName,$listItem->Unit);
+					
+						
 					}
 				} elseif($controlType == "5") {
 					$varId = $this->RegisterVariableBoolean("WSS_".$parameterDescriptor->ValueId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
@@ -278,7 +282,7 @@
 			foreach($properties as &$valueId) {
 				$data = explode(":",$valueId);
 				array_push($valueIds,intval($data[0]));
-				if(!isset($nodeIds[$data[0]])) $nodeIds[$data[0]] = $data[1];
+				if(!@isset($nodeIds[$data[0]])) $nodeIds[$data[0]] = $data[1];
 				else $nodeIds[$data[0]] .= ",".$data[1];
 			}
 			

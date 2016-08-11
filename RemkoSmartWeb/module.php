@@ -50,7 +50,6 @@
 			// PROFILES
 			$profileName = "RSW_OperationMode";
 			@IPS_CreateVariableProfile($profileName, 1);
-			IPS_SetVariableProfileAssociation($profileName, 0, "", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Störung", "", 0xFF0000);
 			IPS_SetVariableProfileAssociation($profileName, 2, "HZG Puffer", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 3, "Abtaupuffer", "", -1);
@@ -85,6 +84,10 @@
 			IPS_SetVariableProfileAssociation($profileName, 0, "Nicht verfügbar", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Verfügbar", "", -1);
 			
+			$profileName = "RSW_WaterVolume";
+			@IPS_CreateVariableProfile($profileName, 2);
+			IPS_SetVariableProfileText($profileName,"","l/min");
+			
 			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode");
 			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature");
 			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode");
@@ -94,6 +97,14 @@
 			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive");
 			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable");
 			IPS_SetHidden($id,true);
+			
+			$this->RegisterVariableFloat("IDX1","Current Power","~Power");
+			$this->RegisterVariableFloat("IDX2","Radiatorheizkreis","~Temperature");
+			$this->RegisterVariableFloat("IDX3","Flächenheizkreis","~Temperature");
+			$this->RegisterVariableFloat("IDX4","Heizungspuffer","~Temperatur");
+			$this->RegisterVariableFloat("IDX5","Volumenstrom","RSW_WaterVolume");
+
+			
 		}
 		
 		public function GetValues() {
@@ -108,9 +119,16 @@
 				SetValue($this->GetIDForIdent('ID1992'),boolval($values[4]));
 				SetValue($this->GetIDForIdent('ID1894'),boolval($values[5]));
 				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
-				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
-				
-				
+				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));	
+			}
+			$data = $this->GetData("heating.cgi?read");
+			if (isset($data)) {
+				$values = explode(",",$data);
+				SetValue($this->GetIDForIdent('IDX1'),floatval($values[0]));
+				SetValue($this->GetIDForIdent('IDX2'),floatval($values[1]));
+				SetValue($this->GetIDForIdent('IDX3'),floatval($values[2]));
+				SetValue($this->GetIDForIdent('IDX4'),floatval($values[3]));
+				SetValue($this->GetIDForIdent('IDX5'),floatval($values[4]));	
 			}
 		}
 	

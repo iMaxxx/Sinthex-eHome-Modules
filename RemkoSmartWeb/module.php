@@ -144,15 +144,17 @@
 		}
 
 		private function SetEvent($eventName) {
+			If(!$eid = @IPS_GetObjectIDByName ($eventName, $this->InstanceID)) {
+				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
+				IPS_SetHidden($eid,true);
+				IPS_SetName($eid, $eventName); 
+				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
+				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+				IPS_SetEventScript($id, &$this->GetValues());
+			}
 			$interval = $this->ReadPropertyString("RefreshInterval");
 			if(interval < 1 ) $interval = 60;
-			
-			If(!$eid = @IPS_GetObjectIDByName ($eventName, $this->InstanceID)) {
-				$eid = $this->RegisterTimer($eventName, $interval*1000, 'RSW_GetValues($id)');
-				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
-			}
-			
-			IPS_SetEventCyclic($eid, 0, 0, 0, 0, 1, $interval); 
+			IPS_SetEventCyclic($eid, 0 /* Täglich */, 0 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
 		}
 		
 		public function GetValues() {

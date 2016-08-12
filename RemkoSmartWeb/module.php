@@ -201,6 +201,7 @@
 	  }
 	
 	public function WriteValue($ident, $value) {
+		if (!$value) $value = intval(0);
 		$data = $this->GetData("index.cgi?".$ident."=".$value);
 		
 		IPS_LogMessage("RSW","URL: index.cgi?".$ident."=".$value);

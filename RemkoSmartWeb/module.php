@@ -196,12 +196,14 @@
 		}
 	
 	public function RequestAction($ident, $value) {
+		IPS_LogMessage("RSW","IDENT:   $ident       VALUE:   $value");
 	    $this->WriteValue($ident,$value);
 		SetValue($this->GetIDForIdent($ident), $value);
 	  }
 	
 	public function WriteValue($ident, $value) {
 		$data = $this->GetData("index.cgi?index.cgi?".$ident."=".$value);
+		IPS_LogMessage("RSW","IDENT:   $ident       VALUE:   $value");
 		//$this->GetValues();
 	}
 }

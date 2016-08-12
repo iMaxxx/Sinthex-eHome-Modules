@@ -25,6 +25,7 @@
 		    $this->RegisterPropertyString("Password", "");
 		    $this->RegisterPropertyString("ExpertPassword", "1111");
 			$this->RegisterPropertyInteger("SystemNumber", 0);
+			$this->RegisterPropertyInteger("RefreshInterval", 60);
 
         }
 		
@@ -268,6 +269,23 @@
 				if($properties<>"") $properties.=",";
 				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId.":".$varId);
 			}
+
+
+		}
+
+		private function SetEvent($eventName) {
+			If(!$eid = @IPS_GetObjectIDByName ($eventName, $this->InstanceID)) {
+				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
+				IPS_SetHidden($eid,true);
+				IPS_SetName($eid, $eventName); 
+				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
+				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
+				IPS_SetEventScript($eid, 'WSS_GetValues();');
+			}
+			$interval = $this->ReadPropertyString("RefreshInterval");
+			if($interval < 1 ) $interval = 60;
+			IPS_SetEventCyclic($eid, 0 /* Täglich */, 0 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
 		}
 		
 		public function GetValues() {
@@ -315,8 +333,14 @@
 	
 	}
 	
-	public function SetValue($valueId, $value) {
-		
+	public function RequestAction($ident, $value) {
+	    $this->WriteValue($ident, $value);
+		SetValue($this->GetIDForIdent($ident), $value);
+	  }
+	
+	public function WriteValue($ident, $value) {
+		if (!$value) $value = intval(0);
+		//$data = $this->GetData("index.cgi?".$ident."=".$value);
 	}
 }
 ?>

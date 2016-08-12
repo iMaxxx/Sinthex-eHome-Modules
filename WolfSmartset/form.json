@@ -3,10 +3,12 @@
     [
         { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
         { "type": "PasswordTextBox", "name": "Password", "caption": "Password" },
+        { "type": "NumberSpinner", "name": "RefreshInterval", "caption": "Refresh interval (seconds)" }
         { "type": "Label", "label": "By default Expert password is 1111." },
         { "type": "PasswordTextBox", "name": "ExpertPassword", "caption": "Expert password"},
         { "type": "Label", "label": "If you have more than one system, you can change the system number to 1 and more." },
         { "type": "NumberSpinner", "name": "SystemNumber", "caption": "System number" }
+        
     ],
     "actions":
     [

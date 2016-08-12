@@ -282,7 +282,7 @@
 				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
-				IPS_SetEventScript($eid, 'WSS_GetValues();');
+				IPS_SetEventScript($eid, 'WSS_GetValues($id);');
 			}
 			$interval = $this->ReadPropertyString("RefreshInterval");
 			if($interval < 1 ) $interval = 60;

@@ -134,7 +134,7 @@
 			$this->DisableAction("IDS2");
 			$this->RegisterVariableFloat("IDS3","Kollektor","~Temperature",15);
 			$this->DisableAction("IDS3");
-			$this->RegisterVariableFloat("IDS4","Warmwasser","~Temperature",16);
+			$this->RegisterVariableFloat("IDS4","Warmwasser","~Temperature",1);
 			$this->DisableAction("IDS4");
 			$this->RegisterVariableFloat("IDS5","Solar","Temperature",17);
 			$this->DisableAction("IDS5");

@@ -137,7 +137,7 @@
 			$this->DisableAction("IDS5");
 			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percent",18);
 			$this->DisableAction("IDS6");
-			CreateEvent();
+			$this->CreateEvent();
 		}
 
 		private function CreateEvent() {

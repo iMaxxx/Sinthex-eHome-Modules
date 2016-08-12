@@ -36,6 +36,7 @@
             
 			$this->SetStatus(104);
 			$this->Authorize();
+			$this->SetEvent("INTERVAL");
         }
         
 		private function RegisterConnectionVariables() {

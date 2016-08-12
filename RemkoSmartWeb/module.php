@@ -141,7 +141,7 @@
 		}
 
 		private function CreateEvent($eventName) {
-			If(!@IPS_ObjectExists(@IPS_GetObjectIDByName ($eventName, $this->InstanceID))) {
+			If(!@IPS_ObjectExists(IPS_GetObjectIDByName ($eventName, $this->InstanceID))) {
 				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
 				IPS_SetHidden($eid,true);
 				IPS_SetName($eid, $eventName); 

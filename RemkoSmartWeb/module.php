@@ -150,7 +150,7 @@
 				IPS_SetName($eid, $eventName); 
 				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
-				IPS_SetEventScript($id, &$this->GetValues());
+				IPS_SetEventScript($id, "RSW_GetValues()");
 			}
 			$interval = $this->ReadPropertyString("RefreshInterval");
 			if(interval < 1 ) $interval = 60;

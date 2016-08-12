@@ -142,9 +142,9 @@
 
 		private function CreateEvent() {
 			$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
-			 
+			IPS_SetHidden($eid,true);
+			IPS_SetName($eid, "Refresh data");
 			IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, 30 /* Alle 30 Sekunden */); 
-			 
 			IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 			IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 		}

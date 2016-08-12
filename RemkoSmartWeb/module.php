@@ -197,11 +197,12 @@
 	
 	public function RequestAction($ident, $value) {
 	    $this->WriteValue($ident,$value);
+		SetValue($this->GetIDForIdent($ident), $value);
 	  }
 	
 	public function WriteValue($ident, $value) {
 		$data = $this->GetData("index.cgi?index.cgi?".$ident."=".$value);
-		$this->GetValues();
+		//$this->GetValues();
 	}
 }
 ?>

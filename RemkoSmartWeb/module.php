@@ -137,16 +137,18 @@
 			$this->DisableAction("IDS5");
 			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percent",18);
 			$this->DisableAction("IDS6");
-			$this->CreateEvent();
+			$this->CreateEvent("INTERVAL");
 		}
 
-		private function CreateEvent() {
-			$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
-			IPS_SetHidden($eid,true);
-			IPS_SetName($eid, "Refresh data"); 
-			IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, 30 /* Alle 30 Sekunden */); 
-			IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
-			IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+		private function CreateEvent($eventName) {
+			If(!@IPS_ObjectExists(@IPS_GetObjectIDByName ($eventName, $this->InstanceID))) {
+				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
+				IPS_SetHidden($eid,true);
+				IPS_SetName($eid, $eventName); 
+				IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, 30 /* Alle 30 Sekunden */); 
+				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
+				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+			}
 		}
 		
 		public function GetValues() {

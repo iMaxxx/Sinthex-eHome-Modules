@@ -145,7 +145,7 @@
 			 
 			IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, 30 /* Alle 30 Sekunden */); 
 			 
-			IPS_SetParent($eid, $_IPS['SELF']);         //Eregnis zuordnen
+			IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 			IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 		}
 		

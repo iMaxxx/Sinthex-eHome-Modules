@@ -192,14 +192,14 @@
 				SetValue($this->GetIDForIdent('IDS4'),floatval($values[3]));
 				SetValue($this->GetIDForIdent('IDS5'),floatval($values[4]));
 				SetValue($this->GetIDForIdent('IDS6'),intval($values[5]));	
-				$showSolar = true;
-				if(floatval($values[2]) == 300.0) $showSolar = false;
+				$hideSolar = false;
+				if(floatval($values[2]) == 300.0) $hideSolar = true;
 					
-				IPS_SetHidden($this->GetIDForIdent('IDS1'),$showSolar);
-				IPS_SetHidden($this->GetIDForIdent('IDS2'),$showSolar);
-				IPS_SetHidden($this->GetIDForIdent('IDS3'),$showSolar);
-				IPS_SetHidden($this->GetIDForIdent('IDS5'),$showSolar);
-				IPS_SetHidden($this->GetIDForIdent('IDS6'),$showSolar);
+				IPS_SetHidden($this->GetIDForIdent('IDS1'),$hideSolar);
+				IPS_SetHidden($this->GetIDForIdent('IDS2'),$hideSolar);
+				IPS_SetHidden($this->GetIDForIdent('IDS3'),$hideSolar);
+				IPS_SetHidden($this->GetIDForIdent('IDS5'),$hideSolar);
+				IPS_SetHidden($this->GetIDForIdent('IDS6'),$hideSolar);
 				
 			}
 		}

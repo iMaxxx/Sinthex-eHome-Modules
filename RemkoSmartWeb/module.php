@@ -152,7 +152,7 @@
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 			}
 			
-			IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
+			IPS_SetEventCyclic($eid, 0, 0, 0, 0, 1, $interval); 
 		}
 		
 		public function GetValues() {

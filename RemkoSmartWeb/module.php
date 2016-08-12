@@ -99,19 +99,19 @@
 			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileText($profileName,""," %");
 			
-			$this->RegisterVariableInteger("ID5033","Current operation mode","RSW_OperationMode",6);
+			$this->RegisterVariableInteger("ID5033","Aktueller Betriebsmodus","RSW_OperationMode",6);
 			$this->DisableAction("ID5033");
-			$this->RegisterVariableFloat("ID5032","Outside Temperature","~Temperature",1);
+			$this->RegisterVariableFloat("ID5032","Außentemperatur","~Temperature",1);
 			$this->DisableAction("ID5032");
-			$this->RegisterVariableInteger("ID1079","Water operation mode","RSW_WaterOperationMode",7);
+			$this->RegisterVariableInteger("ID1079","Warmwassermodus","RSW_WaterOperationMode",7);
 			$this->EnableAction("ID1079");
-			$this->RegisterVariableInteger("ID1088","Heating mode","RSW_HeatingMode",8);		
+			$this->RegisterVariableInteger("ID1088","Raumklimamodus","RSW_HeatingMode",8);		
 			$this->EnableAction("ID1088");		
-			$this->RegisterVariableBoolean("ID1992","One time water heating","RSW_ActiveInactive",9);
+			$this->RegisterVariableBoolean("ID1992","1x Warmwasser","RSW_ActiveInactive",9);
 			$this->EnableAction("ID1992");
-			$this->RegisterVariableBoolean("ID1894","Party mode","RSW_ActiveInactive",10);
+			$this->RegisterVariableBoolean("ID1894","Partymodus","RSW_ActiveInactive",10);
 			$this->EnableAction("ID1894");
-			$this->RegisterVariableBoolean("ID1893","Absent mode","RSW_ActiveInactive",11);
+			$this->RegisterVariableBoolean("ID1893","Abwesenheit","RSW_ActiveInactive",11);
 			$this->EnableAction("ID1893");
 			$id = $this->RegisterVariableBoolean("ID1022","Cooling functionality","RSW_AvailableInavailable",12);
 			$this->DisableAction("ID1022");

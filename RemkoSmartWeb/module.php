@@ -153,7 +153,7 @@
 				IPS_SetEventScript($eid, "RSW_GetValues()");
 			}
 			$interval = $this->ReadPropertyString("RefreshInterval");
-			if(interval < 1 ) $interval = 60;
+			if($interval < 1 ) $interval = 60;
 			IPS_SetEventCyclic($eid, 0 /* Täglich */, 0 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
 		}
 		

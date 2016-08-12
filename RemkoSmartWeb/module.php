@@ -191,7 +191,7 @@
 				SetValue($this->GetIDForIdent('IDS3'),floatval($values[2]));
 				SetValue($this->GetIDForIdent('IDS4'),floatval($values[3]));
 				SetValue($this->GetIDForIdent('IDS5'),floatval($values[4]));
-				SetValue($this->GetIDForIdent('IDS5'),intval($values[5]));	
+				SetValue($this->GetIDForIdent('IDS6'),intval($values[5]));	
 			}
 		}
 	

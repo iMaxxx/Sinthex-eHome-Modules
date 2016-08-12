@@ -72,7 +72,8 @@
 			IPS_SetVariableProfileAssociation($profileName, 1, "Automatik", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 2, "Heizen", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 3, "Standby", "", -1);
-			IPS_SetVariableProfileAssociation($profileName, 4, "Kühlen", "", -1);
+			
+			
 			
 			$profileName = "RSW_ActiveInactive";
 			@IPS_CreateVariableProfile($profileName, 0);
@@ -92,7 +93,7 @@
 			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileText($profileName,""," KG");
 			
-			$profileName= "RSW_Percent";
+			$profileName= "RSW_Percentage";
 			@IPS_CreateVariableProfile($profileName, 1);
 			IPS_SetVariableProfileText($profileName,""," %");
 			
@@ -135,13 +136,13 @@
 			$this->DisableAction("IDS4");
 			$this->RegisterVariableFloat("IDS5","Solar","Temperature",17);
 			$this->DisableAction("IDS5");
-			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percent",18);
+			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percentage",18);
 			$this->DisableAction("IDS6");
 			$this->CreateEvent("INTERVAL");
 		}
 
 		private function CreateEvent($eventName) {
-			If(!@IPS_ObjectExists(IPS_GetObjectIDByName ($eventName, $this->InstanceID))) {
+			If(!@IPS_GetObjectIDByName ($eventName, $this->InstanceID)) {
 				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
 				IPS_SetHidden($eid,true);
 				IPS_SetName($eid, $eventName); 
@@ -163,7 +164,9 @@
 				SetValue($this->GetIDForIdent('ID1992'),boolval($values[4]));
 				SetValue($this->GetIDForIdent('ID1894'),boolval($values[5]));
 				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
-				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));	
+				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
+				if(bootval($values[7])) IPS_SetVariableProfileAssociation($profileName, 3, "Kühlen", "", -1);	
+			
 			}
 			$data = $this->GetData("heating.cgi?read");
 			if (isset($data)) {

@@ -1,7 +1,8 @@
 {
     "elements":
     [
-        { "type": "ValidationTextBox", "name": "Address", "caption": "Hostname or IP address" }
+        { "type": "ValidationTextBox", "name": "Address", "caption": "Hostname or IP address" },
+        { "type": "NumberSpinner", "name": "RefreshInterval", "caption": "Refresh interval (seconds)" }
     ],
     "actions":
     [

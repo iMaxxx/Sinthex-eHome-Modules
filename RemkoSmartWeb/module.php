@@ -143,7 +143,7 @@
 		private function CreateEvent() {
 			$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
 			 
-			IPS_SetEventCyclic($eid, 2, 1, 0, 1, 30);    //Jeden Tag alle 6 Stunden
+			IPS_SetEventCyclic($eid, 2 /* Täglich */, 1 /* Jeden Tag */, 0, 0, 1 /* Stündlich */, 30 /* Alle 6 Stunden */); 
 			 
 			IPS_SetParent($eid, $_IPS['SELF']);         //Eregnis zuordnen
 			IPS_SetEventActive($eid, true);             //Ereignis aktivieren

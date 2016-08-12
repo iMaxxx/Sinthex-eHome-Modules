@@ -130,7 +130,7 @@
 			
 			$this->RegisterVariableFloat("IDS1","Leistung Solar","~Power",13);
 			$this->DisableAction("IDS1");
-			$this->RegisterVariableFloat("IDS2","CO2-Einsparung","RSW_KG",14);
+			$this->RegisterVariableInteger("IDS2","CO2-Einsparung","RSW_KG",14);
 			$this->DisableAction("IDS2");
 			$this->RegisterVariableFloat("IDS3","Kollektor","~Temperature",15);
 			$this->DisableAction("IDS3");
@@ -138,7 +138,7 @@
 			$this->DisableAction("IDS4");
 			$this->RegisterVariableFloat("IDS5","Solar","Temperature",17);
 			$this->DisableAction("IDS5");
-			$this->RegisterVariableFloat("IDS6","Ladezustand Solar","RSW_Percentage",18);
+			$this->RegisterVariableInteger("IDS6","Ladezustand Solar","RSW_Percentage",18);
 			$this->DisableAction("IDS6");
 			$this->SetEvent("INTERVAL");
 		}
@@ -203,9 +203,6 @@
 	public function WriteValue($ident, $value) {
 		if (!$value) $value = intval(0);
 		$data = $this->GetData("index.cgi?".$ident."=".$value);
-		
-		IPS_LogMessage("RSW","URL: index.cgi?".$ident."=".$value);
-		//$this->GetValues();
 	}
 }
 ?>

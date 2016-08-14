@@ -172,6 +172,7 @@
 				SetValue($this->GetIDForIdent('ID1894'),boolval($values[5]));
 				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
 				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
+				$profileName = "RSW_HeatingMode";
 				if(boolval($values[7])) IPS_SetVariableProfileAssociation($profileName, 3, "Kühlen", "", -1);	
 			
 			}

@@ -173,7 +173,7 @@
 				SetValue($this->GetIDForIdent('ID1893'),boolval($values[6]));
 				SetValue($this->GetIDForIdent('ID1022'),boolval($values[7]));
 				$profileName = "RSW_HeatingMode";
-				if(boolval($values[7])) IPS_SetVariableProfileAssociation($profileName, 3, "Kühlen", "", -1);	
+				if(boolval($values[7])) IPS_SetVariableProfileAssociation($profileName, 4, "Kühlen", "", -1);	
 			
 			}
 			$data = $this->GetData("heating.cgi?read");

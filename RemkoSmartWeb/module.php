@@ -152,7 +152,7 @@
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 				$script = 'RSW_GetValues($id)';
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
-				IPS_SetEventScript($eid, 'RSW_GetValues();');
+				IPS_SetEventScript($eid, $script);
 			}
 			$interval = $this->ReadPropertyString("RefreshInterval");
 			if($interval < 1 ) $interval = 60;

@@ -150,7 +150,7 @@
 				IPS_SetName($eid, $eventName); 
 				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
-				$script = 'RSW_GetValues($id)';
+				$script = 'RSW_GetValues()';
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
 				IPS_SetEventScript($eid, 'RSW_GetValues();');
 			}
@@ -206,14 +206,14 @@
 			}
 		}
 	
-	public function RequestAction($ident, $value) {
-	    $this->WriteValue($ident, $value);
-		SetValue($this->GetIDForIdent($ident), $value);
-	  }
-	
-	public function WriteValue($ident, $value) {
-		if (!$value) $value = intval(0);
-		$data = $this->GetData("index.cgi?".$ident."=".$value);
+		public function RequestAction($ident, $value) {
+		    $this->WriteValue($ident, $value);
+			SetValue($this->GetIDForIdent($ident), $value);
+		  }
+		
+		public function WriteValue($ident, $value) {
+			if (!$value) $value = intval(0);
+			$data = $this->GetData("index.cgi?".$ident."=".$value);
+		}
 	}
-}
 ?>

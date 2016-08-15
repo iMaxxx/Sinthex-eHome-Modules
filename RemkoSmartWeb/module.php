@@ -150,7 +150,7 @@
 				IPS_SetName($eid, $eventName); 
 				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
-				$script = '$id = \$_IPS["TARGET"];RSW_GetValues($id);';
+				$script = 'RSW_GetValues('.$this->InstanceID.');';
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
 				IPS_SetEventScript($eid, $script);
 			}

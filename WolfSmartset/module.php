@@ -271,8 +271,10 @@
 				$property->VarId = $varId;
 				$id=GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
 				$properties = json_decode($id);
-				array_push($properties,$property);
-				SetValue($id,json_encode($properties));
+				if(isset($properties)) {
+					array_push($properties,$property);
+					SetValue($id,json_encode($properties));
+				} else SetValue($id,json_encode(array($property)));
 			}
 
 

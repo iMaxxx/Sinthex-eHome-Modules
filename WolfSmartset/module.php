@@ -115,7 +115,7 @@
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
-			$data = json_decode($page);
+			$data = json_decode($page,true);
 			return ($data);
 		}
 		
@@ -267,14 +267,13 @@
 				
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
-				$property = array();
-				$property["ValueId"] = $parameterDescriptor->ValueId;
-				if(!isset($property["VarId"])) $property["VarId"] = $varId;
-				else $property["VarId"] .= ",".$varId;
+				$property = new stdClass();
+				$property->ValueId = $parameterDescriptor->ValueId;
+				if(!isset($property->VarId)) $property->VarId = $varId;
+				else $property->VarId .= ",".$varId;
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
-				$properties = array();
 				$properties = json_decode(GetValueString($id),true);
-				$properties[$parameterDescriptor->ValueId] = $property;
+				$properties[$parameterDescriptor->ValueId] =$property;
 				SetValue($id,json_encode($properties));
 			}
 
@@ -299,10 +298,10 @@
 		public function GetValues() {
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
 			$valueIds = array();
 			foreach($properties as &$property) {
-				array_push($valueIds,intval($property["ValueId"]));
+				array_push($valueIds,intval($property->ValueId));
 			}
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));

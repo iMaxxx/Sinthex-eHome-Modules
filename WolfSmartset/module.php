@@ -165,7 +165,7 @@
 			$systemNumber = $this->ReadPropertyString("SystemNumber");
 			$current_system = $system_data[$systemNumber];
 			
-			$system = new stdClass();
+			$system = array();
 			$system->SystemId = $current_system->Id;
 			$system->GatewayId = $current_system->GatewayId;
 			$system->SystemShareId = $current_system->SystemShareId;
@@ -267,7 +267,7 @@
 				
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
-				$property = new stdClass();
+				$property = array();
 				$property->ValueId = $parameterDescriptor->ValueId;
 				if(!isset($property->VarId)) $property->VarId = $varId;
 				else $property->VarId .= ",".$varId;

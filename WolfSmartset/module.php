@@ -268,13 +268,12 @@
 				$connectionNode = $this->GetIDForIdent('SystemName');
 				$property = new stdClass();
 				$property->ValueId = $parameterDescriptor->ValueId;
-				$property->VarId = $varId;
+				if(!isset($property->VarId)) $property->VarId = $varId;
+				else $property->VarId .= ",".$varId;
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = json_decode(GetValueString($id));
-				if(isset($properties)) {
-					array_push($properties,$property);
-					SetValue($id,json_encode($properties));
-				} else SetValue($id,json_encode(array($property)));
+				$properties[intval($parameterDescriptor->ValueId)]=$property;
+				SetValue($id,json_encode($properties));
 			}
 
 
@@ -319,7 +318,7 @@
 				//print_r($parameter_value);
 	
 				foreach($response->Values as &$valueNode) {
-					$ids = explode(",",$nodeIds[$valueNode->ValueId]);
+					$ids = explode(",",$properties[$valueNode->$VarId]);
 					foreach($ids as &$id) SetValue($id,$valueNode->Value);
 				}
 				$this->GetOnlineStatus();	

@@ -266,9 +266,11 @@
 				
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
-				$properties = GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode));
-				if($properties<>"") $properties.=",";
-				SetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode),$properties.$parameterDescriptor->ValueId.":".$varId);
+				$property = object();
+				$property->ValueId = $parameterDescriptor->ValueId;
+				$property->VarId = $varId;
+				$properties = json_encode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+				array_push($properties,$property);
 			}
 
 
@@ -292,14 +294,10 @@
 		public function GetValues() {
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
-			$properties = explode(",",GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
+			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
 			$valueIds = array();
-			$nodeIds = array();
-			foreach($properties as &$valueId) {
-				$data = explode(":",$valueId);
-				array_push($valueIds,intval($data[0]));
-				if(!@isset($nodeIds[$data[0]])) $nodeIds[$data[0]] = $data[1];
-				else $nodeIds[$data[0]] .= ",".$data[1];
+			foreach($properties as &$property) {
+				array_push($valueIds,intval($property->ValueId));
 			}
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));

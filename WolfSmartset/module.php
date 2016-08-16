@@ -56,6 +56,7 @@
 					$id = $this->RegisterVariableString("Properties", "Properties");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
+					SetValue($id,json_encode(array()));
 					$id = $this->RegisterVariableString("NetworkStatus","Network status");
 					
 					$parent = $this->RegisterVariableString("ContactInfo", "Contact info");

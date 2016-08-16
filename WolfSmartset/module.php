@@ -305,7 +305,8 @@
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
-			$post_parameters = (object) array("GuiId"=>"1200","GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-12T11:40:32.3956505Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+			
+			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-12T11:40:32.3956505Z","SystemId"=>$systemId,"ValueIdList"=>array($valueIds));
 						
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

@@ -269,8 +269,8 @@
 				$connectionNode = $this->GetIDForIdent('SystemName');
 				$property = array();
 				$property["ValueId"] = $parameterDescriptor->ValueId;
-				if(!isset($property->VarId)) $property["VarId"] = $varId;
-				else $property->VarId .= ",".$varId;
+				if(!isset($property["VarId"])) $property["VarId"] = $varId;
+				else $property["VarId"] .= ",".$varId;
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = array();
 				$properties = json_decode(GetValueString($id));
@@ -302,7 +302,7 @@
 			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)));
 			$valueIds = array();
 			foreach($properties as &$property) {
-				array_push($valueIds,intval($property->ValueId));
+				array_push($valueIds,intval($property["ValueId"]));
 			}
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));

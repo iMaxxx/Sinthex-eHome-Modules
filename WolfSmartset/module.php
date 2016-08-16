@@ -300,8 +300,8 @@
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
 			$valueIds = array();
-			foreach($properties as &$property) {
-				array_push($valueIds,intval($property->ValueId));
+			foreach($properties as $key => &$property) {
+				array_push($valueIds,intval($key));
 			}
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));

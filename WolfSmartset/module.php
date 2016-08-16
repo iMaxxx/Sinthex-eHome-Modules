@@ -319,7 +319,8 @@
 				//print_r($parameter_value);
 	
 				foreach($response->Values as &$valueNode) {
-					$ids = explode(",",$properties[$valueNode->ValueId]->VarId);
+					$property = $properties[$valueNode->ValueId];
+					$ids = explode(",",$property->VarId);
 					foreach($ids as &$id) SetValue($id,$valueNode->Value);
 				}
 				$this->GetOnlineStatus();	

@@ -308,7 +308,7 @@
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
 			
-			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"false","IsSubBundle"=>"false","LastAccess"=>"2016-08-16T07:36:34.8431145Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-16T07:36:34.8431145Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 			
 			//print_r($post_parameters);

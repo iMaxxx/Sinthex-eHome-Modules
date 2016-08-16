@@ -308,18 +308,19 @@
 			
 			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"false","IsSubBundle"=>"false","LastAccess"=>"2016-08-16T07:36:34.8431145Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
-			if(@count($response->Values)) {	
+			
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-			IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
-			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
-			//print_r($parameter_value);
-
-			foreach($response->Values as &$valueNode) {
-				$ids = explode(",",$nodeIds[$valueNode->ValueId]);
-				foreach($ids as &$id) SetValue($id,$valueNode->Value);
-			}
-			$this->GetOnlineStatus();	
+				if(@count($response->Values)) {	
+				IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
+				IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
+				//print_r($parameter_value);
+	
+				foreach($response->Values as &$valueNode) {
+					$ids = explode(",",$nodeIds[$valueNode->ValueId]);
+					foreach($ids as &$id) SetValue($id,$valueNode->Value);
+				}
+				$this->GetOnlineStatus();	
 			} else IPS_LogMessage("WolfSmartSet",json_encode($response));
 		}
 

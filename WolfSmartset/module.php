@@ -273,8 +273,8 @@
 				else $property["VarId"] .= ",".$varId;
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = array();
-				$properties = json_decode(GetValueString($id));
-				$properties[$parameterDescriptor->ValueId] = (object) $property;
+				$properties = json_decode(GetValueString($id),true);
+				$properties[$parameterDescriptor->ValueId] = $property;
 				SetValue($id,json_encode($properties));
 			}
 

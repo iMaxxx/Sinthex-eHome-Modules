@@ -165,7 +165,7 @@
 			$systemNumber = $this->ReadPropertyString("SystemNumber");
 			$current_system = $system_data[$systemNumber];
 			
-			$system = array();
+			$system = new stdClass();
 			$system->SystemId = $current_system->Id;
 			$system->GatewayId = $current_system->GatewayId;
 			$system->SystemShareId = $current_system->SystemShareId;

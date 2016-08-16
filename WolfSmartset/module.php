@@ -188,7 +188,7 @@
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_descriptions));
-			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '') {
+			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '[]') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode);
 				$this->GetValues();

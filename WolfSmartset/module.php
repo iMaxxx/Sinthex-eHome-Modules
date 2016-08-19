@@ -338,7 +338,7 @@
 		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>array($system)),"json");
 		// IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_state_list));
 		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
-	
+	 
 	}
 	
 	public function RequestAction($ident, $value) {

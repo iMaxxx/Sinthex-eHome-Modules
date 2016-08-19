@@ -347,8 +347,14 @@
 	  }
 	
 	public function WriteValue($ident, $value) {
+		$auth_header = $this->Authorize();
+		$connectionNode = $this->GetIDForIdent('SystemName');
+		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
+			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 		if (!$value) $value = intval(0);
-		//$data = $this->GetData("index.cgi?".$ident."=".$value);
+		$parameter = json_decode('{"WriteParameterValues":[{"ValueId":'.$ident.',"Value":"'.$value.'","ParameterName":""}],"SystemId":"'.$systemId.'","GatewayId":"'.$systemId.'","GuiId":1200}');
+		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
+		
 	}
 }
 ?>

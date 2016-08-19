@@ -351,9 +351,21 @@
 		$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
 		SetValue($properties[$ident]["VarId"], $value);
 		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
-			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
+		$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
+		
 		if (!$value) $value = intval(0);
-		$parameter = json_decode('{"WriteParameterValues":[{"ValueId":'.$ident.',"Value":"'.$value.'","ParameterName":""}],"SystemId":"'.$systemId.'","GatewayId":"'.$systemId.'","GuiId":1200}');
+		
+		$valuePack = new stdClass();
+		$valuePack->ValueId = intval($ident);
+		$valuePack->Value = $value;
+		$valuePack->ParameterName="NULL";
+		$parameter = new stdClass();
+		$parameter->WriteParameterValues = array($valuePack);
+		$parameter->SystemId = $systemId;
+		$parameter->GatewayId = $gatewayId;
+		
+		
+		$parameter = json_decode('{"WriteParameterValues":[{"ValueId":'.$ident.',"Value":"'.$value.'","ParameterName":"None"}],"SystemId":"'.$systemId.'","GatewayId":"'.$systemId.'","GuiId":1200}');
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
 		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 	}

@@ -343,12 +343,13 @@
 	
 	public function RequestAction($ident, $value) {
 	    $this->WriteValue($ident, $value);
-		SetValue($this->GetIDForIdent($ident), $value);
 	  }
 	
 	public function WriteValue($ident, $value) {
 		$auth_header = $this->Authorize();
 		$connectionNode = $this->GetIDForIdent('SystemName');
+		$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
+		SetValue($properties[$ident]->VarId, $value);
 		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 		if (!$value) $value = intval(0);

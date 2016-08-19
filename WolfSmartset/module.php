@@ -187,7 +187,7 @@
 
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_descriptions));
+			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_descriptions));
 			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '[]') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode);
@@ -236,7 +236,7 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent) {
-			IPS_LogMessage("WSS","ANTWORT:      ".json_encode($parameterDescriptor));
+			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($parameterDescriptor));
 			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ValueId,$parent)) {
 				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
@@ -314,8 +314,8 @@
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 				if(@count($response->Values)) {	
-				IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
-				IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
+				//IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
+				//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 				//print_r($parameter_value);
 	
 				foreach($response->Values as &$valueNode) {
@@ -354,8 +354,8 @@
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 		if (!$value) $value = intval(0);
 		$parameter = json_decode('{"WriteParameterValues":[{"ValueId":'.$ident.',"Value":"'.$value.'","ParameterName":""}],"SystemId":"'.$systemId.'","GatewayId":"'.$systemId.'","GuiId":1200}');
-		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
-		
+		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
+		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 	}
 }
 ?>

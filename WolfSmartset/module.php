@@ -365,7 +365,6 @@
 		$parameter->GatewayId = $gatewayId;
 		
 		
-		$parameter = json_decode('{"WriteParameterValues":[{"ValueId":'.$ident.',"Value":"'.$value.'","ParameterName":"None"}],"SystemId":"'.$systemId.'","GatewayId":"'.$systemId.'","GuiId":1200}');
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
 		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 	}

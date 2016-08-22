@@ -128,8 +128,8 @@
 			$this->RegisterConnectionVariables();
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
-			$authHeader = GetValueString($tokenId);
-			if($authHeader <> "") {
+			$auth_header = GetValueString($tokenId);
+			if($auth_header <> "") {
 				$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", $auth_header,json_decode("{}"),"json");
 				if (!$response) {
 					SetValueString($tokenId,"");

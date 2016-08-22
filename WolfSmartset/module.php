@@ -131,9 +131,8 @@
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
 				$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", $auth_header);
-				if (!$response) {
-					SetValueString($tokenId,"");
-				} else return $auth_header;
+				if (!$response) return json_decode($auth_header);
+				else SetValueString($tokenId,"");
 			}
 			if(GetValueString($tokenId) == "") {
 			
@@ -160,7 +159,7 @@
 						// Grant expert access to enable r/w
 						$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $auth_header);
 						$this->SetStatus(102);
-						SetValueString($tokenId, $auth_header."");
+						SetValueString($tokenId, json_encode($auth_header));
 						return $auth_header;
 					} else {
 						$this->SetStatus(201);

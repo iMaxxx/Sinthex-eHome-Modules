@@ -160,7 +160,7 @@
 						// Grant expert access to enable r/w
 						$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $auth_header);
 						$this->SetStatus(102);
-						SetValueString($tokenId, $auth_header);
+						SetValueString($tokenId, $auth_header."");
 						return $auth_header;
 					} else {
 						$this->SetStatus(201);

@@ -36,7 +36,8 @@
             
 			$this->SetStatus(104);
 			$this->Authorize();
-			$this->SetEvent("INTERVAL");
+			$this->SetEvent("INTERVAL",'WSS_GetValues('.$this->InstanceID.');',$this->ReadPropertyString("RefreshInterval"));
+			$this->SetEvent("SESSION",'WSS_UpdateSession('.$this->InstanceID.');',60);
         }
         
 		private function RegisterConnectionVariables() {
@@ -48,6 +49,9 @@
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
 					$id = $this->RegisterVariableString("GatewayId", "Gateway ID");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("Token", "Token");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
 					$id = $this->RegisterVariableString("SystemShareId", "System Share Id");
@@ -116,11 +120,15 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
-			return ($data);
+			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") return ($data);
+			else return false;
 		}
 		
-		public function Authorize() {
+		private function Authorize() {
 			$this->RegisterConnectionVariables();
+			$connectionNode = $this->GetIDForIdent('SystemName');
+			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
+					
 			$username = $this->ReadPropertyString("Username");
 			$password = $this->ReadPropertyString("Password");
 			$expertpassword = $this->ReadPropertyString("ExpertPassword");
@@ -144,13 +152,26 @@
 					// Grant expert access to enable r/w
 					$system_data = $this->GetJsonData($this->wolf_url.'portal/api/portal/ExpertLogin?Password='.$expertpassword.'&_='.time(), "GET", $auth_header);
 					$this->SetStatus(102);
+					SetValueString($tokenId, $current_system->Name);
 					return $auth_header;
 				} else {
 					$this->SetStatus(201);
+					SetValueString($tokenId, "");
 					return false;
 				}
 				$this->SetStatus(202);
+				SetValueString($tokenId, "");
 				return false;
+			}
+		}
+
+		private function UpdateSession() {
+			$auth_header = $this->Authorize();
+			$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", $auth_header,json_decode("{}"),"json");
+			if (!$response) {
+				$connectionNode = $this->GetIDForIdent('SystemName');
+				SetValueString(IPS_GetObjectIDByIdent('Token', $connectionNode),"");
+				$this->Authorize();
 			}
 		}
 
@@ -280,7 +301,7 @@
 
 		}
 
-		private function SetEvent($eventName) {
+		private function SetEvent($eventName,$script,$interval) {
 			If(!$eid = @IPS_GetObjectIDByName ($eventName, $this->InstanceID)) {
 				$eid = IPS_CreateEvent(1);                  //Ausgelöstes Ereignis
 				IPS_SetHidden($eid,true);
@@ -288,9 +309,8 @@
 				IPS_SetParent($eid, $this->InstanceID);         //Eregnis zuordnen
 				IPS_SetEventActive($eid, true);             //Ereignis aktivieren
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
-				IPS_SetEventScript($eid, 'WSS_GetValues('.$this->InstanceID.');');
+				IPS_SetEventScript($eid, $script);
 			}
-			$interval = $this->ReadPropertyString("RefreshInterval");
 			if($interval < 1 ) $interval = 60;
 			IPS_SetEventCyclic($eid, 0 /* Täglich */, 0 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
 		}

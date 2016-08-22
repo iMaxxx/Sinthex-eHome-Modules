@@ -37,7 +37,7 @@
 			$this->SetStatus(104);
 			$this->Authorize();
 			$this->SetEvent("INTERVAL",'WSS_GetValues('.$this->InstanceID.');',$this->ReadPropertyString("RefreshInterval"));
-			$this->SetEvent("SESSION",'WSS_UpdateSession('.$this->InstanceID.');',60);
+			$this->SetEvent("SESSION",'WSS_Authorize('.$this->InstanceID.');',60);
         }
         
 		private function RegisterConnectionVariables() {
@@ -174,10 +174,6 @@
 			}
 		}
 
-		private function UpdateSession() {
-			$auth_header = $this->Authorize();
-			
-		}
 
 		public function GetSystemInfo() {
 			//Struktur erstellen

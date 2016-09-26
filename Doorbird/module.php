@@ -51,10 +51,15 @@
 		}
 		
 		private function RegisterNotifications() {
-			$sid = $this->RegisterScript("HOOKDOORBIRDDOORBELL", "Hook Doorbell", "<? DOB_WriteNotification('.$this->InstanceID.','doorbell'); ?>");
+			// WebHook for Doorbell
+			$sid = $this->RegisterScript("HOOKDOORBIRDDOORBELL", "Hook Doorbell", "<? DOB_WriteNotification($this->InstanceID,'doorbell'); ?>");
 			$this->RegisterHook("/hook/doorbird-doorbell", $sid);
-			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/?doorbird-doorbell&user=&password=&event=doorbell&subscribe=1");
-		
+			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/?doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=1");
+			// WebHook for Motion detection
+			$sid = $this->RegisterScript("HOOKDOORBIRDMOTIONSENSOR", "Hook Motionsensor", "<? DOB_WriteNotification($this->InstanceID,'motionsensor'); ?>");
+			$this->RegisterHook("/hook/doorbird-motionsensor", $sid);
+			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/?doorbird-motionsensor&user=&password=&event=motionsensor&subscribe=1&relaxation=5");
+			
 		}
 		
 		public function WriteNotification($type) {
@@ -62,6 +67,10 @@
 				SetValue($this->GetIDForIdent('DOORBELL'),true);
 				sleep(1);
 				SetValue($this->GetIDForIdent('DOORBELL'),false);
+			} else if($type == "motionsensor") {
+				SetValue($this->GetIDForIdent('MOTION'),true);
+				sleep(1);
+				SetValue($this->GetIDForIdent('MOTION'),false);
 			}
 		}
 		

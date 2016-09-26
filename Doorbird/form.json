@@ -4,7 +4,7 @@
         { "type": "ValidationTextBox", "name": "Address", "caption": "Hostname or IP address" },
         { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
         { "type": "PasswordTextBox", "name": "Password", "caption": "Password"},
-        { "type": "NumberSpinner", "name": "RefreshInterval", "caption": "Refresh interval (seconds)" }
+        { "type": "ValidationTextBox", "name": "Server", "caption": "Symcon-Webserver" }
     ],
     "actions":
     [

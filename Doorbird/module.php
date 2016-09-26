@@ -17,8 +17,10 @@
           parent::Create();
       
 					$this->RegisterPropertyString("Address", "192.168.2.100");
+					$this->RegisterPropertyString("Server", "192.168.2.10:3777");
 					$this->RegisterPropertyString("Username", "");
 					$this->RegisterPropertyString("Password", "");
+					
 					//$this->RegisterPropertyInteger("RefreshInterval", 60);
 					$this->RegisterVariables();
         }
@@ -60,14 +62,15 @@
 		
 		private function RegisterNotifications() {
 			// WebHook for Doorbell
+			$serverAddress = $this->ReadPropertyString("Server");
 			$sid = $this->RegisterScript("HOOKDOORBIRDDOORBELL", "Hook Doorbell", "<? DOB_WriteNotification($this->InstanceID,'doorbell'); ?>");
 			$this->RegisterHook("/hook/doorbird-doorbell", $sid);
-			$this->GetData("notification.cgi?url=http://".Sys_GetNetworkInfo()[0]["IP"]."/hook/doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=10");
-			IPS_LogMessage("Doorbird","notification.cgi?url=http://".Sys_GetNetworkInfo()[0]["IP"].":3777/hook/doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=10");
+			$this->GetData("notification.cgi?url=http://".$serverAddress."/hook/doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=10");
+			IPS_LogMessage("Doorbird","notification.cgi?url=http://".$serverAddress."/hook/doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=10");
 			// WebHook for Motion detection
 			$sid = $this->RegisterScript("HOOKDOORBIRDMOTIONSENSOR", "Hook Motionsensor", "<? DOB_WriteNotification($this->InstanceID,'motionsensor'); ?>");
 			$this->RegisterHook("/hook/doorbird-motionsensor", $sid);
-			$this->GetData("notification.cgi?url=http://". Sys_GetNetworkInfo()[0]["IP"].":3777/hook/doorbird-motionsensor&user=&password=&event=motionsensor&subscribe=1&relaxation=10");
+			$this->GetData("notification.cgi?url=http://". $serverAddress."/hook/doorbird-motionsensor&user=&password=&event=motionsensor&subscribe=1&relaxation=10");
 			
 		}
 		

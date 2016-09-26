@@ -51,7 +51,7 @@
 		
 		private function RegisterNotifications() {
 			$sid = $this->RegisterScript("HOOK-DOORBIRD-DOORBELL", "Hook", "<? DOB_WriteNotification('.$this->InstanceID.','doorbell'); ?>");
-			$this->RegisterHook("/hook/doorbird-doorbell", $sid)
+			$this->RegisterHook("/hook/doorbird-doorbell", $sid);
 			$this->GetData("notification.cgi?url=http://".$_SERVER['SERVER_ADDR'].":".$_SERVER['SERVER_PORT']."/hook/?doorbird-doorbell&user=&password=&event=doorbell&subscribe=1");
 		
 		}

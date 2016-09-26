@@ -117,7 +117,6 @@
 			
 		}
 
-		
 	
 		public function RequestAction($ident, $value) {
 		    $this->WriteValue($ident, $value);

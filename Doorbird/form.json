@@ -1,0 +1,18 @@
+{
+    "elements":
+    [
+        { "type": "ValidationTextBox", "name": "Address", "caption": "Hostname or IP address" },
+        { "type": "ValidationTextBox", "name": "Username", "caption": "Username" },
+        { "type": "PasswordTextBox", "name": "Password", "caption": "Password"},
+        { "type": "NumberSpinner", "name": "RefreshInterval", "caption": "Refresh interval (seconds)" }
+    ],
+    "actions":
+    [
+    ],
+    "status":
+    [
+        { "code": 102, "icon": "active", "caption": "Connection successful" },
+        { "code": 104, "icon": "inactive", "caption": "Not connected" },
+        { "code": 201, "icon": "error", "caption": "Connection failed" }
+    ]
+}

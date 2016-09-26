@@ -1,0 +1,14 @@
+{
+    "id": "{56bf3243-6c7e-4b04-00f7-92b11838b342}",
+    "name": "Doorbird",
+    "type": 3,
+    "vendor": "Bird Home Automation GmbH",
+    "aliases":
+    [
+        "BirdGuard"
+    ],  
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "DOB"
+}

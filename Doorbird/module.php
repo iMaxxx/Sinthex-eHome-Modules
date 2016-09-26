@@ -32,12 +32,20 @@
 					
         }
         
+    private function RegisterMedia() {
+    	$varId = IPS_CreateMedia(1);	
+    }
+        
 		private function GetData($url) {
 			$address = $this->ReadPropertyString("Address");
+			$username = $this->ReadPropertyString("Username");
+			$password = $this->ReadPropertyString("Password");
 			$curl = curl_init('http://'.$address.'/bha-api/'.$url);
 			//curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST,"GET");
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+			curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$this->SetStatus(102);
 			$page = curl_exec($curl);
@@ -54,11 +62,11 @@
 			// WebHook for Doorbell
 			$sid = $this->RegisterScript("HOOKDOORBIRDDOORBELL", "Hook Doorbell", "<? DOB_WriteNotification($this->InstanceID,'doorbell'); ?>");
 			$this->RegisterHook("/hook/doorbird-doorbell", $sid);
-			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/?doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=1");
+			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/doorbird-doorbell&user=&password=&event=doorbell&subscribe=1&relaxation=1");
 			// WebHook for Motion detection
 			$sid = $this->RegisterScript("HOOKDOORBIRDMOTIONSENSOR", "Hook Motionsensor", "<? DOB_WriteNotification($this->InstanceID,'motionsensor'); ?>");
 			$this->RegisterHook("/hook/doorbird-motionsensor", $sid);
-			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/?doorbird-motionsensor&user=&password=&event=motionsensor&subscribe=1&relaxation=5");
+			$this->GetData("notification.cgi?url=http://".getenv('SERVER_ADDR').":".getenv('SERVER_PORT')."/hook/doorbird-motionsensor&user=&password=&event=motionsensor&subscribe=1&relaxation=5");
 			
 		}
 		

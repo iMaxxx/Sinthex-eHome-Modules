@@ -28,6 +28,7 @@
         	parent::ApplyChanges();
             // Diese Zeile nicht löschen
             $this->SetStatus(104);
+            $this->RegisterNotifications();
 					
         }
         

@@ -5,7 +5,8 @@
     "vendor": "Bird Home Automation GmbH",
     "aliases":
     [
-        "BirdGuard"
+        "BirdGuard",
+        "DoorBird"
     ],  
     "parentRequirements": [],
     "childRequirements": [],

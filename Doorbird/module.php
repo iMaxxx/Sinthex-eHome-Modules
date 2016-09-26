@@ -99,7 +99,7 @@
 			IPS_SetVariableProfileAssociation($profileName, 1, "Türöffenter aktiv", "", -1);
 			
 			$this->RegisterVariableBoolean("DOOROPEN","Türöffner","DOB_DoorOpen");
-			SetValue($this->GetIDForIdent('DOORPEN'),false);	
+			SetValue($this->GetIDForIdent('DOOROPEN'),false);	
 			
 			$this->RegisterVariableBoolean("IRLIGHT","Infrarotlicht","~Switch");
 			SetValue($this->GetIDForIdent('IRLIGHT'),false);	
@@ -112,8 +112,8 @@
 			IPS_SetHidden($this->GetIDForIdent('FIRMWARE'),true);
 			
 			$this->RegisterVariableBoolean("BUILD","Build");
-			$this->DisableAction("Build");
-			IPS_SetHidden($this->GetIDForIdent('Build'),true);
+			$this->DisableAction("BUILD");
+			IPS_SetHidden($this->GetIDForIdent('BUILD'),true);
 			
 		}
 

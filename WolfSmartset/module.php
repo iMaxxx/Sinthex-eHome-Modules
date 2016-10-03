@@ -136,9 +136,9 @@
 			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
-				$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header));
+				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header)));
 				IPS_LogMessage("WSS","KEEPALIVE:      ".$response);
-				if ($response) return json_decode($auth_header);
+				if ($response->Maintenance==false) return json_decode($auth_header);
 				else SetValueString($tokenId,"");
 			}
 			if(GetValueString($tokenId) == "") {

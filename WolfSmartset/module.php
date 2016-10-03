@@ -120,14 +120,10 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
+			IPS_LogMessage("WSS","DATA:      ".$data);
+			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") return ($data);
 			else return false;
-		}
-		
-		public function ResetSession() {
-			$this->RegisterConnectionVariables();
-			$connectionNode = $this->GetIDForIdent('SystemName');
-			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
 		}
 		
 		public function Authorize() {
@@ -137,8 +133,8 @@
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
 				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header)));
-				IPS_LogMessage("WSS","KEEPALIVE:      ".$response);
-				if ($response->Maintenance==false) return json_decode($auth_header);
+				
+				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");
 			}
 			if(GetValueString($tokenId) == "") {

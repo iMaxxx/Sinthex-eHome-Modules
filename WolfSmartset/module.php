@@ -137,6 +137,7 @@
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
 				$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header));
+				IPS_LogMessage("WSS","KEEPALIVE:      ".$response);
 				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");
 			}

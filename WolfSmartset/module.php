@@ -124,6 +124,12 @@
 			else return false;
 		}
 		
+		public function ResetSession() {
+			$this->RegisterConnectionVariables();
+			$connectionNode = $this->GetIDForIdent('SystemName');
+			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
+		}
+		
 		public function Authorize() {
 			$this->RegisterConnectionVariables();
 			$connectionNode = $this->GetIDForIdent('SystemName');
@@ -131,7 +137,7 @@
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
 				$response = $this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header));
-				if (!$response) return json_decode($auth_header);
+				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");
 			}
 			if(GetValueString($tokenId) == "") {

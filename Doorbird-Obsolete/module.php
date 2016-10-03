@@ -1,6 +1,6 @@
 <?
     // Klassendefinition
-    class Doorbird extends IPSModule {
+    class DoorbirdObsolete extends IPSModule {
     	
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS

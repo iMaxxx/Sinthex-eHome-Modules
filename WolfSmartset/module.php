@@ -120,7 +120,7 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
-			IPS_LogMessage("WSS","DATA:      ".$data);
+			IPS_LogMessage("WSS","DATA:      ".$page);
 			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") return ($data);
 			else return false;

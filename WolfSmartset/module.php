@@ -132,7 +132,9 @@
 			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
-				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header)));
+				$header = json_decode($auth_header);
+				array_push($header,'Content-Length: 2');
+				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", $header));
 				
 				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");

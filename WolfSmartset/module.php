@@ -109,7 +109,7 @@
 			} else {
 				if ($postdata) {
 					if ($posttype == "json") {
-					   $postdata = json_encode($postdata);
+					    $postdata = json_encode($postdata);
 						array_push($header,'Content-Length: '.strlen($postdata));
 					} else {
 						$postdata = http_build_query($postdata) . "\n";

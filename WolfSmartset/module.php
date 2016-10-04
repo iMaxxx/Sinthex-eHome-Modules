@@ -101,16 +101,21 @@
         */
 
 		
-		private function GetJsonData($url, $requesttype, $header,$postdata=null,$posttype="query") {
+		private function GetJsonData($url, $requesttype, $header,$postdata=null,$posttype="query",$keepalive=false) {
 			$curl = curl_init($url);
-			if ($postdata) {
-				if ($posttype == "json") {
-				   $postdata = json_encode($postdata);
-					array_push($header,'Content-Length: '.strlen($postdata));
-				} else {
-					$postdata = http_build_query($postdata) . "\n";
+			if($keepalive) {
+				array_push($header,'Content-Length: 2');
+				$postdata = "{}";
+			} else {
+				if ($postdata) {
+					if ($posttype == "json") {
+					   $postdata = json_encode($postdata);
+						array_push($header,'Content-Length: '.strlen($postdata));
+					} else {
+						$postdata = http_build_query($postdata) . "\n";
+					}
+					curl_setopt($curl, CURLOPT_POSTFIELDS,$postdata);
 				}
-				curl_setopt($curl, CURLOPT_POSTFIELDS,$postdata);
 			}
 			curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST,$requesttype);
@@ -132,9 +137,7 @@
 			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
 			$auth_header = GetValueString($tokenId);
 			if($auth_header <> "") {
-				$header = json_decode($auth_header);
-				array_push($header,'Content-Length: 2');
-				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", $header));
+				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header),null,"query",true));
 				
 				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");

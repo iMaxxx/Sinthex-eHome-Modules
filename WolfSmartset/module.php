@@ -126,6 +126,7 @@
 			$page = curl_exec($curl);
 			$data = json_decode($page);
 			IPS_LogMessage("WSS","DATA:      ".$page);
+			IPS_LogMessage("WSS","URL:      ".$url);
 			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") return ($data);
 			else return false;

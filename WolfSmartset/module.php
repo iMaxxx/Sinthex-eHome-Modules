@@ -357,7 +357,7 @@
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 				IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
-				if($response->LastAccess) { SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
+				if(@isset($response->LastAccess)) { SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 				//if(@count($response->Values)) 	
 				
 				//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));

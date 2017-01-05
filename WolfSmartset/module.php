@@ -37,7 +37,7 @@
 			$this->SetStatus(104);
 			$this->Authorize();
 			$this->SetEvent("INTERVAL",'WSS_GetValues('.$this->InstanceID.');',$this->ReadPropertyString("RefreshInterval"));
-			$this->SetEvent("SESSION",'WSS_Authorize('.$this->InstanceID.');',60);
+			//$this->SetEvent("SESSION",'WSS_Authorize('.$this->InstanceID.');',60);
         }
         
 		private function RegisterConnectionVariables() {
@@ -344,8 +344,9 @@
 			
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-				if(@count($response->Values)) {	
 				IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
+				if(@count($response->Values)) {	
+				
 				//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
 				//print_r($parameter_value);
 	

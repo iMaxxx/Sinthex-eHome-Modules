@@ -54,6 +54,9 @@
 					$id = $this->RegisterVariableString("Token", "Token");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
+					$id = $this->RegisterVariableString("LastAccess", "LastAccess");
+					IPS_SetParent($id,$parent);
+					IPS_SetHidden($id,true);
 					$id = $this->RegisterVariableString("SystemShareId", "System Share Id");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
@@ -339,13 +342,15 @@
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
+			$lastAccess = GetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode));
 			
-			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>"2016-08-16T07:36:34.8431145Z","SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 			
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
 				IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
+				SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 				if(@count($response->Values)) {	
 				
 				//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));

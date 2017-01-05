@@ -353,11 +353,8 @@
 			
 			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
-			array_push($auth_header,'Origin: https://www.wolf-smartset.com');
 			array_push($auth_header,'Content-Type: application/json; charset=UTF-8');
-			array_push($auth_header,'Accept: */*');
 			array_push($auth_header,'X-Requested-With: XMLHttpRequest');
-			array_push($auth_header,'Referer: https://www.wolf-smartset.com/portal/index.html');
 			array_push($auth_header,'Accept-Encoding: gzip, deflate, br');
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			

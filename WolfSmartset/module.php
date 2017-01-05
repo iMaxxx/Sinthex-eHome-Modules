@@ -137,13 +137,15 @@
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			$tokenId = IPS_GetObjectIDByIdent('Token', $connectionNode);
 			$auth_header = GetValueString($tokenId);
+			$auth_header = "";
+			
 			if($auth_header <> "") {
 				$response = json_decode($this->GetJsonData($this->wolf_url.'api/portal/UpdateSession', "POST", json_decode($auth_header),null,"query",true));
 				
 				if ($response) return json_decode($auth_header);
 				else SetValueString($tokenId,"");
 			}
-			if(GetValueString($tokenId) == "") {
+			if($auth_header == "") {
 			
 				$username = $this->ReadPropertyString("Username");
 				$password = $this->ReadPropertyString("Password");

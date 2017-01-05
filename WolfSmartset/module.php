@@ -353,7 +353,9 @@
 				foreach($response->Values as &$valueNode) {
 					$property = $properties[$valueNode->ValueId];
 					$ids = explode(",",$property["VarId"]);
-					foreach($ids as &$id) SetValue($id,$valueNode->Value);
+					foreach($ids as &$id) {
+						if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
+					}
 				}
 				$this->GetOnlineStatus();	
 			} else IPS_LogMessage("WolfSmartSet",json_encode($response));

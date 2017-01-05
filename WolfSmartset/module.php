@@ -132,7 +132,7 @@
 			IPS_LogMessage("WSS","SEND_DATA_HEADER:      ".join("; ",$header));
 			IPS_LogMessage("WSS","URL:      ".$url);
 			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
-			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(201);
+			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(203);
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
 				$this->SetStatus(102);
 				return ($data);

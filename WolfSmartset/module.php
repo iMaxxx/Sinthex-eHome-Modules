@@ -130,6 +130,7 @@
 			IPS_LogMessage("WSS","URL:      ".$url);
 			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") return ($data);
+			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(201);
 			else return false;
 		}
 		

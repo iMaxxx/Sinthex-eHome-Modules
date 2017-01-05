@@ -357,6 +357,8 @@
 			array_push($auth_header,'X-Requested-With: XMLHttpRequest');
 			array_push($auth_header,'Accept-Encoding: gzip, deflate, br');
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
+			array_push($auth_header,'Connection: keep-alive');
+			
 			
 			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

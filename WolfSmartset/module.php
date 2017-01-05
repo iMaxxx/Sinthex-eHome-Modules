@@ -54,7 +54,7 @@
 					$id = $this->RegisterVariableString("Token", "Token");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
-					$id = $this->RegisterVariableString("LastAccess", "LastAccess");
+					$id = $this->RegisterVariableString("LastAccess", "Last Access");
 					IPS_SetParent($id,$parent);
 					IPS_SetHidden($id,true);
 					$id = $this->RegisterVariableString("SystemShareId", "System Share Id");
@@ -208,7 +208,10 @@
 			
 			$connectionNode = $this->GetIDForIdent('SystemName');
 
+			SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode), "2017-01-05T17:52:42.3376404Z");
+			
 			SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
+			
 			SetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode), $current_system->Id);
 			SetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode), $current_system->GatewayId);
 			SetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode), $current_system->SystemShareId);

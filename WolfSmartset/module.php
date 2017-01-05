@@ -208,7 +208,7 @@
 			
 			$connectionNode = $this->GetIDForIdent('SystemName');
 
-			SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode), "2017-01-05T17:52:42.3376404Z");
+			SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode), "1900-01-05T17:52:42.3376404Z");
 			
 			SetValueString($this->GetIDForIdent('SystemName'), $current_system->Name);
 			

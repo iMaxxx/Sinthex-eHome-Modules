@@ -379,9 +379,9 @@
 					foreach($ids as &$id) {
 						if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
 					}
-				}
-				$this->GetOnlineStatus();	
+				}	
 			} else IPS_LogMessage("WolfSmartSet",json_encode($response));
+			$this->GetOnlineStatus();
 		}
 
 	public function GetOnlineStatus() {

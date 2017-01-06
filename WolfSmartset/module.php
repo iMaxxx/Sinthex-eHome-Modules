@@ -231,7 +231,7 @@
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_descriptions));
-			if (!@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) <> '[]') {
+			if (@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) == '[]') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode);
 				$this->GetValues();
@@ -310,13 +310,17 @@
 				
 				//Add to available properties
 				$connectionNode = $this->GetIDForIdent('SystemName');
-				$property = new stdClass();
-				$property->ValueId = $parameterDescriptor->ValueId;
-				if(!isset($property->VarId)) $property->VarId = $varId;
-				else $property->VarId .= ",".$varId;
+				
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = json_decode(GetValueString($id),true);
-				$properties[$parameterDescriptor->ValueId] =$property;
+				
+				if(@isset($properties[$parameterDescriptor->ValueId])) $properties[$parameterDescriptor->VarId] .= ','.$varId;
+				else {
+					$property = new stdClass();
+					$property->ValueId = $parameterDescriptor->ValueId;
+					$properties[$parameterDescriptor->ValueId] =$property;
+					$properties[$parameterDescriptor->VarId] = $varId;
+				}
 				SetValue($id,json_encode($properties));
 			}
 

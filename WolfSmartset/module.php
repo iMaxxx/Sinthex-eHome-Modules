@@ -128,7 +128,8 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
-			IPS_LogMessage("WSS","RECE_DATA:      ".$page);
+			//IPS_LogMessage("WSS","RECE_DATA:      ".$page);
+			$this->SendDebug("WSS", "RECE_DATA:      ".$page, 0);
 			IPS_LogMessage("WSS","SEND_DATA_HEADER:      ".join("; ",$header));
 			IPS_LogMessage("WSS","URL:      ".$url);
 			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
@@ -423,7 +424,9 @@
 		
 		
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
-		IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
+		//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
+		$this->SendDebug("WSS", "ANTWORT:      ".json_encode($response), 0);
+		
 	}
 }
 ?>

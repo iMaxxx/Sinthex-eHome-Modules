@@ -314,12 +314,12 @@
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = json_decode(GetValueString($id),true);
 				
-				if(@isset($properties[$parameterDescriptor->ValueId])) $properties[$parameterDescriptor->VarId] .= ','.$varId;
+				if(@isset($properties[$parameterDescriptor->ValueId])) $properties[$parameterDescriptor->ValueId]->VarId .= ','.$varId;
 				else {
 					$property = new stdClass();
 					$property->ValueId = $parameterDescriptor->ValueId;
+					$property->VarId = $parameterDescriptor->VarId;
 					$properties[$parameterDescriptor->ValueId] =$property;
-					$properties[$parameterDescriptor->VarId] = $varId;
 				}
 				SetValue($id,json_encode($properties));
 			}

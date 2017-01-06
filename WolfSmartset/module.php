@@ -353,7 +353,7 @@
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
 			$lastAccess = GetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode));
 			
-			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+			$post_parameters = (object) array("GuiId"=>1200,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"false","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 			//array_push($auth_header,'Content-Type: application/json; charset=UTF-8');
 			array_push($auth_header,'X-Requested-With: XMLHttpRequest');

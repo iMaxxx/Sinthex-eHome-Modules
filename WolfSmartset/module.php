@@ -318,7 +318,7 @@
 				else {
 					$property = new stdClass();
 					$property->ValueId = $parameterDescriptor->ValueId;
-					$property->VarId = $parameterDescriptor->VarId;
+					$property->VarId = $varId;
 					$properties[$parameterDescriptor->ValueId] =$property;
 				}
 				SetValue($id,json_encode($properties));

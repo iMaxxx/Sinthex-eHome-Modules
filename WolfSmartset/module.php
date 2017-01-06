@@ -128,11 +128,10 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
-			//IPS_LogMessage("WSS","RECE_DATA:      ".$page);
-			$this->SendDebug("WSS", "RECE_DATA:      ".$page, 0);
-			IPS_LogMessage("WSS","SEND_DATA_HEADER:      ".join("; ",$header));
-			IPS_LogMessage("WSS","URL:      ".$url);
-			IPS_LogMessage("WSS","CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
+			$this->LogDebug("RECE_DATA:      ".$page);
+			$this->LogDebug("SEND_DATA_HEADER:      ".join("; ",$header));
+			$this->LogDebug("URL:      ".$url);
+			$this->LogDebug("CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(203);
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
 				$this->SetStatus(102);
@@ -231,7 +230,6 @@
 
 			
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
-			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_descriptions));
 			if (@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) == '[]') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode);
@@ -280,7 +278,6 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent) {
-			//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($parameterDescriptor));
 			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ValueId,$parent)) {
 				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
@@ -365,15 +362,10 @@
 			array_push($auth_header,'Connection: keep-alive');
 			
 			
-			//print_r($post_parameters);
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-			IPS_LogMessage("WSS","PARA:      ".json_encode($post_parameters));
-			// if(@isset($response->LastAccess)) { 
+			$this->LogDebug("PARA:      ".json_encode($post_parameters));
 			if(@count($response->Values)) {	
 				SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
-				//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
-				//print_r($parameter_value);
-	
 				foreach($response->Values as &$valueNode) {
 					$property = $properties[$valueNode->ValueId];
 					$ids = explode(",",$property["VarId"]);
@@ -381,7 +373,7 @@
 						if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
 					}
 				}	
-			} else IPS_LogMessage("WolfSmartSet",json_encode($response));
+			} else $this->LogDebug("ERROR:     ".json_encode($response));
 			$this->GetOnlineStatus();
 		}
 
@@ -394,7 +386,6 @@
 			$system->GatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$system->SystemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
 		$system_state_list = $this->GetJsonData($this->wolf_url.'api/portal/GetSystemStateList', "POST", $auth_header,array('SystemList'=>array($system)),"json");
-		// IPS_LogMessage("WSS","ANTWORT:      ".json_encode($system_state_list));
 		SetValueString($this->GetIDForIdent('NetworkStatus'), ($system_state_list[0]->GatewayState->IsOnline == 1 ? 'Online' : 'Offline'));
 	 
 	}
@@ -424,9 +415,12 @@
 		
 		
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
-		//IPS_LogMessage("WSS","ANTWORT:      ".json_encode($response));
-		$this->SendDebug("WSS", "ANTWORT:      ".json_encode($response), 0);
+		$this->LogDebug("ANTWORT:      ".json_encode($response));
 		
+	}
+	
+	private function LogDebug($message) {
+		$this->SendDebug("WSS", $message, 0);	
 	}
 }
 ?>

@@ -368,6 +368,7 @@
 			
 			foreach($properties as $tabGuiId => &$propertyTab) {
 				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
+				$valueIds = array();
 				foreach($propertyTab as &$property) {
 					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					//$prop = (object) $property;

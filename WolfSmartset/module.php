@@ -234,34 +234,34 @@
 			$system_descriptions = $this->getJsonData($this->wolf_url.'api/portal/GetGuiDescriptionForGateway?GatewayId='.$system->GatewayId.'&SystemId='.$system->SystemId.'&_='.time(), "GET", $auth_header);
 			if (@GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)) == '[]') {
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
-				$this->BuildNode($system_descriptions,$rootnode);
+				$this->BuildNode($system_descriptions,$rootnode,0);
 				$this->GetValues();
 			}
 		}	
 
-		private function BuildNode($list, $parentNode) {
+		private function BuildNode($list, $parentNode, $tabGuiId) {
 			$node = 0;
 			if(@count($list->MenuItems)){
 				foreach($list->MenuItems as &$menuItem) {
 					$node = $this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
-					$this->BuildNode($menuItem,$node);
+					$this->BuildNode($menuItem,$node,0);
 				}
 			}
 			if(@count($list->TabViews)){
 				foreach($list->TabViews as &$tabView) {
 					$node = $this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
-					$this->BuildNode($tabView,$node);
+					$this->BuildNode($tabView,$node,$tabView->GuiId);
 				}
 			}
 			if(@count($list->SubMenuEntries)){
 				foreach($list->SubMenuEntries as &$subMenu) {
 						$node = $this->CreateCategory("WSS_DIR_".$subMenu->SortId,$subMenu->Name,$parentNode);
-						$this->BuildNode($subMenu,$node);
+						$this->BuildNode($subMenu,$node,$tabGuiId);
 					}
 			}
 			if(@count($list->ParameterDescriptors)){
 				foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-					$this->RegisterDescriptor($parameterDescriptor,$parentNode);
+					$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
 				}
 			}
 			
@@ -279,7 +279,7 @@
 			return $id;
 		}
 		
-		private function RegisterDescriptor($parameterDescriptor,$parent) {
+		private function RegisterDescriptor($parameterDescriptor,$parent,$tabGuiId) {
 			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ValueId,$parent)) {
 				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
@@ -319,7 +319,8 @@
 					$property = new stdClass();
 					$property->ValueId = $parameterDescriptor->ValueId;
 					$property->VarId = $varId;
-					$properties[$parameterDescriptor->ValueId] =$property;
+					$property->TabGuiId = $tabGuiId;
+					$properties[$parameterDescriptor->ValueId] = $property;
 				}
 				SetValue($id,json_encode($properties));
 			}
@@ -345,23 +346,28 @@
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
-			$valueIds = array("69859584");
-			/*foreach($properties as $key => &$property) {
-				array_push($valueIds,intval($key));
-			}*/
+	
+			
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
 			$lastAccess = GetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode));
 			
-			$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 			//array_push($auth_header,'Content-Type: application/json; charset=UTF-8');
 			array_push($auth_header,'X-Requested-With: XMLHttpRequest');
 			array_push($auth_header,'Accept-Encoding: gzip, deflate, br');
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			array_push($auth_header,'Connection: keep-alive');
+			
+			$valueIds = array();
+			foreach($properties as &$property) {
+				array_push($valueIds[$property->TabGuiId],intval($property->ValueId));
+			}
+			$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds[$property->TabGuiId]);
+			
+			
 			
 			$this->LogDebug("SEND_PARAMETER",json_encode($post_parameters));
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

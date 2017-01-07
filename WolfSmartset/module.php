@@ -368,7 +368,7 @@
 			
 			foreach($properties as $tabGuiId => &$propertyTab) {
 				$valueIds = array();
-				foreach($propertyTab as $parameterId => &$property) {
+				foreach($propertyTab as &$property) {
 					array_push($valueIds,intval($property->ValueId));
 				}
 			

@@ -367,9 +367,11 @@
 			array_push($auth_header,'Connection: keep-alive');
 			
 			foreach($properties as $tabGuiId => &$propertyTab) {
-				$valueIds = array();
+				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
 				foreach($propertyTab as &$property) {
-					array_push($valueIds,intval($property["ValueId"]));
+					$this->LogDebug("PROPERTY_TAB",print_r($property,true));
+					$valueId = (object) $property;
+					array_push($valueIds,intval($valueId));
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);

@@ -128,10 +128,12 @@
 			curl_setopt($curl, CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
 			$page = curl_exec($curl);
 			$data = json_decode($page);
-			$this->LogDebug("RECE_DATA:      ".$page);
-			$this->LogDebug("SEND_DATA_HEADER:      ".join("; ",$header));
-			$this->LogDebug("URL:      ".$url);
-			$this->LogDebug("CODE:      ".curl_getinfo($curl, CURLINFO_HTTP_CODE));
+			$this->LogDebug("REQUEST URL",$url);
+			$this->LogDebug("SEND_DATA_HEADER",join("; ",$header));
+			$this->LogDebug("RECEIVED_DATA",$page);
+			$this->LogDebug("RECEIVED_CODE",curl_getinfo($curl, CURLINFO_HTTP_CODE));
+			
+			
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(203);
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
 				$this->SetStatus(102);
@@ -361,9 +363,8 @@
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			array_push($auth_header,'Connection: keep-alive');
 			
-			
+			$this->LogDebug("SEND_PARAMETER",json_encode($post_parameters));
 			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-			$this->LogDebug("PARA:      ".json_encode($post_parameters));
 			if(@count($response->Values)) {	
 				SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 				foreach($response->Values as &$valueNode) {
@@ -373,7 +374,7 @@
 						if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
 					}
 				}	
-			} else $this->LogDebug("ERROR:     ".json_encode($response));
+			} else $this->LogDebug("ERROR","Request runs on an error!");
 			$this->GetOnlineStatus();
 		}
 
@@ -415,12 +416,12 @@
 		
 		
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
-		$this->LogDebug("ANTWORT:      ".json_encode($response));
+		
 		
 	}
 	
-	private function LogDebug($message) {
-		$this->SendDebug("WSS", $message, 0);	
+	private function LogDebug($title,$message) {
+		$this->SendDebug($title, $message, 0);	
 	}
 }
 ?>

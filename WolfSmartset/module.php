@@ -314,13 +314,17 @@
 				$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 				$properties = json_decode(GetValueString($id),true);
 				
-				if(@isset($properties[$parameterDescriptor->ValueId])) $properties[$parameterDescriptor->ValueId]['VarId'] .= ','.$varId;
+				if(!@isset($properties[$tabGuiId])) $properties[$tabGuiId] = array();
+				
+				if(@isset($properties[$tabGuiId][$parameterDescriptor->ValueId])) $properties[$tabGuiId][$parameterDescriptor->ValueId]['VarId'] .= ','.$varId;
 				else {
+					
 					$property = new stdClass();
 					$property->ValueId = $parameterDescriptor->ValueId;
 					$property->VarId = $varId;
 					$property->TabGuiId = $tabGuiId;
-					$properties[$parameterDescriptor->ValueId] = $property;
+						
+					$properties[$tabGuiId][$parameterDescriptor->ValueId] = $property;
 				}
 				SetValue($id,json_encode($properties));
 			}

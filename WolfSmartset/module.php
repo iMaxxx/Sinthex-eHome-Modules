@@ -370,8 +370,8 @@
 				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
 				foreach($propertyTab as &$property) {
 					$this->LogDebug("PROPERTY_TAB",print_r($property,true));
-					$valueId = (object) $property;
-					array_push($valueIds,intval($valueId));
+					$prop = (object) $property;
+					array_push($valueIds,intval($prop->ValueId));
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);

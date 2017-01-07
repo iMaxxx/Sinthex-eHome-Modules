@@ -361,26 +361,26 @@
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			array_push($auth_header,'Connection: keep-alive');
 			
-			$valueIds = array();
+			$tabValueIds = array();
 			foreach($properties as &$property) {
-				array_push($valueIds[$property->TabGuiId],intval($property->ValueId));
+				array_push($tabValueIds[$property->TabGuiId],intval($property->ValueId));
 			}
-			$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds[$property->TabGuiId]);
-			
-			
-			
-			$this->LogDebug("SEND_PARAMETER",json_encode($post_parameters));
-			$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
-			if(@count($response->Values)) {	
-				SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
-				foreach($response->Values as &$valueNode) {
-					$property = $properties[$valueNode->ValueId];
-					$ids = explode(",",$property["VarId"]);
-					foreach($ids as &$id) {
-						if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
-					}
-				}	
-			} else $this->LogDebug("ERROR","Request runs on an error!");
+			foreach($tabValueIds as &$valueIds) {
+				$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+				
+				$this->LogDebug("SEND_PARAMETER",json_encode($post_parameters));
+				$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");
+				if(@count($response->Values)) {	
+					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
+					foreach($response->Values as &$valueNode) {
+						$property = $properties[$valueNode->ValueId];
+						$ids = explode(",",$property["VarId"]);
+						foreach($ids as &$id) {
+							if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
+						}
+					}	
+				} else $this->LogDebug("ERROR","Request runs on an error!");
+			}
 			$this->GetOnlineStatus();
 		}
 

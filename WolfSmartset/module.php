@@ -369,7 +369,7 @@
 			foreach($properties as $tabGuiId => &$propertyTab) {
 				$valueIds = array();
 				foreach($propertyTab as &$property) {
-					array_push($valueIds,intval($property->ValueId));
+					array_push($valueIds,intval($property["ValueId"]));
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);

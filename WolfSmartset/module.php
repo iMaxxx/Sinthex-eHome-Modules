@@ -378,7 +378,7 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						$property = $properties[$valueNode->ValueId];
+						$property = $propertyTab[$valueNode->ValueId];
 						$ids = explode(",",$property["VarId"]);
 						foreach($ids as &$id) {
 							if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);

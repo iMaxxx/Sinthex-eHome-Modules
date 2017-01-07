@@ -365,7 +365,7 @@
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			array_push($auth_header,'Connection: keep-alive');
 			
-			foreach($properties as $tabGuiId => &$property) {
+			foreach($properties as $tabGuiId => &$propertyTab) {
 				$valueIds = array();
 				foreach($propertyTab as &$property) {
 					array_push($valueIds,intval($property->ValueId));

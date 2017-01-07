@@ -365,13 +365,13 @@
 			array_push($auth_header,'Accept-Language: de-DE,de;q=0.8,en;q=0.6,en-US;q=0.4');
 			array_push($auth_header,'Connection: keep-alive');
 			
-			$tabValueIds = array();
-			foreach($properties as &$property) {
-				if(!@isset($tabValueIds[$property->TabGuiId])) $tabValueIds[$property->TabGuiId] = array();
-				array_push($tabValueIds[$property->TabGuiId],intval($property->ValueId));
-			}
-			foreach($tabValueIds as &$valueIds) {
-				$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
+			foreach($properties as &$tabGuiId => $property) {
+				$valueIds = array();
+				foreach($propertyTab as &$property) {
+					array_push($valueIds,intval($property->ValueId));
+				}
+			
+				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 				$this->LogDebug("SEND_PARAMETER",json_encode($post_parameters));
 				$response = $this->GetJsonData($this->wolf_url.'api/portal/GetParameterValues', "POST", $auth_header,$post_parameters,"json");

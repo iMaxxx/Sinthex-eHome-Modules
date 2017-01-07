@@ -380,7 +380,8 @@
 					foreach($response->Values as &$valueNode) {
 						$property = $propertyTab[$valueNode->ValueId];
 						$ids = explode(",",$property["VarId"]);
-						foreach($ids as &$id) {
+						$this->LogDebug("TAB:".$tabGuiId, $property["VarId"]);
+						foreach($ids as $id) {
 							SetValue($id,$valueNode->Value);
 						}
 					}	

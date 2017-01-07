@@ -384,9 +384,10 @@
 					foreach($response->Values as &$valueNode) {
 						foreach($propertyTab as &$entry) {
 							$entr = (object) $entry;
-							if($entry->ValueId == $valueNode["ValueId"]) {
+							$node = (object) $valueNode;
+							if($entry->ValueId == $node->ValueId) {
 								foreach($ids as $id) {
-									SetValue($entry->PropertyId,$valueNode["ValueId"]);
+									SetValue($entry->PropertyId,$node->ValueId);
 								}
 							}
 						}

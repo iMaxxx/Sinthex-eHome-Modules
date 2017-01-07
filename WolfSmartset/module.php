@@ -316,16 +316,16 @@
 				
 				if(!@isset($properties[$tabGuiId])) $properties[$tabGuiId] = array();
 				
-				if(@isset($properties[$tabGuiId][$parameterDescriptor->ParametereId])) $properties[$tabGuiId][$parameterDescriptor->ParametereId]['VarId'] .= ','.$varId;
+				if(@isset($properties[$tabGuiId][$parameterDescriptor->ParameterId])) $properties[$tabGuiId][$parameterDescriptor->ParameterId]['VarId'] .= ','.$varId;
 				else {
 					
 					$property = new stdClass();
 					$property->ValueId = $parameterDescriptor->ValueId;
-					$property->ParameterId = $parameterDescriptor->ParametereId;
+					$property->ParameterId = $parameterDescriptor->ParameterId;
 					$property->VarId = $varId;
 					$property->TabGuiId = $tabGuiId;
 						
-					$properties[$tabGuiId][$parameterDescriptor->ParametereId] = $property;
+					$properties[$tabGuiId][$parameterDescriptor->ParameterId] = $property;
 				}
 				SetValue($id,json_encode($properties));
 			}
@@ -379,11 +379,11 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						$property = $propertyTab[$valueNode->ParametereId];
+						$property = $propertyTab[$valueNode->ParameterId];
 						$ids = explode(",",$property["VarId"]);
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParametereId: '.$valueNode->ParametereId);
+						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParameterId: '.$valueNode->ParameterId);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
 						foreach($ids as $id) {
 							SetValue($id,$valueNode->Value);

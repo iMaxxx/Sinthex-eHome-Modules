@@ -381,10 +381,10 @@
 						$property = $propertyTab[$valueNode->ValueId];
 						$ids = explode(",",$property["VarId"]);
 						foreach($ids as &$id) {
-							if(GetValue($id)!=$valueNode->Value) SetValue($id,$valueNode->Value);
+							SetValue($id,$valueNode->Value);
 						}
 					}	
-				} else $this->LogDebug("ERROR","Request runs on an error!");
+				} else $this->LogDebug("NO_VALUE_CHANGES","There are no changed values since last request!");
 			}
 			$this->GetOnlineStatus();
 		}

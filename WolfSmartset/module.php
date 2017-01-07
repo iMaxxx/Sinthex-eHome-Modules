@@ -345,17 +345,17 @@
 			$auth_header = $this->Authorize();
 			$connectionNode = $this->GetIDForIdent('SystemName');
 			$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
-			$valueIds = array();
-			foreach($properties as $key => &$property) {
+			$valueIds = array("69859584");
+			/*foreach($properties as $key => &$property) {
 				array_push($valueIds,intval($key));
-			}
+			}*/
 			
 			$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 			$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 			$systemShareId = GetValueString(IPS_GetObjectIDByIdent('SystemShareId', $connectionNode));
 			$lastAccess = GetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode));
 			
-			$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>"[69859584]");
+			$post_parameters = (object) array("GuiId"=>1100,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
 				
 			//array_push($auth_header,'Content-Type: application/json; charset=UTF-8');
 			array_push($auth_header,'X-Requested-With: XMLHttpRequest');

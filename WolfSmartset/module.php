@@ -382,10 +382,10 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						foreach($propertyTab as &$property) {
-							if($property->ValueId == $valueNode->ValueId) {
+						foreach($propertyTab as &$entry) {
+							if($entry->ValueId == $valueNode->ValueId) {
 								foreach($ids as $id) {
-									SetValue($property->PropertyId,$valueNode->Value);
+									SetValue($entry->PropertyId,$valueNode->Value);
 								}
 							}
 						}

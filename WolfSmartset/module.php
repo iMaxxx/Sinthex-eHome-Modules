@@ -382,8 +382,14 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						$property = $propertyTab[$valueNode->ParameterId];
-						$ids = explode(",",$property["VarId"]);
+						foreach($propertyTab as &$property) {
+							if($property->ValueId == $valueNode->ValueId) {
+								foreach($ids as $id) {
+									SetValue($property->PropertyId,$valueNode->Value);
+								}
+							}
+						}
+						
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParameterId: '.$valueNode->ParameterId);

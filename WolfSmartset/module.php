@@ -363,6 +363,7 @@
 			
 			$tabValueIds = array();
 			foreach($properties as &$property) {
+				if(!@isset($tabValueIds[$property->TabGuiId])) $tabValueIds[$property->TabGuiId] = array();
 				array_push($tabValueIds[$property->TabGuiId],intval($property->ValueId));
 			}
 			foreach($tabValueIds as &$valueIds) {

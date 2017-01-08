@@ -280,8 +280,8 @@
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 						$this->LogDebug('$parameterDescriptor', print_r($parameterDescriptor,true));
 						$this->LogDebug('$tabGuiId',$tabGuiId);
-						$this->LogDebug('$properties[$tabGuiId][$parameterDescriptor->ParameterId]',print_r($properties[$tabGuiId][$parameterDescriptor->ParameterId],true));
-						$properties[$tabGuiId][$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
+						$this->LogDebug('$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]',print_r($properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId],true));
+						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
 						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId);
 					}
 					SetValue($id,json_encode($properties));

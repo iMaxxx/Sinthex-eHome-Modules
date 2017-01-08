@@ -429,15 +429,23 @@
 	public function WriteValue($ident, $value) {
 		$auth_header = $this->Authorize();
 		$connectionNode = $this->GetIDForIdent('SystemName');
-		$properties = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
-		SetValue($properties[$tabId][$ident]->VarId, $value);
+		$propertyTabs = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
+		
+		$valueId = 0;
+		foreach($propertyTabs as &$properties) {
+			foreach($properties as &$property) {
+				if("ID".$property["ParameterId"]==$ident) $valueId = $property["ValueId"];
+			}
+		}
+		SetValue($this->GetIDForIdent($ident), $value);
+		
 		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 		$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));
 		
 		if (!$value) $value = intval(0);
 		
 		$valuePack = new stdClass();
-		$valuePack->ValueId = intval($properties[$tabId][$ident]->ValueId);
+		$valuePack->ValueId = intval($valueId);
 		$valuePack->Value = $value;
 		$valuePack->ParameterName="NULL";
 		$parameter = new stdClass();

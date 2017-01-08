@@ -236,35 +236,53 @@
 				$rootnode = $this->CreateCategory("WSS_DIR_Data","Data",$this->InstanceID);
 				$this->BuildNode($system_descriptions,$rootnode,0);
 				$this->GetValues();
+			} else {
+				$this->BuildNode($system_descriptions,0,0,true);
 			}
 		}	
 
-		private function BuildNode($list, $parentNode, $tabGuiId) {
+
+		private function BuildNode($list, $parentNode, $tabGuiId, $update = false) {
 			$node = 0;
 			if(@count($list->MenuItems)){
 				foreach($list->MenuItems as &$menuItem) {
-					$node = $this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
-					$this->BuildNode($menuItem,$node,0);
+					if(!$update) {
+						$node = $this->CreateCategory("WSS_DIR_".$menuItem->SortId,$menuItem->Name,$parentNode);
+						$this->BuildNode($menuItem,$node,0);
+					} else $this->BuildNode($menuItem,$node,0,true);
 				}
 			}
 			if(@count($list->TabViews)){
 				foreach($list->TabViews as &$tabView) {
-					$node = $this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
-					$this->BuildNode($tabView,$node,$tabView->GuiId);
+					if(!$update) {
+						$node = $this->CreateCategory("WSS_DIR_".$tabView->GuiId,$tabView->TabName,$parentNode);
+						$this->BuildNode($tabView,$node,$tabView->GuiId);
+					} else $this->BuildNode($tabView,$node,$tabView->GuiId,true);
 				}
 			}
 			if(@count($list->SubMenuEntries)){
 				foreach($list->SubMenuEntries as &$subMenu) {
+					if(!$update) {
 						$node = $this->CreateCategory("WSS_DIR_".$subMenu->SortId,$subMenu->Name,$parentNode);
 						$this->BuildNode($subMenu,$node,$tabGuiId);
-					}
-			}
-			if(@count($list->ParameterDescriptors)){
-				foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-					$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
+					} else $this->BuildNode($subMenu,$node,$tabGuiId,true);
 				}
 			}
-			
+			if(@count($list->ParameterDescriptors)){
+				if(!$update) {
+					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+						$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
+					} 
+				} else {
+					$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
+					$properties = json_decode(GetValueString($id),true);
+					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+						$properties[$tabGuiId][$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
+						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId)
+					}
+					SetValue($id,json_encode($properties));
+				}
+			}	
 		}
 			
 		private function CreateCategory($ident, $name, $parent) {

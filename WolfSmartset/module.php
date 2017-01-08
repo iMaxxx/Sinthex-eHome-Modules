@@ -435,7 +435,7 @@
 		foreach($propertyTabs as &$properties) {
 			if(@isset($properties[$ident])) $valueId = $properties[$ident]["ValueId"];
 		}
-		SetValue($this->GetIDForIdent($ident), $value);
+		//SetValue($this->GetIDForIdent($ident), $value);
 		
 		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 		$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));

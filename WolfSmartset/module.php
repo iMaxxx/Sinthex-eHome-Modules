@@ -385,8 +385,7 @@
 						foreach($propertyTab as &$entry) {
 							$entr = (object) $entry;
 							$node = (object) $valueNode;
-							if($entry->ValueId ==
-							 $node->ValueId) {
+							if($entr->ValueId == $node->ValueId) {
 								foreach($ids as $id) {
 									SetValue($entry->PropertyId,$node->ValueId);
 								}
@@ -395,7 +394,7 @@
 						
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParameterId: '.$valueNode->ParameterId);
+						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParameterId: '.$entry->ParameterId);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
 						foreach($ids as $id) {
 							SetValue($id,$valueNode->Value);

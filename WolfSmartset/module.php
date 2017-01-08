@@ -316,7 +316,7 @@
 				
 				if(!@isset($properties[$tabGuiId])) $properties[$tabGuiId] = array();
 				
-				if(@isset($properties[$tabGuiId][$parameterDescriptor->ParameterId])) $properties[$tabGuiId][$parameterDescriptor->ParameterId]['VarId'] .= ','.$varId;
+				if(@isset($properties[$tabGuiId][(string)$parameterDescriptor->ParameterId])) $properties[$tabGuiId][$parameterDescriptor->ParameterId]['VarId'] .= ','.$varId;
 				else {
 					
 					$property = new stdClass();
@@ -325,7 +325,7 @@
 					$property->VarId = $varId;
 					$property->TabGuiId = $tabGuiId;
 						
-					$properties[$tabGuiId][$parameterDescriptor->ParameterId] = $property;
+					$properties[$tabGuiId][(string)$parameterDescriptor->ParameterId] = $property;
 				}
 				SetValue($id,json_encode($properties));
 			}
@@ -385,7 +385,8 @@
 						foreach($propertyTab as &$entry) {
 							$entr = (object) $entry;
 							$node = (object) $valueNode;
-							if($entry->ValueId == $node->ValueId) {
+							if($entry->ValueId ==
+							 $node->ValueId) {
 								foreach($ids as $id) {
 									SetValue($entry->PropertyId,$node->ValueId);
 								}

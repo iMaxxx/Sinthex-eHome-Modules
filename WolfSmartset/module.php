@@ -282,8 +282,7 @@
 						$this->LogDebug('$tabGuiId',$tabGuiId);
 						$this->LogDebug('$parameterDescriptor->ValueId',$parameterDescriptor->ValueId);
 						$this->LogDebug('$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]',print_r($properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId],true));
-						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
-						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId);
+						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]["ValueId"]=$parameterDescriptor->ValueId;
 					}
 					SetValue($id,json_encode($properties));
 				}

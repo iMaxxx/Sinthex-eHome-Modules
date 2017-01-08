@@ -385,8 +385,7 @@
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
 						$varId = $varIds[(string)$valueNode->ValueId];
-						SetValue($varId,
-						$valueNode->ValueId);
+						SetValue($varId,$valueNode->Value);
 								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);

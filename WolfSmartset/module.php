@@ -134,7 +134,7 @@
 			$this->LogDebug("RECEIVED_CODE",curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			
 			
-			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->SetStatus(203);
+			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->GetSystemInfo();
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
 				$this->SetStatus(102);
 				return ($data);
@@ -278,10 +278,6 @@
 					$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 					$properties = json_decode(GetValueString($id),true);
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-						$this->LogDebug('$parameterDescriptor', print_r($parameterDescriptor,true));
-						$this->LogDebug('$tabGuiId',$tabGuiId);
-						$this->LogDebug('$parameterDescriptor->ValueId',$parameterDescriptor->ValueId);
-						$this->LogDebug('$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]',print_r($properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId],true));
 						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]["ValueId"]=$parameterDescriptor->ValueId;
 					}
 					SetValue($id,json_encode($properties));
@@ -389,11 +385,9 @@
 			array_push($auth_header,'Connection: keep-alive');
 			
 			foreach($properties as $tabGuiId => &$propertyTab) {
-				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
 				$valueIds = array();
 				$varIds = array();
 				foreach($propertyTab as &$property) {
-					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
 					$varIds[(string)$prop->ValueId] = $prop->VarId;
@@ -408,10 +402,6 @@
 					foreach($response->Values as &$valueNode) {
 						$varId = $varIds[(string)$valueNode->ValueId];
 						SetValue($varId,$valueNode->Value);
-								
-						
-						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$varId: '.$varId);
 						
 					}	
 				} else $this->LogDebug("NO_VALUE_CHANGES","There are no changed values since last request!");

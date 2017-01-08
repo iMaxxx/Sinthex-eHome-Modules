@@ -278,6 +278,9 @@
 					$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 					$properties = json_decode(GetValueString($id),true);
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
+						$this->LogDebug('$parameterDescriptor', print_r($parameterDescriptor,true));
+						$this->LogDebug('$tabGuiId',$tabGuiId);
+						$this->LogDebug('$properties[$tabGuiId][$parameterDescriptor->ParameterId]',print_r($properties[$tabGuiId][$parameterDescriptor->ParameterId],true));
 						$properties[$tabGuiId][$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
 						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId);
 					}

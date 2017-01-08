@@ -451,7 +451,7 @@
 		$parameter->SystemId = $systemId;
 		$parameter->GatewayId = $gatewayId;
 		
-		$this->LogDebug("WRITE_PARAMETERS", print_r($parameter));
+		$this->LogDebug("WRITE_PARAMETERS", print_r($parameter,true));
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
 		
 		

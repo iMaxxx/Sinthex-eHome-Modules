@@ -384,12 +384,13 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						$valueIdStr = "ID".$valueNode->ValueId;
-						SetValue($parameterIds[$valueIdStr],$valueNode->ValueId);
+						$parameterId = $parameterIds["ID".$valueNode->ValueId];
+						SetValue($parameterId,
+						$valueNode->ValueId);
 								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$parameterIds[$valueIdStr]: '.$parameterIds[$valueIdStr]);
+						$this->LogDebug("TAB:".$tabGuiId, '$parameterId: '.$parameterId);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
 						
 					}	

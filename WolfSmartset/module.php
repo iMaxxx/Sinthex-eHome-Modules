@@ -274,6 +274,7 @@
 						$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
 					} 
 				} else {
+					$connectionNode = $this->GetIDForIdent('SystemName');
 					$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 					$properties = json_decode(GetValueString($id),true);
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {

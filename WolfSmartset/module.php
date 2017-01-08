@@ -369,12 +369,12 @@
 			foreach($properties as $tabGuiId => &$propertyTab) {
 				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
 				$valueIds = array();
-				$propertyIds = array();
+				$parameterIds = array();
 				foreach($propertyTab as &$property) {
 					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
-					$propertyIds[(string)$prop->ValueId] = intval($prop->PropertyId);
+					$parameterIds[(string)$prop->ValueId] = intval($prop->ParameterId);
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
@@ -384,11 +384,13 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						SetValue($propertyIds[(string)$valueNode->ValueId],$valueNode->ValueId);
+						SetValue($parameterIds[
+						(string)$valueNode->ValueId],
+						$valueNode->ValueId);
 								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$propertyIds[(string)$valueNode->ValueId]: '.$propertyIds[(string)$valueNode->ValueId]);
+						$this->LogDebug("TAB:".$tabGuiId, '$parameterIds[(string)$valueNode->ValueId]: '.$parameterIds[(string)$valueNode->ValueId]);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
 						
 					}	

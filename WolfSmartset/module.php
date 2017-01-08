@@ -369,10 +369,12 @@
 			foreach($properties as $tabGuiId => &$propertyTab) {
 				$this->LogDebug("PROPERTY_TAB",print_r($propertyTab,true));
 				$valueIds = array();
+				$propertyIds = array();
 				foreach($propertyTab as &$property) {
 					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
+					$propertyIds[(string)$prop->ValueId] = intval($prop->PropertyId);
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
@@ -382,23 +384,13 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						foreach($propertyTab as &$entry) {
-							$entr = (object) $entry;
-							$node = (object) $valueNode;
-							if($entr->ValueId == $node->ValueId) {
-								foreach($ids as $id) {
-									SetValue($entry->PropertyId,$node->ValueId);
-								}
-							}
-						}
-						
+						SetValue($propertyIds[(string)$valueNode->ValueId],$valueNode->ValueId);
+								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ParameterId: '.$entry->ParameterId);
+						$this->LogDebug("TAB:".$tabGuiId, '$propertyIds[(string)$valueNode->ValueId]: '.$propertyIds[(string)$valueNode->ValueId]);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
-						foreach($ids as $id) {
-							SetValue($id,$valueNode->Value);
-						}
+						
 					}	
 				} else $this->LogDebug("NO_VALUE_CHANGES","There are no changed values since last request!");
 			}

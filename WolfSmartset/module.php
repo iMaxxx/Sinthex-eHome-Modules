@@ -280,20 +280,20 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent,$tabGuiId) {
-			if (!@IPS_GetObjectIDByIdent($parameterDescriptor->ParameterId,$parent)) {
+			if (!@IPS_GetObjectIDByIdent("ID".$parameterDescriptor->ParameterId,$parent)) {
 				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
 				$profileName = str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 				if($parameterDescriptor->Decimals == 1) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 2);
-					$varId = $this->RegisterVariableFloat($parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
-					IPS_SetVariableProfileValues($profileName, floatval($parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
-					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ParameterId), $profileName);
+					$varId = $this->RegisterVariableFloat("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
+					IPS_SetVariableProfileValues($profileName, floatval("ID".$parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
+					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
 				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
-					$varId = $this->RegisterVariableInteger($parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
+					$varId = $this->RegisterVariableInteger("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
-					IPS_SetVariableCustomProfile($this->GetIDForIdent($parameterDescriptor->ParameterId), $profileName);
+					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
 					if($controlType == 0 || $controlType == 1) {
 						foreach($parameterDescriptor->ListItems as &$listItem) {
 							//Translate ImageName.png to Symcon Icons
@@ -301,11 +301,11 @@
 						} 
 					} else IPS_SetVariableProfileText($profileName,""," ".$parameterDescriptor->Unit);
 				} elseif($controlType == "5") {
-					$varId = $this->RegisterVariableBoolean($parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
+					$varId = $this->RegisterVariableBoolean("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 				} else {
-					$varId = $this->RegisterVariableString($parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
+					$varId = $this->RegisterVariableString("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 				}
-				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction( $parameterDescriptor->ParameterId ) : $this->EnableAction($parameterDescriptor->ParameterId);
+				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction("ID".$parameterDescriptor->ParameterId ) : $this->EnableAction("ID".$parameterDescriptor->ParameterId);
 				IPS_SetParent($varId,$parent);
 				
 				//Add to available properties
@@ -316,7 +316,7 @@
 				
 				if(!@isset($properties[$tabGuiId])) $properties[$tabGuiId] = array();
 				
-				if(@isset($properties[$tabGuiId][(string)$parameterDescriptor->ParameterId])) $properties[$tabGuiId][$parameterDescriptor->ParameterId]['VarId'] .= ','.$varId;
+				if(@isset($properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId])) $properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]['VarId'] .= ','.$varId;
 				else {
 					
 					$property = new stdClass();
@@ -325,7 +325,7 @@
 					$property->VarId = $varId;
 					$property->TabGuiId = $tabGuiId;
 						
-					$properties[$tabGuiId][(string)$parameterDescriptor->ParameterId] = $property;
+					$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId] = $property;
 				}
 				SetValue($id,json_encode($properties));
 			}
@@ -374,7 +374,7 @@
 					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
-					$parameterIds[(string)$prop->ValueId] = intval($prop->ParameterId);
+					$parameterIds["ID".$prop->ValueId] = intval($prop->ParameterId);
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
@@ -384,12 +384,12 @@
 				if(@count($response->Values)) {	
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
-						$valueIdStr = (string)$valueNode->ValueId;
+						$valueIdStr = "ID".$valueNode->ValueId;
 						SetValue($parameterIds[$valueIdStr],$valueNode->ValueId);
 								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);
-						$this->LogDebug("TAB:".$tabGuiId, '$parameterIds[(string)$valueNode->ValueId]: '.$parameterIds[(string)$valueNode->ValueId]);
+						$this->LogDebug("TAB:".$tabGuiId, '$parameterIds[$valueIdStr]: '.$parameterIds[$valueIdStr]);
 						$this->LogDebug("TAB:".$tabGuiId, '$property["VarId"]: '.$property["VarId"]);
 						
 					}	

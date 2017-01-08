@@ -278,7 +278,7 @@
 					$properties = json_decode(GetValueString($id),true);
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 						$properties[$tabGuiId][$parameterDescriptor->ParameterId]->ValueId=$parameterDescriptor->ValueId;
-						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId)
+						$this->LogDebug('$parameterDescriptor->ParameterId->ValueId', $parameterDescriptor->ValueId);
 					}
 					SetValue($id,json_encode($properties));
 				}

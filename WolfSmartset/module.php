@@ -390,7 +390,7 @@
 				foreach($propertyTab as &$property) {
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
-					$varIds[(string)$prop->ValueId] = $prop->VarId;
+					@$varIds[(string)$prop->ValueId] = $prop->VarId;
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
@@ -401,7 +401,7 @@
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
 						$varId = $varIds[(string)$valueNode->ValueId];
-						SetValue($varId,$valueNode->Value);
+						if(GetValue($varId)!=$valueNode->Value) SetValue($varId,$valueNode->Value);
 						
 					}	
 				} else $this->LogDebug("NO_VALUE_CHANGES","There are no changed values since last request!");
@@ -432,10 +432,14 @@
 		$propertyTabs = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
 		
 		$valueId = 0;
+		$varId = 0;
 		foreach($propertyTabs as &$properties) {
-			if(@isset($properties[$ident])) $valueId = $properties[$ident]["ValueId"];
+			if(@isset($properties[$ident])) {
+				$valueId = $properties[$ident]["ValueId"];
+				$varId = $properties[$ident]["VarId"];
+			}
 		}
-		//SetValue($this->GetIDForIdent($ident), $value);
+		SetValue($varId, $value);
 		
 		$systemId = GetValueString(IPS_GetObjectIDByIdent('SystemId', $connectionNode));
 		$gatewayId = GetValueString(IPS_GetObjectIDByIdent('GatewayId', $connectionNode));

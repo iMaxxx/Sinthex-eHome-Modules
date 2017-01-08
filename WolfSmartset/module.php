@@ -433,8 +433,7 @@
 		
 		$valueId = 0;
 		foreach($propertyTabs as &$properties) {
-			foreach($properties as &$property) {
-				if("ID".$property["ParameterId"]==$ident) $valueId = $property["ValueId"];
+			if(@isset($properties[$ident])) $valueId = $properties[$ident]["ValueId"];
 			}
 		}
 		SetValue($this->GetIDForIdent($ident), $value);
@@ -453,7 +452,7 @@
 		$parameter->SystemId = $systemId;
 		$parameter->GatewayId = $gatewayId;
 		
-		
+		$this->LogDebug("WRITE_PARAMETERS", print_r($parameter));
 		$response = $this->GetJsonData($this->wolf_url.'api/portal/WriteParameterValues', "POST", $auth_header,$parameter,"json");
 		
 		

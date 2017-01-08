@@ -434,7 +434,6 @@
 		$valueId = 0;
 		foreach($propertyTabs as &$properties) {
 			if(@isset($properties[$ident])) $valueId = $properties[$ident]["ValueId"];
-			}
 		}
 		SetValue($this->GetIDForIdent($ident), $value);
 		

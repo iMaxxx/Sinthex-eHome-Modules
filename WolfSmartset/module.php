@@ -374,7 +374,7 @@
 					$this->LogDebug("PROPERTY_ITEM",print_r($property,true));
 					$prop = (object) $property;
 					array_push($valueIds,intval($prop->ValueId));
-					$parameterIds["ID".$prop->ValueId] = intval($prop->ParameterId);
+					$parameterIds["ID".$prop->ValueId] = "ID".$prop->ParameterId;
 				}
 			
 				$post_parameters = (object) array("GuiId"=>$tabGuiId,"GatewayId"=>$gatewayId,"GuiIdChanged"=>"true","IsSubBundle"=>"false","LastAccess"=>$lastAccess,"SystemId"=>$systemId,"ValueIdList"=>$valueIds);
@@ -385,7 +385,7 @@
 					SetValueString(IPS_GetObjectIDByIdent('LastAccess', $connectionNode),$response->LastAccess);
 					foreach($response->Values as &$valueNode) {
 						$valueIdStr = "ID".$valueNode->ValueId;
-						SetValue("ID".$parameterIds[$valueIdStr],$valueNode->ValueId);
+						SetValue($parameterIds[$valueIdStr],$valueNode->ValueId);
 								
 						
 						$this->LogDebug("TAB:".$tabGuiId, '$valueNode->ValueId: '.$valueNode->ValueId);

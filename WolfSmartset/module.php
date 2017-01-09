@@ -274,8 +274,10 @@
 			if(@count($list->ParameterDescriptors)){
 				if(!$update) {
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-						$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
-						if(@count($parameterDescriptor->ChildParameterDescriptors)) $this->BuildNode($parameterDescriptor,$node,$tabGuiId);
+						$varId = $this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
+						if(@count($parameterDescriptor->ChildParameterDescriptors)) {
+							$this->BuildNode($parameterDescriptor,$varId,$tabGuiId);
+						}
 					} 
 				} else {
 					$connectionNode = $this->GetIDForIdent('SystemName');
@@ -284,7 +286,9 @@
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]["ValueId"]=$parameterDescriptor->ValueId;
 					}
-					if(@count($parameterDescriptor->ChildParameterDescriptors)) $this->BuildNode($parameterDescriptor,$node,$tabGuiId,true);
+					if(@count($parameterDescriptor->ChildParameterDescriptors)) {
+						$this->BuildNode($parameterDescriptor,$node,$tabGuiId,true);
+					}
 					SetValue($id,json_encode($properties));
 				}
 			}
@@ -318,8 +322,8 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent,$tabGuiId) {
+			$varId = 0;
 			if (!@IPS_GetObjectIDByIdent("ID".$parameterDescriptor->ParameterId,$parent)) {
-				$varId = 0;
 				$controlType = intval($parameterDescriptor->ControlType);
 				$profileName = "WSS_".str_replace(" ", "_", preg_replace("/[^A-Za-z0-9 ]/", '', $parameterDescriptor->Name));
 				if($parameterDescriptor->Decimals == 1) {
@@ -368,7 +372,7 @@
 				SetValue($id,json_encode($properties));
 			}
 
-
+			return $varId;
 		}
 
 		private function SetEvent($eventName,$script,$interval) {

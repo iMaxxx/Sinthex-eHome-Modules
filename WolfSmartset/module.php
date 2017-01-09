@@ -134,7 +134,10 @@
 			$this->LogDebug("RECEIVED_CODE",curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			
 			
-			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") $this->GetSystemInfo();
+			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") {
+				$this->GetSystemInfo();
+				return false;
+			}
 			if(curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
 				$this->SetStatus(102);
 				return ($data);

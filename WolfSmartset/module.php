@@ -288,15 +288,15 @@
 			}
 			if(@count($list->ChildParameterDescriptors)){
 				if(!$update) {
-					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-						$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
+					foreach($list->ChildParameterDescriptors as &$childParameterDescriptor) {
+						$this->RegisterDescriptor($childParameterDescriptor,$parentNode,$tabGuiId);
 					} 
 				} else {
 					$connectionNode = $this->GetIDForIdent('SystemName');
 					$id=IPS_GetObjectIDByIdent('Properties', $connectionNode);
 					$properties = json_decode(GetValueString($id),true);
-					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
-						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]["ValueId"]=$parameterDescriptor->ValueId;
+					foreach($list->ChildParameterDescriptors as &$parameterDescriptor) {
+						$properties[$tabGuiId]["ID".$childParameterDescriptor->ParameterId]["ValueId"]=$childParameterDescriptor->ValueId;
 					}
 					SetValue($id,json_encode($properties));
 				}

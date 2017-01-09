@@ -331,12 +331,12 @@
 					$varId = $this->RegisterVariableFloat("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, floatval("ID".$parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
-				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6 || $controlType == 24) {
+				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6 || $controlType == 24 || $controlType == 13) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
 					$varId = $this->RegisterVariableInteger("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
-					if($controlType == 0 || $controlType == 1 || $controlType == 24) {
+					if($controlType == 0 || $controlType == 1 || $controlType == 24 || $controlType == 13) {
 						foreach($parameterDescriptor->ListItems as &$listItem) {
 							//Translate ImageName.png to Symcon Icons
 							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);

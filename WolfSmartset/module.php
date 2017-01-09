@@ -430,7 +430,7 @@
 		$auth_header = $this->Authorize();
 		$connectionNode = $this->GetIDForIdent('SystemName');
 		$propertyTabs = json_decode(GetValueString(IPS_GetObjectIDByIdent('Properties', $connectionNode)),true);
-		
+		$this->LogDebug("QUERY", "WSS_WriteValue('".$ident."','".$value."');");
 		$valueId = 0;
 		$varId = 0;
 		foreach($propertyTabs as &$properties) {

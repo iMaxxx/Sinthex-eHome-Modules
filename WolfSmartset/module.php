@@ -336,6 +336,7 @@
 					$varId = $this->RegisterVariableFloat("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, floatval("ID".$parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
+					if(@isset($parameterDescriptor->Unit)) IPS_SetVariableProfileText($profileName,""," ".$parameterDescriptor->Unit);
 				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6 || $controlType == 24 || $controlType == 13 || $controlType == 14 || $controlType == 19) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
 					$varId = $this->RegisterVariableInteger("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
@@ -346,14 +347,13 @@
 							//Translate ImageName.png to Symcon Icons
 							IPS_SetVariableProfileAssociation($profileName, $listItem->Value, $listItem->DisplayText, $this->TranslateIcon($listItem->ImageName), -1);
 						} 
-					}// else IPS_SetVariableProfileText($profileName,""," ".$parameterDescriptor->Unit);
+					}if(@isset($parameterDescriptor->Unit)) IPS_SetVariableProfileText($profileName,""," ".$parameterDescriptor->Unit);
 				} elseif($controlType == "5") {
 					$varId = $this->RegisterVariableBoolean("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~Switch",boolval($parameterDescriptor->SortId));
 				} else {
 					$varId = $this->RegisterVariableString("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"~String",$parameterDescriptor->SortId);
 				}
 				boolval($parameterDescriptor->IsReadOnly) ? $this->DisableAction("ID".$parameterDescriptor->ParameterId ) : $this->EnableAction("ID".$parameterDescriptor->ParameterId);
-				if(@isset($parameterDescriptor->Unit)) IPS_SetVariableProfileText($profileName,""," ".$parameterDescriptor->Unit);
 				IPS_SetParent($varId,$parent);
 				
 				//Add to available properties

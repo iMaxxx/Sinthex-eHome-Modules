@@ -275,6 +275,7 @@
 				if(!$update) {
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 						$this->RegisterDescriptor($parameterDescriptor,$parentNode,$tabGuiId);
+						if(@count($parameterDescriptor->ChildParameterDescriptors)) $this->BuildNode($parameterDescriptor,$node,$tabGuiId);
 					} 
 				} else {
 					$connectionNode = $this->GetIDForIdent('SystemName');
@@ -283,6 +284,7 @@
 					foreach($list->ParameterDescriptors as &$parameterDescriptor) {
 						$properties[$tabGuiId]["ID".$parameterDescriptor->ParameterId]["ValueId"]=$parameterDescriptor->ValueId;
 					}
+					if(@count($parameterDescriptor->ChildParameterDescriptors)) $this->BuildNode($parameterDescriptor,$node,$tabGuiId,true);
 					SetValue($id,json_encode($properties));
 				}
 			}

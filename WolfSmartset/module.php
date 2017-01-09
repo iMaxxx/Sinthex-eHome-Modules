@@ -295,7 +295,10 @@
 			if(@count($list->ChildParameterDescriptors)){
 				if(!$update) {
 					foreach($list->ChildParameterDescriptors as &$childParameterDescriptor) {
-						$this->RegisterDescriptor($childParameterDescriptor,$parentNode,$tabGuiId);
+						$varId = $this->RegisterDescriptor($childParameterDescriptor,$parentNode,$tabGuiId);
+						if(@count($childParameterDescriptor->ChildParameterDescriptors)) {
+							$this->BuildNode($childParameterDescriptor,$varId,$tabGuiId);
+						}
 					} 
 				} else {
 					$connectionNode = $this->GetIDForIdent('SystemName');
@@ -322,6 +325,8 @@
 		}
 		
 		private function RegisterDescriptor($parameterDescriptor,$parent,$tabGuiId) {
+			if($parameterDescriptor->ParameterId == -1)$parameterDescriptor->ParameterId = "IDX".rand(10000,99999);
+			if($parameterDescriptor->ParameterId == -1)$parameterDescriptor->IsReadOnly = true;
 			$varId = 0;
 			if (!@IPS_GetObjectIDByIdent("ID".$parameterDescriptor->ParameterId,$parent)) {
 				$controlType = intval($parameterDescriptor->ControlType);
@@ -331,7 +336,7 @@
 					$varId = $this->RegisterVariableFloat("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",floatval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, floatval("ID".$parameterDescriptor->MinValue), floatval($parameterDescriptor->MaxValue), floatval($parameterDescriptor->StepWidth));
 					IPS_SetVariableCustomProfile($this->GetIDForIdent("ID".$parameterDescriptor->ParameterId), $profileName);
-				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6 || $controlType == 24 || $controlType == 13) {
+				} elseif($controlType == 0 || $controlType == 1 || $controlType == 6 || $controlType == 24 || $controlType == 13 || $controlType == 14 || $controlType == 19) {
 					if (!@IPS_VariableProfileExists($profileName)) IPS_CreateVariableProfile($profileName, 1);
 					$varId = $this->RegisterVariableInteger("ID".$parameterDescriptor->ParameterId,$parameterDescriptor->Name,"",intval($parameterDescriptor->SortId));
 					IPS_SetVariableProfileValues($profileName, intval($parameterDescriptor->MinValue), intval($parameterDescriptor->MaxValue), intval($parameterDescriptor->StepWidth));

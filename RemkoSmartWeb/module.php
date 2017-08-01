@@ -154,7 +154,7 @@
 				//IPS_SetEventScript($eid, "\$id = \$_IPS['TARGET'];\n$script;");
 				IPS_SetEventScript($eid, $script);
 			}
-			$interval = $this->ReadPropertyString("RefreshInterval");
+			$interval = $this->ReadPropertyInteger("RefreshInterval");
 			if($interval < 1 ) $interval = 60;
 			IPS_SetEventCyclic($eid, 0 /* Täglich */, 0 /* Jeden Tag */, 0, 0, 1 /* Sekündlich */, $interval /* Alle x Sekunden */); 
 		}

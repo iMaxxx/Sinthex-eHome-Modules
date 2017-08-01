@@ -108,10 +108,10 @@
 		}
 		
 		public function RegisterVariables() {
-			$this->RegisterVariableBoolean("MOTION","Bewegung erkannt","~MOTION");
+			$this->RegisterVariableBoolean("MOTION","Bewegung erkannt","~Motion");
 			$this->DisableAction("MOTION");
 			IPS_SetHidden($this->GetIDForIdent('MOTION'),true);
-			$this->RegisterVariableBoolean("DOORBELL","Klingel betätigt","~ALERT");
+			$this->RegisterVariableBoolean("DOORBELL","Klingel betätigt","~Alert");
 			$this->DisableAction("DOORBELL");
 			IPS_SetHidden($this->GetIDForIdent('DOORBELL'),true);
 			

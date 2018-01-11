@@ -450,6 +450,10 @@ class WolfSmartset extends IPSModule
                 foreach ($response->Values as &$valueNode) {
                     $varId = $varIds[(string)$valueNode->ValueId];
 
+                    if(!isset($valueNode->Value)) {
+                        continue;
+                    }
+
                     switch (IPS_GetObject($varId)):
                         case 0:
                             $valueNode->Value = (bool)$valueNode->Value;

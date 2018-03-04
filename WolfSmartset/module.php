@@ -44,7 +44,7 @@ class WolfSmartset extends IPSModule
         $this->SetTimerInterval('WolfUpdate', $this->ReadPropertyInteger('RefreshInterval') * 1000);
 
         $this->SetStatus(104);
-        $this->Authorize();
+        $this->GetSystemInfo();
         $this->SetEvent("INTERVAL", 'WSS_GetValues(' . $this->InstanceID . ');', $this->ReadPropertyInteger("RefreshInterval"));
         //$this->SetEvent("SESSION",'WSS_Authorize('.$this->InstanceID.');',60);
     }
@@ -147,7 +147,6 @@ class WolfSmartset extends IPSModule
 
 
         if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") {
-            $this->GetSystemInfo();
             return false;
         }
         if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {

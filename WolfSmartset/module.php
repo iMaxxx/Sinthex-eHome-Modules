@@ -115,7 +115,7 @@ class WolfSmartset extends IPSModule
      */
 
 
-    private function GetJsonData($url, $requesttype, $header, $postdata = null, $posttype = "query", $keepalive = false)
+    private function GetJsonData($url, $requesttype, $header, $postdata = null, $posttype = "query", $keepalive = false, $reauth = false)
     {
         $curl = curl_init($url);
         if ($keepalive) {
@@ -147,6 +147,9 @@ class WolfSmartset extends IPSModule
 
 
         if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == "400") {
+            if(!$reauth) {
+                $this->GetSystemInfo(true);
+            }
             return false;
         }
         if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == "200") {
@@ -209,13 +212,13 @@ class WolfSmartset extends IPSModule
     }
 
 
-    public function GetSystemInfo()
+    public function GetSystemInfo($reauth = false)
     {
         //Struktur erstellen
 
         $auth_header = $this->Authorize();
         // Get all systems
-        $system_data = $this->GetJsonData($this->wolf_url . 'api/portal/GetSystemList?_=' . time(), "GET", $auth_header);
+        $system_data = $this->GetJsonData($this->wolf_url . 'api/portal/GetSystemList?_=' . time(), "GET", $auth_header, null, 'query', false, $reauth);
 
         // Get system states
         $systemNumber = $this->ReadPropertyInteger("SystemNumber");
